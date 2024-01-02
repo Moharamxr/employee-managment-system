@@ -19,18 +19,17 @@ const drawerWidth = 240;
 
 export default function Navbar() {
   const [showNav, setShowNav] = useState(true);
-  const [active, setActive] = useState('/employees');
+  const [active, setActive] = useState("/employees");
   const location = useLocation();
-const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const path = location.pathname;
-    setShowNav(path !== "/login" && path !== "/");
+    setShowNav(path !== "/");
     setActive(path);
-    console.log(active);
-  }, [location,active]);
+  }, [location]);
   return (
     <>
-      {showNav  && (
+      {showNav && (
         <>
           <AppBar
             position="fixed"
@@ -56,35 +55,45 @@ const navigate = useNavigate();
             <Toolbar />
             <Box sx={{ overflow: "auto" }}>
               <List>
-                <ListItem onClick={()=>navigate('/employees')}>
+                <ListItem onClick={() => navigate("/employees")}>
                   <ListItemButton>
                     <ListItemIcon>
-                      <GroupsIcon color={`${active==='/employees'? "primary":"action"}`} />
+                      <GroupsIcon
+                        color={`${
+                          active === "/employees" ? "primary" : "action"
+                        }`}
+                      />
                     </ListItemIcon>
                     <ListItemText primary={"الموظفين"} />
                   </ListItemButton>
                 </ListItem>
-                <ListItem onClick={()=>navigate('/accounting')}>
+                <ListItem onClick={() => navigate("/accounting")}>
                   <ListItemButton>
                     <ListItemIcon>
-                      <PaidIcon color={`${active==='/accounting'? "primary":"action"}`}/>
+                      <PaidIcon
+                        color={`${
+                          active === "/accounting" ? "primary" : "action"
+                        }`}
+                      />
                     </ListItemIcon>
                     <ListItemText primary={"الحسابات"} />
                   </ListItemButton>
                 </ListItem>
-                <ListItem onClick={()=>navigate('/shifts')}>
+                <ListItem onClick={() => navigate("/shifts")}>
                   <ListItemButton>
                     <ListItemIcon>
-                      <DirectionsBoatIcon color={`${active==='/shifts'? "primary":"action"}`}/>
+                      <DirectionsBoatIcon
+                        color={`${active === "/shifts" ? "primary" : "action"}`}
+                      />
                     </ListItemIcon>
                     <ListItemText primary={"الشفتات"} />
                   </ListItemButton>
                 </ListItem>
 
-                <ListItem onClick={()=>navigate('/')}>
+                <ListItem onClick={() => navigate("/")}>
                   <ListItemButton>
                     <ListItemIcon>
-                      <ExitToAppIcon/>
+                      <ExitToAppIcon />
                     </ListItemIcon>
                     <ListItemText primary={"تسجيل الخروج"} />
                   </ListItemButton>

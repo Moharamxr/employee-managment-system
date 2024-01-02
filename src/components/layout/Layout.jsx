@@ -8,7 +8,7 @@ const Layout = (props) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <Navbar />
-      <Box component="main" sx={{ flexGrow: 1, p: 0  ,marginTop:8}}>
+      <Box component="main" sx={{ flexGrow: 1, p: 0  ,marginTop:9}}>
         {children}
       </Box>
       
