@@ -30,7 +30,7 @@ const navigate = useNavigate();
   }, [location,active]);
   return (
     <>
-      {showNav && (
+      {showNav  && (
         <>
           <AppBar
             position="fixed"
