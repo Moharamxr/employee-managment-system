@@ -8,13 +8,14 @@ const Layout = (props) => {
   const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
 
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/employees");
+    if (!isLoggedIn) {
+      navigate("/");
     }
   }, [isLoggedIn]);
 
   return (
     <Box sx={{ display: "flex" }}>
+      
       <Navbar />
       <Box component="main" sx={{ flexGrow: 1, p: 0, marginTop: 9 }}>
         {props.children}

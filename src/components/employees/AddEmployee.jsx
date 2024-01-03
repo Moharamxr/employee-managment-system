@@ -1,8 +1,66 @@
 import React, { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { addEmployee } from "../../services/employee.service";
 
-const AddEmployee = ({ isOpen, onClose }) => {
-  const handleAddEmp = async () => {};
+const AddEmployee = ({ isOpen, onClose, prevID }) => {
+  const id = prevID + 1;
+  const [name, setName] = useState("");
+  const [jobRole, setJobRole] = useState("");
+  const [ssn, setSsn] = useState(0);
+  const [phone, setPhone] = useState(0);
+  const [workAddress, setWorkAddress] = useState("");
+  const [baseSalary, setBaseSalary] = useState(0);
+
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const handleAddEmp = async () => {
+    const newData = {
+      id: id,
+      name: name,
+      jobRole: jobRole,
+      ssn: ssn,
+      phone: phone,
+      workAddress: workAddress,
+      baseSalary: baseSalary,
+    };
+    console.log(newData);
+    if (
+      id !== "" &&
+      name !== "" &&
+      jobRole !== "" &&
+      ssn !== "" &&
+      phone !== "" &&
+      workAddress !== "" &&
+      baseSalary !== ""
+    ) {
+      setError("");
+      setIsLoading(true);
+      try {
+        await addEmployee(newData);
+        setError("");
+        setName("");
+        setJobRole("");
+        setSsn("");
+        setPhone("");
+        setWorkAddress("");
+        setBaseSalary("");
+
+        setIsLoading(false);
+      } catch (error) {
+        setError("حدث خطأ أثناء إضافة الموظف.");
+        setIsLoading(false);
+        const timeout = setTimeout(() => {
+          setError("");
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+      }
+      setIsLoading(false);
+    } else {
+      setError("حدث خطأ أثناء إضافة الموظف.");
+    }
+  };
   return (
     <>
       {isOpen && (
@@ -19,115 +77,115 @@ const AddEmployee = ({ isOpen, onClose }) => {
       >
         <div className="modal-dialog ">
           <div className="modal-content">
-            <div className="modal-header">
+            <div
+              className="modal-header"
+              style={{ direction: "rtl", textAlign: "right" }}
+            >
               <h5 className="modal-title" id="exampleModalLabel">
                 أضافة موظف جديد
               </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={onClose}
-              ></button>
             </div>
+
             <div className="modal-body">
+              {error && <p className="text-center text-danger">{error}</p>}
               <div className="mb-3">
                 <Row>
                   <Col sm={6}>
-                    <div className="form-floating">
+                    <div className="form-group text-end">
+                      <label htmlFor="name">أسم الموظف</label>
                       <input
                         type="text"
                         className="form-control"
                         name="textMessage"
-                        placeholder="What would you like to say?"
                         id="name"
+                        onChange={(e) => setName(e.target.value)}
                       />
-                      <label className="form-label" htmlFor="name">
-                        أسم الموظف
-                      </label>
                     </div>
                   </Col>
                   <Col sm={6}>
-                    <div className="form-floating">
-                      <input
-                        type="text"
+                    <div className="form-group text-end">
+                      <label htmlFor="job">الوظيفة</label>
+                      <Form.Select
                         className="form-control"
-                        name="textMessage"
-                        placeholder="What would you like to say?"
+                        name="job"
                         id="job"
-                      />
-                      <label className="form-label" htmlFor="job">
-                        الوظيفة
-                      </label>
+                        value={jobRole} // Set the value from the state
+                        onChange={(e) => setJobRole(e.target.value)} // Handle the onChange event
+                      >
+                        <option value="">اختر وظيفة</option>
+                        <option value="قبطان">قبطان</option>
+                        <option value="ضابط أول">ضابط أول</option>
+                        <option value="مساعد">مساعد</option>
+                      </Form.Select>
                     </div>
                   </Col>
                 </Row>
                 <Row>
                   <Col sm={6}>
-                    <div className="form-floating">
-                      <input
-                        type="text"
+                    <div className="form-group text-end">
+                      <label htmlFor="workAddress">مكان العمل</label>
+                      <Form.Select
                         className="form-control"
-                        name="textMessage"
-                        placeholder="What would you like to say?"
-                        id="place"
-                      />
-                      <label className="form-label" htmlFor="place">
-                        مكان العمل
-                      </label>
+                        name="workAddress"
+                        id="workAddress"
+                        value={workAddress} // Set the value from the state
+                        onChange={(e) => setWorkAddress(e.target.value)} // Handle the onChange event
+                      >
+                        <option value="">اختر مكان العمل</option>
+                        <option value="سى بريز 9">سى بريز 9</option>
+                        <option value="سى بريز 3">سى بريز 3 </option>
+                        <option value="سى بريز 1">سى بريز 1</option>
+                      </Form.Select>
                     </div>
                   </Col>
                   <Col sm={6}>
-                    <div className="form-floating">
+                    <div className="form-group text-end">
+                      <label htmlFor="salary">الراتب الأساسى</label>
                       <input
                         type="number"
                         className="form-control"
                         name="textMessage"
-                        placeholder="What would you like to say?"
                         id="salary"
+                        onChange={(e) => setBaseSalary(e.target.value)}
                       />
-                      <label className="form-label" htmlFor="salary">
-                        الراتب الأساسى
-                      </label>
                     </div>
                   </Col>
                 </Row>
                 <Row>
                   <Col sm={6}>
-                    <div className="form-floating">
+                    <div className="form-group text-end">
+                      <label htmlFor="naID">رقم البطاقة</label>
                       <input
                         type="number"
                         className="form-control"
                         name="textMessage"
-                        placeholder="What would you like to say?"
-                        id="naid"
+                        id="naID"
+                        onChange={(e) => setSsn(e.target.value)}
                       />
-                      <label className="form-label" htmlFor="naid">
-                        رقم البطاقة
-                      </label>
                     </div>
                   </Col>
                   <Col sm={6}>
-                    <div className="form-floating">
+                    <div className="form-group text-end">
+                      <label htmlFor="phone">رقم الهاتف</label>
                       <input
                         type="number"
                         className="form-control"
                         name="textMessage"
-                        placeholder="What would you like to say?"
                         id="phone"
+                        onChange={(e) => setPhone(e.target.value)}
                       />
-                      <label className="form-label" htmlFor="phone">
-                        رقم الهاتف
-                      </label>
                     </div>
                   </Col>
                 </Row>
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary text-light">
-                أضافة
+              <button
+                type="button"
+                className="btn btn-primary text-light"
+                onClick={handleAddEmp}
+              >
+                {!isLoading ? "أضافة" : "...جارى أضافة موظف جديد"}
               </button>
               <button
                 type="button"

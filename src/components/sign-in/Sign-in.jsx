@@ -7,8 +7,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/auth.searvice";
-import Employees from "../employees/Employees";
+import { login } from "../../services/auth.service.js";
 
 const defaultTheme = createTheme();
 
@@ -41,15 +40,13 @@ export default function SignIn() {
     setIsLoading(false);
   };
   useEffect(() => {
-    console.log(isLoggedIn)
     if(isLoggedIn){
       navigate("/employees");
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn,navigate]);
 
   return (
     <>
-      {" "}
       {!isLoggedIn && (
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">

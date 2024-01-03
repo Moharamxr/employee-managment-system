@@ -21,7 +21,6 @@ export default function Navbar() {
   const [showNav, setShowNav] = useState(true);
   const [active, setActive] = useState("/employees");
   const location = useLocation();
-  const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
   const navigate = useNavigate();
   useEffect(() => {
     const path = location.pathname;

@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+/* Add this style to your component's CSS or stylesheet */
+.my-custom-table tbody tr:hover td {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+.centered{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
