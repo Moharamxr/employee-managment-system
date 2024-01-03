@@ -2,17 +2,13 @@ import axios from "axios";
 
 const path = "https://abo-abdallah.onrender.com";
 
-export const login = async (eMail, Password) => {
+export const login = async (email, password) => {
   try {
-    const formData = new FormData();
-    formData.append("email", eMail);
-    formData.append("password", Password);
-
     const response = await axios.post(
       `${path}/auth/login`,
       {
-        "email": eMail,
-        "password":Password,
+        "email": email,
+        "password":password,
     },
       {
         headers: {

@@ -21,15 +21,23 @@ export default function Navbar() {
   const [showNav, setShowNav] = useState(true);
   const [active, setActive] = useState("/employees");
   const location = useLocation();
+  const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
   const navigate = useNavigate();
   useEffect(() => {
     const path = location.pathname;
     setShowNav(path !== "/");
     setActive(path);
   }, [location]);
+
+  const handleSignOut = () => {
+    localStorage.setItem('token','');
+    localStorage.setItem("isLoggedIn", false);
+    navigate('/');
+
+  };
   return (
     <>
-      {showNav && (
+      {(showNav ) &&(
         <>
           <AppBar
             position="fixed"
@@ -90,7 +98,7 @@ export default function Navbar() {
                   </ListItemButton>
                 </ListItem>
 
-                <ListItem onClick={() => navigate("/")}>
+                <ListItem onClick={handleSignOut}>
                   <ListItemButton>
                     <ListItemIcon>
                       <ExitToAppIcon />

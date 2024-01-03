@@ -1,5 +1,5 @@
-import { Divider } from "@mui/material";
-import React from "react";
+import { Divider, Fab } from "@mui/material";
+import React, { useState } from "react";
 import {
   Card,
   Col,
@@ -19,10 +19,15 @@ const EmployeeDetails = () => {
     { id: 2, first: "Jacob", last: "Thornton", handle: "@fat" },
     { id: 3, first: "Larry the Bird", last: "fghr", handle: "@twitter" },
   ];
+  const [enableEdit,setEnableEdit] =useState(false);
+  const handleUpdate=() => {
+    setEnableEdit(!enableEdit);
+  };
+  
   return (
     <Container >
         <Row className="d-flex justify-content-center">
-        <Col sm={7}>
+        <Col sm={6}>
           <Card className="text-end border-0">    
             <ListGroup variant="flush">
               <ListGroup.Item className="text-end">
@@ -30,111 +35,168 @@ const EmployeeDetails = () => {
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0  text-end"
-                    style={{ backgroundColor: "white" }}
+                  {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
                     id="empID"
-                    value={"225155"}
-                  />
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empId">كود الموظف</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empName"
-                    value={"أحمد محمد مصطفى خالد"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empName">أسم الموظف</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empJob"
-                    value={"قبطان"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empJob"> الوظيفة</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empPlace"
-                    value={"مكان أ"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empPlace">مكان العمل</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empNaID"
-                    value={"532452"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empNaID">رقم البطاقة</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empPhone"
-                    value={"457575"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empPhone">رقم الهاتف</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empPhone"
-                    value={"2000"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empPhone">الراتب الأساسى</label>
                 </div>
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-around">
-                  <input
-                    className="border-0 text-end"
-                    style={{ backgroundColor: "white" }}
+                {enableEdit?<input
+                    className="border-0  text-center"
+                    style={{ backgroundColor: "lightgrey" }}
                     type="text"
-                    disabled
-                    id="empPhone"
-                    value={"3000"}
-                  />
+                    id="empID"
+                    
+                  />:
+                  <input
+                  className="border-0  text-center"
+                  style={{ backgroundColor: "white" }}
+                  type="text"
+                  disabled
+                  id="empID"
+                  value={"225155"}
+                />}
                   <label htmlFor="empPhone">صافى اجمالى الراتب</label>
                 </div>
               </ListGroup.Item>
 
             </ListGroup>
-          </Card>
+            
+          </Card><button className="btn btn-primary float-end" onClick={handleUpdate}>تحديث</button>
         </Col>
       </Row>
     
@@ -160,7 +222,7 @@ const EmployeeDetails = () => {
               </table>
             </Tab>
             <Tab eventKey="Exchanges" title="بدلات">
-              <Col sm={9}>
+              
               <table className="table">
                 <thead>
                   <tr>
@@ -177,7 +239,7 @@ const EmployeeDetails = () => {
                   ))}
                 </tbody>
               </table>
-              </Col>
+              
             </Tab>
             <Tab eventKey="bonus" title="مكافئات">
               <table className="table">
@@ -218,6 +280,7 @@ const EmployeeDetails = () => {
           </Tabs>
         </Col>
         </Row>
+        
         
     </Container>
   );
