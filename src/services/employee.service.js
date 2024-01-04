@@ -85,6 +85,29 @@ export const updateEmployee = async (newEmployeeData) => {
       ssn: newEmployeeData.ssn,
       phone: newEmployeeData.phone,
       workAddress: newEmployeeData.workAddress,
+    };
+
+    const response = await axios.put(`${path}/employees/update/${newEmployeeData.id}`, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(response.data.message);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    console.error(error.response.data.error);
+    
+  }
+};
+
+export const updateBaseSalary = async (newEmployeeData) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const requestBody = {
       baseSalary: newEmployeeData.baseSalary,
     };
 

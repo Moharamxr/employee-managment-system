@@ -4,7 +4,6 @@ import {
   Col,
   Container,
   Form,
-  InputGroup,
   ListGroup,
   Row,
   Tab,
@@ -19,51 +18,63 @@ import {
 const EmployeeDetails = () => {
   const { id } = useParams();
 
-  const data = [
-    { id: 1, first: "Mark", last: "Otto", handle: "012121124242" },
-    { id: 2, first: "Jacob", last: "Thornton", handle: "@fat" },
-    { id: 3, first: "Larry the Bird", last: "dada", handle: "@twitter" },
-  ];
-
   const [enableEdit, setEnableEdit] = useState(false);
 
- const [name, setName] = useState('');
-  const [jobRole, setJobRole] = useState('');
+  const [name, setName] = useState("");
+  const [jobRole, setJobRole] = useState("");
   const [ssn, setSsn] = useState(0);
   const [phone, setPhone] = useState(0);
-  const [workAddress, setWorkAddress] = useState('');
+  const [workAddress, setWorkAddress] = useState("");
   const [baseSalary, setBaseSalary] = useState(0);
   const [totalSalary, setTotalSalary] = useState(0);
 
+  const [bonuses, setBonuses] = useState([]);
+  const [totalBonuses, setTotalBonuses] = useState(0);
+
+  const [loans, setLoans] = useState([]);
+  const [totalLoans, setTotalLoans] = useState(0);
+
+  const [deductions, setDeductions] = useState([]);
+  const [totalDeductions, setTotalDeductions] = useState(0);
+
+  const [compensations, setCompensations] = useState([]);
+  const [totalCompensations, setTotalCompensations] = useState(0);
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
   };
   const getEmployeeByID = async (id) => {
     try {
-       const data = await getEmployeeById(id);
-    
-    setName(data.employee.name);
-    setSsn(data.employee.ssn);
-    setJobRole(data.employee.jobRole);
-    setPhone(data.employee.phone);
-    setBaseSalary(data.employee.baseSalary);
-    setWorkAddress(data.employee.workAddress);
-    setTotalSalary(data.employee.totalSalary);
-    } catch (error) {
-      
-    }
-   
+      const data = await getEmployeeById(id);
+
+      setName(data.employee.name);
+      setSsn(data.employee.ssn);
+      setJobRole(data.employee.jobRole);
+      setPhone(data.employee.phone);
+      setBaseSalary(data.employee.baseSalary);
+      setWorkAddress(data.employee.workAddress);
+      setTotalSalary(data.employee.totalSalary);
+
+      setBonuses(data.employee.bonuses.bonusesDetails);
+      setLoans(data.employee.loans.loansDetails);
+      setDeductions(data.employee.deductions.deductionsDetails);
+      setCompensations(data.employee.compensations.compensationsDetails);
+
+      setTotalBonuses(data.employee.bonuses.totalBonuses);
+      setTotalLoans(data.employee.loans.totalLoans);
+      setTotalDeductions(data.employee.deductions.totalDeductions);
+      setTotalCompensations(data.employee.compensations.totalCompensations);
+    } catch (error) {}
   };
 
   useEffect(() => {
     getEmployeeByID(id);
   }, [id]);
 
- 
   const handleUpdateEmp = async () => {
     const newData = {
       id: id,
@@ -72,26 +83,27 @@ const EmployeeDetails = () => {
       ssn: ssn,
       phone: phone,
       workAddress: workAddress,
-      baseSalary: baseSalary,
     };
     console.log(newData);
+
     if (
       id !== "" &&
       name !== "" &&
       jobRole !== "" &&
       ssn !== "" &&
+      ssn.length === 14 &&
       phone !== "" &&
-      workAddress !== "" &&
-      baseSalary !== ""
+      phone.length === 11 &&
+      workAddress !== ""
     ) {
-      setError("");
       setIsLoading(true);
+
       try {
         await updateEmployee(newData);
-        
+        toggleUpdate();
         setIsLoading(false);
       } catch (error) {
-        setError("حدث خطأ أثناء تحديث الموظف.");
+        setError("تأكد من صحة البيانات, حاول مجدداً");
         setIsLoading(false);
         const timeout = setTimeout(() => {
           setError("");
@@ -99,11 +111,18 @@ const EmployeeDetails = () => {
 
         return () => clearTimeout(timeout);
       }
-      setIsLoading(false);
     } else {
-      setError("حدث خطأ أثناء تحديث الموظف.");
+      setError("تأكد من صحة البيانات, حاول مجدداً");
+      console.log("else");
+      const timeout = setTimeout(() => {
+        setError("");
+      }, 3000);
+
+      return () => clearTimeout(timeout);
     }
   };
+
+  console.log(error);
 
   return (
     <Container>
@@ -114,7 +133,6 @@ const EmployeeDetails = () => {
               <ListGroup.Item className="text-end">
                 <h5 className="text-center">بيانات الموظف</h5>
                 {error && <p className="text-center text-danger">{error}</p>}
-
               </ListGroup.Item>
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
@@ -186,7 +204,7 @@ const EmployeeDetails = () => {
                       name="workAddress"
                       id="workAddress"
                       value={workAddress}
-                      onChange={(e) => setWorkAddress(e.target.value)} // Handle the onChange event
+                      onChange={(e) => setWorkAddress(e.target.value)}
                     >
                       <option value="">اختر مكان العمل</option>
                       <option value="سى بريز 9">سى بريز 9</option>
@@ -219,6 +237,7 @@ const EmployeeDetails = () => {
                     disabled={!enableEdit}
                     id="empNaID"
                     value={ssn}
+                    onChange={(e) => setSsn(e.target.value)}
                   />
 
                   <label htmlFor="empNaID">رقم البطاقة</label>
@@ -246,10 +265,10 @@ const EmployeeDetails = () => {
                   <input
                     className="border-0 form-control w-50  text-end"
                     style={{
-                      backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
+                      backgroundColor: "white ",
                     }}
-                    type="text"
-                    disabled={!enableEdit}
+                    type="number"
+                    disabled
                     id="baseSalary"
                     value={baseSalary}
                   />
@@ -301,20 +320,27 @@ const EmployeeDetails = () => {
             justify
           >
             <Tab eventKey="Loans" title="سلف">
-              <table className="table text-end ">
+              <table className="table text-end">
                 <thead>
                   <tr>
+                    <th scope="col">الأجمالى</th>
                     <th scope="col">القيمة</th>
                     <th scope="col">التاريخ</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.first}</td>
-                      <th scope="row">{item.id}</th>
+                  {loans.map((item) => (
+                    <tr key={item._id}>
+                      <td>{/* Add the corresponding date field here */}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
+                  <tr>
+                    <td>{totalLoans}</td>
+                    <td>{/* Add the corresponding value field here */}</td>
+                    <td>{/* Add the corresponding date field here */}</td>
+                  </tr>
                 </tbody>
               </table>
             </Tab>
@@ -322,17 +348,24 @@ const EmployeeDetails = () => {
               <table className="table text-end">
                 <thead>
                   <tr>
+                    <th scope="col">الأجمالى</th>
                     <th scope="col">القيمة</th>
                     <th scope="col">التاريخ</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.first}</td>
-                      <th scope="row">{item.id}</th>
+                  {compensations.map((item) => (
+                    <tr key={item._id}>
+                      <td>{/* Add the corresponding date field here */}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
+                  <tr>
+                    <td>{totalCompensations}</td>
+                    <td>{/* Add the corresponding value field here */}</td>
+                    <td>{/* Add the corresponding date field here */}</td>
+                  </tr>
                 </tbody>
               </table>
             </Tab>
@@ -340,17 +373,24 @@ const EmployeeDetails = () => {
               <table className="table text-end">
                 <thead>
                   <tr>
+                    <th scope="col">الأجمالى</th>
                     <th scope="col">القيمة</th>
                     <th scope="col">التاريخ</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.first}</td>
-                      <th scope="row">{item.id}</th>
+                  {bonuses.map((item) => (
+                    <tr key={item._id}>
+                      <td>{/* Add the corresponding date field here */}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
+                  <tr>
+                    <td>{totalBonuses}</td>
+                    <td>{/* Add the corresponding value field here */}</td>
+                    <td>{/* Add the corresponding date field here */}</td>
+                  </tr>
                 </tbody>
               </table>
             </Tab>
@@ -358,17 +398,24 @@ const EmployeeDetails = () => {
               <table className="table text-end">
                 <thead>
                   <tr>
+                    <th scope="col">الأجمالى</th>
                     <th scope="col">القيمة</th>
                     <th scope="col">التاريخ</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.first}</td>
-                      <th scope="row">{item.id}</th>
+                  {deductions.map((item) => (
+                    <tr key={item._id}>
+                      <td>{/* Add the corresponding date field here */}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
+                  <tr>
+                    <td>{totalDeductions}</td>
+                    <td>{/* Add the corresponding value field here */}</td>
+                    <td>{/* Add the corresponding date field here */}</td>
+                  </tr>
                 </tbody>
               </table>
             </Tab>

@@ -1,41 +1,101 @@
 import { Card, Container, ListGroup } from "react-bootstrap";
-// import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
-// import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
+import { getEmployeeById } from "../../services/employee.service";
 
 function Shifts() {
   const [enableEdit, setEnableEdit] = useState(false);
-  // const [account,setAccount] = useState({baseSalary: 0,});
-  const [baseSalary,setBaseSalary] = useState(2000);
-  const handleUpdate = () => {
+  const [searchError, setSearchError] = useState(false);
+  const [searchId, setSearchId] = useState("");
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [jobRole, setJobRole] = useState("");
+  const [ssn, setSsn] = useState(0);
+  const [phone, setPhone] = useState(0);
+  const [workAddress, setWorkAddress] = useState("");
+  const [baseSalary, setBaseSalary] = useState(0);
+  const [totalSalary, setTotalSalary] = useState(0);
+
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+ 
+  const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
+    getEmployeeByID(searchId);
+
   };
+  const getEmployeeByID = async (id) => {
+    try {
+      const data = await getEmployeeById(id);
+      setId(data.employee.id);
+      setName(data.employee.name);
+      setSsn(data.employee.ssn);
+      setJobRole(data.employee.jobRole);
+      setPhone(data.employee.phone);
+      setBaseSalary(data.employee.baseSalary);
+      setWorkAddress(data.employee.workAddress);
+      setTotalSalary(data.employee.totalSalary);
+    } catch (error) {}
+  };
+
+  const handleSearch = async () => {
+    if (searchId === "") {
+      return;
+    }
+    try {
+      console.log("Search ID:", searchId);
+      setSearchLoading(true);
+      getEmployeeByID(searchId);
+
+      setSearchError(false);
+      setSearchLoading(false);
+    } catch (error) {
+      setSearchError(true);
+      setSearchLoading(false);
+
+      const timeout = setTimeout(() => {
+        setSearchError(false);
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  };
+
   return (
     <Container>
       <Row className="centered">
         <Col sm={6}>
           <Row>
-            <Col>
+           <Col>
+              {searchError && (
+                <p className="text-danger text-center">
+                  كود غير صحيح حاول مجدداً
+                </p>
+              )}
               <div className="input-group my-4 centered">
                 <button
                   type="button"
                   className="btn btn-primary "
                   style={{ height: "38px" }}
                   data-mdb-ripple-init
+                  onClick={handleSearch}
                 >
-                  <SearchIcon />
+                  {searchLoading ? "جارى البحث" : <SearchIcon />}
                 </button>
-                <div className="form-outline  " data-mdb-input-init>
+                <div className="form-outline">
                   <input
                     type="search"
                     id="form1"
                     className="form-control text-end"
                     placeholder="ابحث بكود الموظف"
                     style={{ width: "300px" }}
+                    onChange={(e) => setSearchId(e.target.value)}
                   />
                 </div>
               </div>
@@ -54,7 +114,7 @@ function Shifts() {
                     type="text"
                     disabled
                     id="empID"
-                    value={"225155"}
+                    value={id}
                   />
                   <label htmlFor="empId">كود الموظف</label>
                 </div>
@@ -67,7 +127,7 @@ function Shifts() {
                     type="text"
                     disabled
                     id="empID"
-                    value={"225155"}
+                    value={name}
                   />
 
                   <label htmlFor="empName">أسم الموظف</label>
@@ -81,7 +141,7 @@ function Shifts() {
                     type="text"
                     disabled
                     id="empID"
-                    value={"225155"}
+                    value={jobRole}
                   />
 
                   <label htmlFor="empJob"> الوظيفة</label>
@@ -95,7 +155,7 @@ function Shifts() {
                     type="text"
                     disabled
                     id="empID"
-                    value={"225155"}
+                    value={workAddress}
                   />
 
                   <label htmlFor="empPlace">مكان العمل</label>
@@ -109,13 +169,13 @@ function Shifts() {
                     type="number"
                     disabled
                     id="empID"
-                    value={"225155"}
+                    value={ssn}
                   />
 
                   <label htmlFor="empNaID">رقم البطاقة</label>
                 </div>
               </ListGroup.Item>
-              {/* <ListGroup.Item className="text-end">
+              <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                     className="border-0 me-5 text-center"
@@ -123,45 +183,13 @@ function Shifts() {
                     type="number"
                     disabled
                     id="empID"
-                    value={"225155"}
+                    value={phone}
                   />
 
                   <label htmlFor="empPhone">رقم الهاتف</label>
                 </div>
               </ListGroup.Item>
-
-              <ListGroup.Item className="text-end">
-                <div className="d-flex justify-content-between align-items-center me-5">
-                  <div className="d-flex me-5">
-                    <button
-                      type="button"
-                      className="btn btn-primary fs-6 p-1 "
-                      style={{ height: "38px" }}
-                      data-mdb-ripple-init
-                      onClick={handleUpdate}
-                    >
-                      تحديث
-                    </button>
-
-                    <input
-                      className="form-control text-center border-start-0 "
-                      style={{
-                        backgroundColor: `${
-                          enableEdit ? "lightgrey" : "white "
-                        }`,
-                        width: "138px",
-                      }}
-                      type="number"
-                      id="baseSalary"
-                      disabled={!enableEdit}
-                      onChange={(e)=>setBaseSalary(e.target.value)}
-                      value={baseSalary}
-                    />
-                  </div>
-
-                  <label htmlFor="baseSalary">الراتب الأساسى</label>
-                </div>
-              </ListGroup.Item> */}
+              
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <div className="d-flex me-5">

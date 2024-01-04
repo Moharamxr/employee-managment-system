@@ -14,6 +14,17 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
+  const reset = () => {
+    setError("");
+    setName("");
+    setJobRole("");
+    setSsn("");
+    setPhone("");
+    setWorkAddress("");
+    setBaseSalary("");
+  };
+  
   const handleAddEmp = async () => {
     const newData = {
       id: id,
@@ -30,13 +41,16 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
       name !== "" &&
       jobRole !== "" &&
       ssn !== "" &&
+      ssn.length === 14 &&
       phone !== "" &&
+      phone.length === 11 &&
       workAddress !== "" &&
       baseSalary !== ""
     ) {
       setError("");
       setIsLoading(true);
       try {
+        console.log("first")
         await addEmployee(newData);
         setError("");
         setName("");
@@ -45,7 +59,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
         setPhone("");
         setWorkAddress("");
         setBaseSalary("");
-
+        onClose();
         setIsLoading(false);
       } catch (error) {
         setError("حدث خطأ أثناء إضافة الموظف.");
@@ -58,9 +72,17 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
       }
       setIsLoading(false);
     } else {
-      setError("حدث خطأ أثناء إضافة الموظف.");
+      setError("حدث خطأ أثناء إضافة الموظف");
+      console.log("else")
+      const timeout = setTimeout(() => {
+        setError("");
+      }, 3000);
+
+      return () => clearTimeout(timeout);
     }
+    reset();
   };
+  
   return (
     <>
       {isOpen && (

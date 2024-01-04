@@ -13,6 +13,7 @@ import {
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [searchError, setSearchError] = useState(false);
+  const [error, setError] = useState("");
   const [searchId, setSearchId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -32,13 +33,13 @@ const Employees = () => {
       const data = await getAllEmployees();
       setEmployees(data.employees);
       console.log(data.employees);
-      setSearchError(false);
+      setError('');
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/");
         return;
       }
-      setSearchError(true);
+      setError(error.response.data.error);
     }
   }, [navigate]);
 
@@ -76,7 +77,7 @@ const Employees = () => {
           {searchError && (
             <p className="text-danger text-center">كود غير صحيح حاول مجدداً</p>
           )}
-          <div className="input-group my-4 d-flex justify-content-center align-content-center">
+          <div className="input-group my-4 centered">
             <button
               type="button"
               className="btn btn-primary"
@@ -101,6 +102,7 @@ const Employees = () => {
       </Row>
       <Row>
         <Col>
+        {error&&<p className="text-danger text-center">{error}</p>}
           <table className="table my-custom-table text-end">
             <thead>
               <tr>
