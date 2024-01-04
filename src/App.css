@@ -56,3 +56,15 @@ input[type="number"] {
   justify-content: center;
   align-items: center;
 }
+.fab {
+  position: fixed;
+  bottom: 580px;
+  right: 650px;
+  background-color: lightgrey;
+   /* Optional: add a smooth transition effect */
+}
+
+/* Change background color on hover */
+.fab:hover {
+  background-color: red !important;
+}

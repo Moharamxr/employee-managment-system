@@ -9,11 +9,14 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
+  deleteEmployee,
   getEmployeeById,
   updateEmployee,
 } from "../../services/employee.service";
+import { Fab } from "@mui/material";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -43,6 +46,8 @@ const EmployeeDetails = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+
+const navigate=useNavigate();
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
@@ -122,7 +127,14 @@ const EmployeeDetails = () => {
     }
   };
 
-  console.log(error);
+const handleDeleteEmp = async() =>{
+  try {
+    await deleteEmployee(id);
+    navigate('/employees')
+  } catch (error) {
+    
+  }
+}
 
   return (
     <Container>
@@ -331,15 +343,15 @@ const EmployeeDetails = () => {
                 <tbody>
                   {loans.map((item) => (
                     <tr key={item._id}>
-                      <td>{/* Add the corresponding date field here */}</td>
+                      <td></td>
                       <td>{item.amount}</td>
                       <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
                   <tr>
                     <td>{totalLoans}</td>
-                    <td>{/* Add the corresponding value field here */}</td>
-                    <td>{/* Add the corresponding date field here */}</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -356,15 +368,15 @@ const EmployeeDetails = () => {
                 <tbody>
                   {compensations.map((item) => (
                     <tr key={item._id}>
-                      <td>{/* Add the corresponding date field here */}</td>
+                      <td></td>
                       <td>{item.amount}</td>
                       <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
                   <tr>
                     <td>{totalCompensations}</td>
-                    <td>{/* Add the corresponding value field here */}</td>
-                    <td>{/* Add the corresponding date field here */}</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -381,15 +393,15 @@ const EmployeeDetails = () => {
                 <tbody>
                   {bonuses.map((item) => (
                     <tr key={item._id}>
-                      <td>{/* Add the corresponding date field here */}</td>
+                      <td></td>
                       <td>{item.amount}</td>
                       <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
                   <tr>
                     <td>{totalBonuses}</td>
-                    <td>{/* Add the corresponding value field here */}</td>
-                    <td>{/* Add the corresponding date field here */}</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -406,22 +418,30 @@ const EmployeeDetails = () => {
                 <tbody>
                   {deductions.map((item) => (
                     <tr key={item._id}>
-                      <td>{/* Add the corresponding date field here */}</td>
+                      <td></td>
                       <td>{item.amount}</td>
                       <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   ))}
                   <tr>
                     <td>{totalDeductions}</td>
-                    <td>{/* Add the corresponding value field here */}</td>
-                    <td>{/* Add the corresponding date field here */}</td>
+                    <td>{}</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
             </Tab>
           </Tabs>
         </Col>
+        <Fab
+        aria-label="Add"
+        onClick={handleDeleteEmp}
+        className="fab"
+      >
+        <RemoveCircleOutlineIcon/>
+      </Fab>
       </Row>
+      
     </Container>
   );
 };

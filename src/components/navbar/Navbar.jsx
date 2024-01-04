@@ -14,6 +14,7 @@ import PaidIcon from "@mui/icons-material/Paid";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth.service";
 
 const drawerWidth = 240;
 
@@ -29,14 +30,16 @@ export default function Navbar() {
   }, [location]);
 
   const handleSignOut = () => {
+    // await logout();
     localStorage.setItem('token','');
     localStorage.setItem("isLoggedIn", false);
     navigate('/');
 
   };
+  const isLoggedIn = localStorage.getItem('isLoggedIn')==="true";
   return (
     <>
-      {(showNav ) &&(
+      {(showNav &&isLoggedIn ) &&(
         <>
           <AppBar
             position="fixed"

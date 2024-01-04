@@ -90,9 +90,9 @@ function Shifts() {
                 </button>
                 <div className="form-outline">
                   <input
-                    type="search"
+                    type="number"
                     id="form1"
-                    className="form-control text-end"
+                    className="form-control text-center"
                     placeholder="ابحث بكود الموظف"
                     style={{ width: "300px" }}
                     onChange={(e) => setSearchId(e.target.value)}

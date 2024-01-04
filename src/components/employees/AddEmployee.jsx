@@ -52,13 +52,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
       try {
         console.log("first")
         await addEmployee(newData);
-        setError("");
-        setName("");
-        setJobRole("");
-        setSsn("");
-        setPhone("");
-        setWorkAddress("");
-        setBaseSalary("");
+        reset();
         onClose();
         setIsLoading(false);
       } catch (error) {

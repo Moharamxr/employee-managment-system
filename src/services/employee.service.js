@@ -16,6 +16,8 @@ export const getAllEmployees = async () => {
     return response.data;
   } catch (error) {
     console.error(error);
+    console.log("req",error.response.status);
+    console.log('Status Code:', error.response.status);
     console.error(error.response.data.error);
     
   }
@@ -85,29 +87,6 @@ export const updateEmployee = async (newEmployeeData) => {
       ssn: newEmployeeData.ssn,
       phone: newEmployeeData.phone,
       workAddress: newEmployeeData.workAddress,
-    };
-
-    const response = await axios.put(`${path}/employees/update/${newEmployeeData.id}`, requestBody, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log(response.data.message);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
-    
-  }
-};
-
-export const updateBaseSalary = async (newEmployeeData) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const requestBody = {
       baseSalary: newEmployeeData.baseSalary,
     };
 
@@ -127,14 +106,12 @@ export const updateBaseSalary = async (newEmployeeData) => {
   }
 };
 
-
-export const deletePost = async (id) => {
+export const deleteEmployee = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
     const response = await axios.delete(
-      `https://crashline.onrender.com/posts/${id}`,
-
+      `${path}/employees/remove/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -142,6 +119,32 @@ export const deletePost = async (id) => {
         },
       }
     );
+    console.log(response.data.message);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    console.error(error.response.data.error);
+    
+  }
+};
+
+export const addLoan = async (newData) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const requestBody = {
+      id: newData.id,
+      type: newData.type,
+      amount: newData.amount,
+    };
+
+    const response = await axios.post(`${path}/financials/${newData.id}`, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     console.log(response.data.message);
     return response.data;
   } catch (error) {

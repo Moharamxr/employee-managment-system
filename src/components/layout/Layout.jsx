@@ -7,8 +7,9 @@ const Layout = (props) => {
   const navigate = useNavigate(); // Move this line inside the component
   const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
 
+
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && localStorage.getItem("token")==='') {
       navigate("/");
     }
   }, [isLoggedIn]);
