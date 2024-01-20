@@ -4,16 +4,22 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../navbar/Navbar.jsx";
 
 const Layout = (props) => {
-  // const navigate = useNavigate(); // Move this line inside the component
-  // const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
+  const navigate = useNavigate(); // Move this line inside the component
+  const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
 
 
-  // useEffect(() => {
-  //   if (!isLoggedIn && localStorage.getItem("token")==='') {
-  //     navigate("/login");
-  //   }
-  // }, [isLoggedIn]);
-
+  useEffect(() => {
+    if (!isLoggedIn && localStorage.getItem("token")==='') {
+      navigate("/login");
+    }
+     setTimeout(function () {
+      localStorage.setItem('token','')
+      localStorage.setItem("isLoggedIn", false);
+      console.log("logged out");
+      navigate("/login");
+    }, 48*60*60* 1000);
+  }, [isLoggedIn]);
+  
   return (
     <Box sx={{ display: "flex" }}>
       

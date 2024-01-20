@@ -36,10 +36,9 @@ export default function Navbar() {
     navigate('/login');
 
   };
-  const isLoggedIn = localStorage.getItem('isLoggedIn')==="true";
   return (
     <>
-      {(showNav &&isLoggedIn ) &&(
+      {showNav &&(
         <>
           <AppBar
             position="fixed"
