@@ -20,12 +20,12 @@ const drawerWidth = 240;
 
 export default function Navbar() {
   const [showNav, setShowNav] = useState(true);
-  const [active, setActive] = useState("/employees");
+  const [active, setActive] = useState("/");
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     const path = location.pathname;
-    setShowNav(path !== "/");
+    setShowNav(path !== "/login");
     setActive(path);
   }, [location]);
 
@@ -33,7 +33,7 @@ export default function Navbar() {
     // await logout();
     localStorage.setItem('token','');
     localStorage.setItem("isLoggedIn", false);
-    navigate('/');
+    navigate('/login');
 
   };
   const isLoggedIn = localStorage.getItem('isLoggedIn')==="true";
@@ -65,12 +65,12 @@ export default function Navbar() {
             <Toolbar />
             <Box sx={{ overflow: "auto" }}>
               <List>
-                <ListItem onClick={() => navigate("/employees")}>
+                <ListItem onClick={() => navigate("/")}>
                   <ListItemButton>
                     <ListItemIcon>
                       <GroupsIcon
                         color={`${
-                          active === "/employees" ? "primary" : "action"
+                          active === "/" ? "primary" : "action"
                         }`}
                       />
                     </ListItemIcon>

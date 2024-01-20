@@ -130,7 +130,7 @@ const navigate=useNavigate();
 const handleDeleteEmp = async() =>{
   try {
     await deleteEmployee(id);
-    navigate('/employees')
+    navigate('/')
   } catch (error) {
     
   }

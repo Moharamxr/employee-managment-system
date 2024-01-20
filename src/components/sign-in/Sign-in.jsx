@@ -26,7 +26,7 @@ export default function SignIn() {
     try {
       await login(email, password);
       setIsLoading(false);
-      navigate("/employees");
+      navigate("/");
     } catch (error) {
       setIsLoading(false);
       setShowError(true);
@@ -41,7 +41,7 @@ export default function SignIn() {
   };
   useEffect(() => {
     if(isLoggedIn){
-      navigate("/employees");
+      navigate("/");
     }
   }, [isLoggedIn,navigate]);
 
