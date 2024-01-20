@@ -89,6 +89,7 @@ const Employees = () => {
             </button>
             <div className="form-outline">
               <input
+              autoComplete="off"
                 type="search"
                 id="form1"
                 className="form-control text-center"

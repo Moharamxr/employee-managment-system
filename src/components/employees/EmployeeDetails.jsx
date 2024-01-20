@@ -149,6 +149,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="form-control w-50 border-0 form-control w-50  text-end"
                     style={{ backgroundColor: "white" }}
                     type="text"
@@ -162,6 +163,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
@@ -194,6 +196,7 @@ const handleDeleteEmp = async() =>{
                     </Form.Select>
                   ) : (
                     <input
+                    autoComplete="off"
                       className="border-0 form-control w-50  text-end"
                       style={{
                         backgroundColor: "white ",
@@ -225,6 +228,7 @@ const handleDeleteEmp = async() =>{
                     </Form.Select>
                   ) : (
                     <input
+                    autoComplete="off"
                       className="border-0 form-control w-50  text-end"
                       style={{
                         backgroundColor: "white ",
@@ -241,6 +245,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
@@ -258,6 +263,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
@@ -275,6 +281,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: "white ",
@@ -291,6 +298,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="form-control w-50 border-0 text-end"
                     style={{ backgroundColor: "white" }}
                     type="text"

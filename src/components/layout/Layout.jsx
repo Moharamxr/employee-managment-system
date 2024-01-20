@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../navbar/Navbar.jsx";
+import { logout } from "../../services/auth.service.js";
 
 const Layout = (props) => {
   const navigate = useNavigate(); // Move this line inside the component
@@ -11,8 +12,10 @@ const Layout = (props) => {
   useEffect(() => {
     if (!isLoggedIn && localStorage.getItem("token")==='') {
       navigate("/login");
+      console.log('sdfkhsdf')
     }
      setTimeout(function () {
+      logout();
       localStorage.setItem('token','')
       localStorage.setItem("isLoggedIn", false);
       console.log("logged out");

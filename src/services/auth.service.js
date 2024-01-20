@@ -28,12 +28,14 @@ export const login = async (email, password) => {
     throw error;
   }
 };
+
 export const logout = async () => {
   try {
     const token = localStorage.getItem("token");
 
     const response = await axios.post(
       `${path}/auth/logout`,
+      {},
       {
         headers: {
           "Content-Type": "application/json",
@@ -41,11 +43,11 @@ export const logout = async () => {
         },
       }
     );
+
     console.log(response.data.message);
     return response.data;
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    
   }
 };

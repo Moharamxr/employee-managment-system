@@ -90,6 +90,7 @@ function Shifts() {
                 </button>
                 <div className="form-outline">
                   <input
+                  autoComplete="off"
                     type="number"
                     id="form1"
                     className="form-control text-center"
@@ -109,6 +110,7 @@ function Shifts() {
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 me-5 text-center"
                     style={{ backgroundColor: "white" }}
                     type="text"
@@ -122,6 +124,7 @@ function Shifts() {
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 me-5 text-center"
                     style={{ backgroundColor: "white" }}
                     type="text"
@@ -136,6 +139,7 @@ function Shifts() {
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 me-5 text-center"
                     style={{ backgroundColor: "white" }}
                     type="text"
@@ -150,6 +154,7 @@ function Shifts() {
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 me-5 text-center"
                     style={{ backgroundColor: "white" }}
                     type="text"
@@ -164,6 +169,7 @@ function Shifts() {
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 me-5 text-center"
                     style={{ backgroundColor: "white" }}
                     type="number"
@@ -178,6 +184,7 @@ function Shifts() {
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
+                  autoComplete="off"
                     className="border-0 me-5 text-center"
                     style={{ backgroundColor: "white" }}
                     type="number"
@@ -202,6 +209,7 @@ function Shifts() {
                       <AddIcon />
                     </button>
                     <input
+                    autoComplete="off"
                       className="form-control text-center border-start-0 "
                       style={{ backgroundColor: "white", width: "138px" }}
                       type="number"
@@ -225,6 +233,7 @@ function Shifts() {
                       <AddIcon />
                     </button>
                     <input
+                    autoComplete="off"
                       className="form-control text-center border-start-0 "
                       style={{ backgroundColor: "white", width: "138px" }}
                       type="number"
@@ -247,6 +256,7 @@ function Shifts() {
                       <AddIcon />
                     </button>
                     <input
+                    autoComplete="off"
                       className="form-control text-center border-start-0 "
                       style={{ backgroundColor: "white", width: "138px" }}
                       type="number"
@@ -269,6 +279,7 @@ function Shifts() {
                       <AddIcon />
                     </button>
                     <input
+                    autoComplete="off"
                       className="form-control text-center border-start-0 "
                       style={{ backgroundColor: "white", width: "138px" }}
                       type="number"

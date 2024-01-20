@@ -29,8 +29,8 @@ export default function Navbar() {
     setActive(path);
   }, [location]);
 
-  const handleSignOut = () => {
-    // await logout();
+  const handleSignOut = async() => {
+    await logout();
     localStorage.setItem('token','');
     localStorage.setItem("isLoggedIn", false);
     navigate('/login');

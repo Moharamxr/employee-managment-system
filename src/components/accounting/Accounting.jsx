@@ -7,9 +7,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import {
   getEmployeeById,
-  updateBaseSalary,
   updateEmployee,
 } from "../../services/employee.service";
+import { addDeductions, addLoan } from "../../services/financials.service";
 
 function Accounting() {
   const [enableEdit, setEnableEdit] = useState(false);
@@ -88,7 +88,7 @@ function Accounting() {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
         getEmployeeByID(searchId);
-        
+
         setSearchError(false);
         setSearchLoading(false);
       } catch (error) {
@@ -153,15 +153,81 @@ function Accounting() {
       setError("حدث خطأ أثناء تحديث الراتب الاساسى.");
     }
   };
-  const [loan,setLoan] = useState(0);
-    const handleAddLoans = async() => {
-    if (loan) {
-      
+
+  const [loan, setLoan] = useState(0);
+  const handleAddLoans = async () => {
+    const newData = {
+      id: id,
+      type: "loan",
+      amount: loan,
+    };
+    if (loan && loan > 0) {
+      try {
+        await addLoan(newData);
+        getEmployeeByID(searchId);
+        setLoan(0);
+      } catch (error) {
+        console.log("errorLoan");
+      }
+    } else {
+      console.log("wrongLoan");
     }
-    try {
-      
-    } catch (error) {
-      
+  };
+  const [deduction, setDeduction] = useState(0);
+  const handleAddDeduction = async () => {
+    const newData = {
+      id: id,
+      type: "deduction",
+      amount: deduction,
+    };
+    if (deduction && deduction > 0) {
+      try {
+        await addDeductions(newData);
+        getEmployeeByID(searchId);
+        setDeduction(0);
+      } catch (error) {
+        console.log("errorsetDeduction");
+      }
+    } else {
+      console.log("wrongsetDeduction");
+    }
+  };
+  const [compensation, setCompensation] = useState(0);
+  const handleAddCompensation = async () => {
+    const newData = {
+      id: id,
+      type: "compensation",
+      amount: compensation,
+    };
+    if (compensation && compensation > 0) {
+      try {
+        await addLoan(newData);
+        getEmployeeByID(searchId);
+        setCompensation(0);
+      } catch (error) {
+        console.log("error setCompensation");
+      }
+    } else {
+      console.log("wrong setCompensation");
+    }
+  };
+  const [bonus, setBonus] = useState(0);
+  const handleAddBonus = async () => {
+    const newData = {
+      id: id,
+      type: "bonus",
+      amount: bonus,
+    };
+    if (bonus && bonus > 0) {
+      try {
+        await addLoan(newData);
+        getEmployeeByID(searchId);
+        setBonus(0);
+      } catch (error) {
+        console.log("error setBonus");
+      }
+    } else {
+      console.log("wrong setBonus");
     }
   };
 
@@ -194,6 +260,7 @@ function Accounting() {
                     placeholder="ابحث بكود الموظف"
                     style={{ width: "300px" }}
                     onChange={(e) => setSearchId(e.target.value)}
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -347,7 +414,7 @@ function Accounting() {
                           style={{ backgroundColor: "white", width: "138px" }}
                           type="number"
                           id="loans"
-                          onChange={(e)=>setLoan(e.target.value)}
+                          onChange={(e) => setLoan(e.target.value)}
                         />
                         <button
                           type="button"
@@ -372,12 +439,14 @@ function Accounting() {
                           style={{ backgroundColor: "white", width: "138px" }}
                           type="number"
                           id="deductions"
+                          onChange={(e) => setDeduction(e.target.value)}
                         />
                         <button
                           type="button"
                           className="btn btn-primary "
                           style={{ height: "38px" }}
-                          data-mdb-ripple-init
+                          data-mdb-ripple-
+                          onClick={handleAddDeduction}
                         >
                           <AddIcon />
                         </button>
@@ -394,12 +463,14 @@ function Accounting() {
                           style={{ backgroundColor: "white", width: "138px" }}
                           type="number"
                           id="exchanges"
+                          onChange={(e) => setCompensation(e.target.value)}
                         />
                         <button
                           type="button"
                           className="btn btn-primary "
                           style={{ height: "38px" }}
                           data-mdb-ripple-init
+                          onClick={handleAddCompensation}
                         >
                           <AddIcon />
                         </button>
@@ -416,12 +487,14 @@ function Accounting() {
                           style={{ backgroundColor: "white", width: "138px" }}
                           type="number"
                           id="bonus"
+                          onChange={(e) => setBonus(e.target.value)}
                         />
                         <button
                           type="button"
                           className="btn btn-primary "
                           style={{ height: "38px" }}
                           data-mdb-ripple-init
+                          onClick={handleAddBonus}
                         >
                           <AddIcon />
                         </button>
@@ -569,5 +642,4 @@ function Accounting() {
     </Container>
   );
 }
-
 export default Accounting;

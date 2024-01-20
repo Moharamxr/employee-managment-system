@@ -14,23 +14,17 @@ function App() {
     <Layout>
       <Routes>
         <Route element={<PrivateRoutes />}>
-
-        <Route path="/" exact>
-          <Route index element={<Employees />} />
-          <Route path="details/:id" element={<EmployeeDetails />} />
-        </Route>
-
-        {/* <Route path="/" element={<Employees />} exact/>
-        <Route path="/employees/details/:id" element={<EmployeeDetails />} /> */}
-
-        <Route path="/accounting" element={<Accounting />} />
-        <Route path="/shifts" element={<Shifts />} />
+          <Route path="/" exact>
+            <Route index element={<Employees />} />
+            <Route path="details/:id" element={<EmployeeDetails />} />
+          </Route>
+          <Route path="/accounting" element={<Accounting />} />
+          <Route path="/shifts" element={<Shifts />} />
         </Route>
         <Route path="/login" element={<SignIn />} />
         <Route path="*" element={<Plank />} />
       </Routes>
     </Layout>
-    
   );
 }
 

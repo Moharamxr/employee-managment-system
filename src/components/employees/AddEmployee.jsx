@@ -110,6 +110,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                     <div className="form-group text-end">
                       <label htmlFor="name">أسم الموظف</label>
                       <input
+                      autoComplete="off"
                         type="text"
                         className="form-control"
                         name="textMessage"
@@ -158,6 +159,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                     <div className="form-group text-end">
                       <label htmlFor="salary">الراتب الأساسى</label>
                       <input
+                      autoComplete="off"
                         type="number"
                         className="form-control"
                         name="textMessage"
@@ -172,6 +174,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                     <div className="form-group text-end">
                       <label htmlFor="naID">رقم البطاقة</label>
                       <input
+                      autoComplete="off"
                         type="number"
                         className="form-control"
                         name="textMessage"
@@ -184,6 +187,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                     <div className="form-group text-end">
                       <label htmlFor="phone">رقم الهاتف</label>
                       <input
+                      autoComplete="off"
                         type="number"
                         className="form-control"
                         name="textMessage"
