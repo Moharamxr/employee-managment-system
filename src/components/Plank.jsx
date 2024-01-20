@@ -5,8 +5,7 @@ const Plank = () => {
     
   return (
     <>
-    {/* <Navigate to={'/'}/> */}
-    hsdjfgsdjk
+    <Navigate to={'/'}/>
     </>
   )
 }
