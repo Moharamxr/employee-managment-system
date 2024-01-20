@@ -8,18 +8,25 @@ const Layout = (props) => {
   const navigate = useNavigate(); // Move this line inside the component
   const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
 
+  const signOut =()=>{
+    logout();
+      localStorage.setItem('token', '');
+      localStorage.setItem("isLoggedIn", false);
+      console.log("logged out");
+      navigate("/login");
+  }
 
   useEffect(() => {
     if (!isLoggedIn && localStorage.getItem("token")==='') {
       navigate("/login");
       console.log('sdfkhsdf')
     }
+    window.addEventListener("beforeunload", function (event) {
+      signOut();
+    });
+
      setTimeout(function () {
-      logout();
-      localStorage.setItem('token','')
-      localStorage.setItem("isLoggedIn", false);
-      console.log("logged out");
-      navigate("/login");
+      signOut();
     }, 48*60*60* 1000);
   }, [isLoggedIn]);
   

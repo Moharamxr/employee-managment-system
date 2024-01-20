@@ -314,6 +314,14 @@ const handleDeleteEmp = async() =>{
           </Card>
           <button
             className={`btn btn-${
+              "danger"
+            } float-end ms-1`}
+            onClick={handleDeleteEmp}
+          >
+              حذف الموظف
+          </button>
+          <button
+            className={`btn btn-${
               enableEdit ? "secondary" : "primary"
             } float-end`}
             onClick={toggleUpdate}
@@ -441,13 +449,6 @@ const handleDeleteEmp = async() =>{
             </Tab>
           </Tabs>
         </Col>
-        <Fab
-        aria-label="Add"
-        onClick={handleDeleteEmp}
-        className="fab"
-      >
-        <RemoveCircleOutlineIcon/>
-      </Fab>
       </Row>
       
     </Container>

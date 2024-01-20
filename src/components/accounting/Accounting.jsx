@@ -1,6 +1,5 @@
 import { Card, Container, ListGroup, Tab, Tabs } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,6 +9,7 @@ import {
   updateEmployee,
 } from "../../services/employee.service";
 import { addDeductions, addLoan } from "../../services/financials.service";
+import { CircularProgress } from "@mui/material";
 
 function Accounting() {
   const [enableEdit, setEnableEdit] = useState(false);
@@ -154,7 +154,11 @@ function Accounting() {
     }
   };
 
-  const [loan, setLoan] = useState(0);
+  const [isLLoading, setIsLLoading] = useState(false);
+  const [isDLoading, setIsDLoading] = useState(false);
+  const [isCLoading, setIsCLoading] = useState(false);
+  const [isBLoading, setIsBLoading] = useState(false);
+  const [loan, setLoan] = useState("");
   const handleAddLoans = async () => {
     const newData = {
       id: id,
@@ -162,37 +166,46 @@ function Accounting() {
       amount: loan,
     };
     if (loan && loan > 0) {
+      setIsLLoading(true);
       try {
         await addLoan(newData);
         getEmployeeByID(searchId);
-        setLoan(0);
+        setLoan("");
+        setIsLLoading(false);
       } catch (error) {
         console.log("errorLoan");
+        setIsLLoading(false);
       }
     } else {
       console.log("wrongLoan");
     }
+    setIsLLoading(false);
   };
-  const [deduction, setDeduction] = useState(0);
+  const [deduction, setDeduction] = useState("");
   const handleAddDeduction = async () => {
+    console.log(deduction);
     const newData = {
       id: id,
       type: "deduction",
       amount: deduction,
     };
     if (deduction && deduction > 0) {
+      setIsDLoading(true);
       try {
         await addDeductions(newData);
         getEmployeeByID(searchId);
-        setDeduction(0);
+        setDeduction("");
+        setIsDLoading(false);
       } catch (error) {
-        console.log("errorsetDeduction");
+        console.log("error setDeduction");
+        setIsDLoading(false);
       }
     } else {
-      console.log("wrongsetDeduction");
+      console.log("wrong setDeduction");
     }
+    setIsDLoading(false);
   };
-  const [compensation, setCompensation] = useState(0);
+  const [compensation, setCompensation] = useState("");
   const handleAddCompensation = async () => {
     const newData = {
       id: id,
@@ -200,18 +213,22 @@ function Accounting() {
       amount: compensation,
     };
     if (compensation && compensation > 0) {
+      setIsCLoading(true);
       try {
         await addLoan(newData);
         getEmployeeByID(searchId);
-        setCompensation(0);
+        setCompensation("");
+        setIsCLoading(false);
       } catch (error) {
         console.log("error setCompensation");
+        setIsCLoading(false);
       }
     } else {
       console.log("wrong setCompensation");
     }
+    setIsCLoading(false);
   };
-  const [bonus, setBonus] = useState(0);
+  const [bonus, setBonus] = useState("");
   const handleAddBonus = async () => {
     const newData = {
       id: id,
@@ -219,16 +236,20 @@ function Accounting() {
       amount: bonus,
     };
     if (bonus && bonus > 0) {
+      setIsBLoading(true);
       try {
         await addLoan(newData);
         getEmployeeByID(searchId);
-        setBonus(0);
+        setBonus("");
+        setIsBLoading(false);
       } catch (error) {
         console.log("error setBonus");
+        setIsBLoading(false);
       }
     } else {
       console.log("wrong setBonus");
     }
+    setIsBLoading(false);
   };
 
   return (
@@ -415,6 +436,7 @@ function Accounting() {
                           type="number"
                           id="loans"
                           onChange={(e) => setLoan(e.target.value)}
+                          value={loan}
                         />
                         <button
                           type="button"
@@ -422,8 +444,9 @@ function Accounting() {
                           style={{ height: "38px" }}
                           data-mdb-ripple-init
                           onClick={handleAddLoans}
+                          disabled={isLLoading}
                         >
-                          <AddIcon />
+                           <AddIcon />
                         </button>
                       </div>
 
@@ -440,6 +463,7 @@ function Accounting() {
                           type="number"
                           id="deductions"
                           onChange={(e) => setDeduction(e.target.value)}
+                          value={deduction}
                         />
                         <button
                           type="button"
@@ -447,6 +471,7 @@ function Accounting() {
                           style={{ height: "38px" }}
                           data-mdb-ripple-
                           onClick={handleAddDeduction}
+                          disabled={isDLoading}
                         >
                           <AddIcon />
                         </button>
@@ -462,8 +487,9 @@ function Accounting() {
                           className="form-control text-center  "
                           style={{ backgroundColor: "white", width: "138px" }}
                           type="number"
-                          id="exchanges"
+                          id="Compensation"
                           onChange={(e) => setCompensation(e.target.value)}
+                          value={compensation}
                         />
                         <button
                           type="button"
@@ -471,12 +497,13 @@ function Accounting() {
                           style={{ height: "38px" }}
                           data-mdb-ripple-init
                           onClick={handleAddCompensation}
+                          disabled={isCLoading}
                         >
                           <AddIcon />
                         </button>
                       </div>
 
-                      <label htmlFor="exchanges">بدلات</label>
+                      <label htmlFor="Compensation">بدلات</label>
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
@@ -488,6 +515,7 @@ function Accounting() {
                           type="number"
                           id="bonus"
                           onChange={(e) => setBonus(e.target.value)}
+                          value={bonus}
                         />
                         <button
                           type="button"
@@ -495,6 +523,7 @@ function Accounting() {
                           style={{ height: "38px" }}
                           data-mdb-ripple-init
                           onClick={handleAddBonus}
+                          disabled={isBLoading}
                         >
                           <AddIcon />
                         </button>

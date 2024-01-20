@@ -27,6 +27,9 @@ export default function Navbar() {
     const path = location.pathname;
     setShowNav(path !== "/login");
     setActive(path);
+    window.addEventListener("beforeunload", function (event) {
+      handleSignOut();
+    });
   }, [location]);
 
   const handleSignOut = async() => {
@@ -46,7 +49,7 @@ export default function Navbar() {
           >
             <Toolbar>
               <Typography variant="h6" noWrap component="div">
-                System
+                EMS
               </Typography>
             </Toolbar>
           </AppBar>
