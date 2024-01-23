@@ -3,14 +3,14 @@ import { Col, Row } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { addEmployee } from "../../services/employee.service";
 
-const AddEmployee = ({ isOpen, onClose, prevID }) => {
-  const id = prevID + 1;
+const AddEmployee = ({ isOpen, onClose }) => {
+  
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
-  const [ssn, setSsn] = useState(0);
-  const [phone, setPhone] = useState(0);
+  const [ssn, setSsn] = useState('');
+  const [phone, setPhone] = useState('');
   const [workAddress, setWorkAddress] = useState("");
-  const [baseSalary, setBaseSalary] = useState(0);
+  const [baseSalary, setBaseSalary] = useState('');
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,6 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
   
   const handleAddEmp = async () => {
     const newData = {
-      id: id,
       name: name,
       jobRole: jobRole,
       ssn: ssn,
@@ -37,7 +36,6 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
     };
     console.log(newData);
     if (
-      id !== "" &&
       name !== "" &&
       jobRole !== "" &&
       ssn !== "" &&
@@ -50,7 +48,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
       setError("");
       setIsLoading(true);
       try {
-        console.log("first")
+        console.log("try")
         await addEmployee(newData);
         reset();
         onClose();
@@ -66,7 +64,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
       }
       setIsLoading(false);
     } else {
-      setError("حدث خطأ أثناء إضافة الموظف");
+      setError("تأكد من صحة البيانات الموظف مجداا");
       console.log("else")
       const timeout = setTimeout(() => {
         setError("");
@@ -115,6 +113,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                         className="form-control"
                         name="textMessage"
                         id="name"
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
                     </div>
@@ -164,7 +163,9 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                         className="form-control"
                         name="textMessage"
                         id="salary"
+                        value={baseSalary}
                         onChange={(e) => setBaseSalary(e.target.value)}
+                        required
                       />
                     </div>
                   </Col>
@@ -180,6 +181,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                         name="textMessage"
                         id="naID"
                         onChange={(e) => setSsn(e.target.value)}
+                        value={ssn}
                       />
                     </div>
                   </Col>
@@ -193,6 +195,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                         name="textMessage"
                         id="phone"
                         onChange={(e) => setPhone(e.target.value)}
+                        value={phone}
                       />
                     </div>
                   </Col>
@@ -211,7 +214,7 @@ const AddEmployee = ({ isOpen, onClose, prevID }) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
-                onClick={onClose}
+                onClick={()=>{onClose();reset();}}
               >
                 أغلاق
               </button>

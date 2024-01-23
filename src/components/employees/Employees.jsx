@@ -145,7 +145,6 @@ const Employees = () => {
       <AddEmployee
         isOpen={isOpen}
         onClose={closeModal}
-        prevID={employees.length}
       />
     </Container>
   );

@@ -15,8 +15,6 @@ import {
   getEmployeeById,
   updateEmployee,
 } from "../../services/employee.service";
-import { Fab } from "@mui/material";
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -25,23 +23,23 @@ const EmployeeDetails = () => {
 
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
-  const [ssn, setSsn] = useState(0);
-  const [phone, setPhone] = useState(0);
+  const [ssn, setSsn] = useState('');
+  const [phone, setPhone] = useState('');
   const [workAddress, setWorkAddress] = useState("");
-  const [baseSalary, setBaseSalary] = useState(0);
-  const [totalSalary, setTotalSalary] = useState(0);
+  const [baseSalary, setBaseSalary] = useState('');
+  const [totalSalary, setTotalSalary] = useState('');
 
   const [bonuses, setBonuses] = useState([]);
-  const [totalBonuses, setTotalBonuses] = useState(0);
+  const [totalBonuses, setTotalBonuses] = useState('');
 
   const [loans, setLoans] = useState([]);
-  const [totalLoans, setTotalLoans] = useState(0);
+  const [totalLoans, setTotalLoans] = useState('');
 
   const [deductions, setDeductions] = useState([]);
-  const [totalDeductions, setTotalDeductions] = useState(0);
+  const [totalDeductions, setTotalDeductions] = useState('');
 
   const [compensations, setCompensations] = useState([]);
-  const [totalCompensations, setTotalCompensations] = useState(0);
+  const [totalCompensations, setTotalCompensations] = useState('');
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -128,12 +126,15 @@ const navigate=useNavigate();
   };
 
 const handleDeleteEmp = async() =>{
-  try {
-    await deleteEmployee(id);
-    navigate('/')
-  } catch (error) {
+  const decision = window.confirm('هل متأكد أنك تريد حذف هذا الموظف؟');
+
     
-  }
+    if (decision) {
+      alert('لقد تم حذف الموظف');
+      await deleteEmployee(id);
+      navigate('/')
+    }
+  
 }
 
   return (
@@ -278,7 +279,7 @@ const handleDeleteEmp = async() =>{
                   <label htmlFor="empPhone">رقم الهاتف</label>
                 </div>
               </ListGroup.Item>
-              <ListGroup.Item className="text-end">
+              {/* <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                   autoComplete="off"
@@ -309,7 +310,7 @@ const handleDeleteEmp = async() =>{
 
                   <label htmlFor="salary">صافى اجمالى الراتب</label>
                 </div>
-              </ListGroup.Item>
+              </ListGroup.Item> */}
             </ListGroup>
           </Card>
           <button
@@ -339,7 +340,7 @@ const handleDeleteEmp = async() =>{
         </Col>
       </Row>
 
-      <Row className="centered my-5">
+      {/* <Row className="centered my-5">
         <Col sm={6}>
           <Tabs
             defaultActiveKey="Loans"
@@ -449,7 +450,7 @@ const handleDeleteEmp = async() =>{
             </Tab>
           </Tabs>
         </Col>
-      </Row>
+      </Row> */}
       
     </Container>
   );

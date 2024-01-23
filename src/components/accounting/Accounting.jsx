@@ -9,7 +9,8 @@ import {
   updateEmployee,
 } from "../../services/employee.service";
 import { addDeductions, addLoan } from "../../services/financials.service";
-import { CircularProgress } from "@mui/material";
+import { Navigate } from "react-router-dom";
+import ResetSalary from "./ResetSalary";
 
 function Accounting() {
   const [enableEdit, setEnableEdit] = useState(false);
@@ -20,23 +21,24 @@ function Accounting() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
-  const [ssn, setSsn] = useState(0);
-  const [phone, setPhone] = useState(0);
+  const [ssn, setSsn] = useState("");
+  const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-  const [baseSalary, setBaseSalary] = useState(0);
-  const [totalSalary, setTotalSalary] = useState(0);
+  const [baseSalary, setBaseSalary] = useState("");
+  const [totalSalary, setTotalSalary] = useState("");
+  const [delayedSalary, setDelayedSalary] = useState("");
 
   const [bonuses, setBonuses] = useState([]);
-  const [totalBonuses, setTotalBonuses] = useState(0);
+  const [totalBonuses, setTotalBonuses] = useState("");
 
   const [loans, setLoans] = useState([]);
-  const [totalLoans, setTotalLoans] = useState(0);
+  const [totalLoans, setTotalLoans] = useState("");
 
   const [deductions, setDeductions] = useState([]);
-  const [totalDeductions, setTotalDeductions] = useState(0);
+  const [totalDeductions, setTotalDeductions] = useState("");
 
   const [compensations, setCompensations] = useState([]);
-  const [totalCompensations, setTotalCompensations] = useState(0);
+  const [totalCompensations, setTotalCompensations] = useState("");
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +61,7 @@ function Accounting() {
       setBaseSalary(data.employee.baseSalary);
       setWorkAddress(data.employee.workAddress);
       setTotalSalary(data.employee.totalSalary);
+      setDelayedSalary(data.employee.delayedSalary);
 
       setBonuses(data.employee.bonuses.bonusesDetails);
       setLoans(data.employee.loans.loansDetails);
@@ -251,8 +254,19 @@ function Accounting() {
     }
     setIsBLoading(false);
   };
+  const isAccountant = localStorage.getItem("role") === "accountant";
+  const [isOpen, setIsOpen] = useState(false);
 
-  return (
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    getEmployeeByID(searchId);
+  };
+
+  return isAccountant ? (
     <Container>
       <Row className="centered">
         <Col sm={6}>
@@ -293,6 +307,7 @@ function Accounting() {
                 <>
                   <ListGroup.Item className="text-end">
                     <h5 className="text-center">حسابات الموظف</h5>
+
                     {error && (
                       <p className="text-center text-danger">{error}</p>
                     )}
@@ -367,6 +382,7 @@ function Accounting() {
                       <label htmlFor="empNaID">رقم البطاقة</label>
                     </div>
                   </ListGroup.Item>
+
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
@@ -382,156 +398,259 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
 
-                  <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
-                        {enableEdit && (
-                          <button
-                            type="button"
-                            className="btn btn-primary fs-6 p-1 "
-                            style={{ height: "38px" }}
-                            data-mdb-ripple-init
-                            onClick={handleUpdateBaseSalary}
-                          >
-                            تأكيد
-                          </button>
-                        )}
-                        <input
-                          className="form-control text-center "
-                          style={{
-                            backgroundColor: `${
-                              enableEdit ? "lightgrey" : "white "
-                            }`,
-                            width: "138px",
-                          }}
-                          type="number"
-                          id="baseSalary"
-                          disabled={!enableEdit}
-                          onChange={(e) => setBaseSalary(e.target.value)}
-                          value={baseSalary}
-                        />
-                        <button
-                          type="button"
-                          className={`btn btn-${
-                            enableEdit ? "secondary" : "primary"
-                          } fs-6 p-1 `}
-                          style={{ height: "38px" }}
-                          data-mdb-ripple-init
-                          onClick={toggleUpdate}
-                        >
-                          {enableEdit ? "إلغاء" : "تحديث"}
-                        </button>
-                      </div>
+                  {enableEdit ? (
+                    <>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control text-center "
+                              style={{
+                                backgroundColor: `${
+                                  enableEdit ? "lightgrey" : "white "
+                                }`,
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="baseSalary"
+                              disabled={!enableEdit}
+                              onChange={(e) => setBaseSalary(e.target.value)}
+                              value={baseSalary}
+                            />
 
-                      <label htmlFor="baseSalary">الراتب الأساسى</label>
-                    </div>
-                  </ListGroup.Item>
+                            <button
+                              type="button"
+                              className="btn btn-primary fs-6 p-1 "
+                              style={{ height: "38px" }}
+                              data-mdb-ripple-init
+                              onClick={handleUpdateBaseSalary}
+                              disabled={isLoading}
+                            >
+                              {isLoading ? "..." : "تأكيد"}
+                            </button>
+                          </div>
 
-                  <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
-                        <input
-                          className="form-control text-center  "
-                          style={{ backgroundColor: "white", width: "138px" }}
-                          type="number"
-                          id="loans"
-                          onChange={(e) => setLoan(e.target.value)}
-                          value={loan}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-primary "
-                          style={{ height: "38px" }}
-                          data-mdb-ripple-init
-                          onClick={handleAddLoans}
-                          disabled={isLLoading}
-                        >
-                           <AddIcon />
-                        </button>
-                      </div>
+                          <label htmlFor="baseSalary">الراتب الأساسى</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control text-center  "
+                              style={{
+                                backgroundColor: "lightgrey",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="loans"
+                              onChange={(e) => setLoan(e.target.value)}
+                              value={loan}
+                            />
+                            <button
+                              type="button"
+                              className="btn btn-primary "
+                              style={{ height: "38px" }}
+                              data-mdb-ripple-init
+                              onClick={handleAddLoans}
+                              disabled={isLLoading}
+                            >
+                              <AddIcon />
+                            </button>
+                          </div>
 
-                      <label htmlFor="loans">سلف</label>
-                    </div>
-                  </ListGroup.Item>
+                          <label htmlFor="loans">سلف</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control text-center  "
+                              style={{
+                                backgroundColor: "lightgrey",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="deductions"
+                              onChange={(e) => setDeduction(e.target.value)}
+                              value={deduction}
+                            />
+                            <button
+                              type="button"
+                              className="btn btn-primary "
+                              style={{ height: "38px" }}
+                              data-mdb-ripple-
+                              onClick={handleAddDeduction}
+                              disabled={isDLoading}
+                            >
+                              <AddIcon />
+                            </button>
+                          </div>
 
-                  <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
-                        <input
-                          className="form-control text-center  "
-                          style={{ backgroundColor: "white", width: "138px" }}
-                          type="number"
-                          id="deductions"
-                          onChange={(e) => setDeduction(e.target.value)}
-                          value={deduction}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-primary "
-                          style={{ height: "38px" }}
-                          data-mdb-ripple-
-                          onClick={handleAddDeduction}
-                          disabled={isDLoading}
-                        >
-                          <AddIcon />
-                        </button>
-                      </div>
+                          <label htmlFor="deductions">استقطاعات</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control text-center  "
+                              style={{
+                                backgroundColor: "lightgrey",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="Compensation"
+                              onChange={(e) => setCompensation(e.target.value)}
+                              value={compensation}
+                            />
+                            <button
+                              type="button"
+                              className="btn btn-primary "
+                              style={{ height: "38px" }}
+                              data-mdb-ripple-init
+                              onClick={handleAddCompensation}
+                              disabled={isCLoading}
+                            >
+                              <AddIcon />
+                            </button>
+                          </div>
 
-                      <label htmlFor="deductions">استقطاعات</label>
-                    </div>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
-                        <input
-                          className="form-control text-center  "
-                          style={{ backgroundColor: "white", width: "138px" }}
-                          type="number"
-                          id="Compensation"
-                          onChange={(e) => setCompensation(e.target.value)}
-                          value={compensation}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-primary "
-                          style={{ height: "38px" }}
-                          data-mdb-ripple-init
-                          onClick={handleAddCompensation}
-                          disabled={isCLoading}
-                        >
-                          <AddIcon />
-                        </button>
-                      </div>
+                          <label htmlFor="Compensation">بدلات</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control text-center"
+                              style={{
+                                backgroundColor: "lightgrey",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="bonus"
+                              onChange={(e) => setBonus(e.target.value)}
+                              value={bonus}
+                            />
+                            <button
+                              type="button"
+                              className="btn btn-primary "
+                              style={{ height: "38px" }}
+                              data-mdb-ripple-init
+                              onClick={handleAddBonus}
+                              disabled={isBLoading}
+                            >
+                              <AddIcon />
+                            </button>
+                          </div>
 
-                      <label htmlFor="Compensation">بدلات</label>
-                    </div>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
-                        <input
-                          className="form-control text-center  "
-                          style={{ backgroundColor: "white", width: "138px" }}
-                          type="number"
-                          id="bonus"
-                          onChange={(e) => setBonus(e.target.value)}
-                          value={bonus}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-primary "
-                          style={{ height: "38px" }}
-                          data-mdb-ripple-init
-                          onClick={handleAddBonus}
-                          disabled={isBLoading}
-                        >
-                          <AddIcon />
-                        </button>
-                      </div>
+                          <label htmlFor="bonus">مكافئات</label>
+                        </div>
+                      </ListGroup.Item>
+                    </>
+                  ) : (
+                    <>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control border-0   text-center"
+                              style={{
+                                backgroundColor: "white",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="baseSalary"
+                              disabled
+                              value={baseSalary}
+                            />
+                          </div>
 
-                      <label htmlFor="bonus">مكافئات</label>
-                    </div>
-                  </ListGroup.Item>
+                          <label htmlFor="baseSalary">الراتب الأساسى</label>
+                        </div>
+                      </ListGroup.Item>
+
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control border-0   text-center"
+                              style={{
+                                backgroundColor: "white",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="loans"
+                              disabled
+                              value={totalLoans}
+                            />
+                          </div>
+
+                          <label htmlFor="loans">سلف</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control border-0   text-center  "
+                              style={{
+                                backgroundColor: "white",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="deductions"
+                              disabled
+                              value={totalDeductions}
+                            />
+                          </div>
+
+                          <label htmlFor="deductions">استقطاعات</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control border-0   text-center  "
+                              style={{
+                                backgroundColor: "white",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="Compensation"
+                              disabled
+                              value={totalCompensations}
+                            />
+                          </div>
+
+                          <label htmlFor="Compensation">بدلات</label>
+                        </div>
+                      </ListGroup.Item>
+                      <ListGroup.Item className="text-end">
+                        <div className="d-flex justify-content-between align-items-center me-5">
+                          <div className="d-flex me-5">
+                            <input
+                              className="form-control border-0   text-center"
+                              style={{
+                                backgroundColor: "white",
+                                width: "138px",
+                              }}
+                              type="number"
+                              id="bonus"
+                              value={totalBonuses}
+                              disabled
+                            />
+                          </div>
+
+                          <label htmlFor="bonus">مكافئات</label>
+                        </div>
+                      </ListGroup.Item>
+                    </>
+                  )}
+
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
@@ -545,8 +664,36 @@ function Accounting() {
 
                       <label htmlFor="salary">صافى اجمالى الراتب</label>
                     </div>
-                    <hr />
                   </ListGroup.Item>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        className="border-0 me-5 text-center"
+                        style={{ backgroundColor: "white" }}
+                        type="number"
+                        disabled
+                        id="delayedSalary"
+                        value={delayedSalary}
+                      />
+
+                      <label htmlFor="delayedSalary"> الراتب المرحل</label>
+                    </div>
+                  </ListGroup.Item>
+                  <div className="d-flex justify-content-between mt-2">
+                    <button className="btn btn-primary " style={{width:'300px'}} onClick={openModal}>
+                      تصفية حساب الشهر
+                    </button>
+                    <button
+                    style={{width:'300px'}}
+                      className={`btn btn-${
+                        enableEdit ? "secondary" : "primary"
+                      } fs-6 p-1 `}
+                      onClick={toggleUpdate}
+                    >
+                      {!enableEdit ? "تحديث حسابات الموظف" : "ألغاء التحديث"}
+                    </button>
+                  </div>
+                  <hr />
                 </>
               )}
             </ListGroup>
@@ -556,6 +703,7 @@ function Accounting() {
       {show && (
         <>
           <Row className="centered my-5">
+            <h4 className="text-center">حسابات سابقة</h4>
             <Col sm={6}>
               <Tabs
                 defaultActiveKey="Loans"
@@ -567,7 +715,6 @@ function Accounting() {
                   <table className="table text-end">
                     <thead>
                       <tr>
-                        <th scope="col">الأجمالى</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -575,16 +722,10 @@ function Accounting() {
                     <tbody>
                       {loans.map((item) => (
                         <tr key={item._id}>
-                          <td>{/* Add the corresponding date field here */}</td>
                           <td>{item.amount}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
-                      <tr>
-                        <td>{totalLoans}</td>
-                        <td>{/* Add the corresponding value field here */}</td>
-                        <td>{/* Add the corresponding date field here */}</td>
-                      </tr>
                     </tbody>
                   </table>
                 </Tab>
@@ -592,7 +733,6 @@ function Accounting() {
                   <table className="table text-end">
                     <thead>
                       <tr>
-                        <th scope="col">الأجمالى</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -600,16 +740,10 @@ function Accounting() {
                     <tbody>
                       {compensations.map((item) => (
                         <tr key={item._id}>
-                          <td>{/* Add the corresponding date field here */}</td>
                           <td>{item.amount}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
-                      <tr>
-                        <td>{totalCompensations}</td>
-                        <td>{/* Add the corresponding value field here */}</td>
-                        <td>{/* Add the corresponding date field here */}</td>
-                      </tr>
                     </tbody>
                   </table>
                 </Tab>
@@ -617,7 +751,6 @@ function Accounting() {
                   <table className="table text-end">
                     <thead>
                       <tr>
-                        <th scope="col">الأجمالى</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -625,16 +758,10 @@ function Accounting() {
                     <tbody>
                       {bonuses.map((item) => (
                         <tr key={item._id}>
-                          <td>{/* Add the corresponding date field here */}</td>
                           <td>{item.amount}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
-                      <tr>
-                        <td>{totalBonuses}</td>
-                        <td>{/* Add the corresponding value field here */}</td>
-                        <td>{/* Add the corresponding date field here */}</td>
-                      </tr>
                     </tbody>
                   </table>
                 </Tab>
@@ -642,7 +769,6 @@ function Accounting() {
                   <table className="table text-end">
                     <thead>
                       <tr>
-                        <th scope="col">الأجمالى</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -650,16 +776,10 @@ function Accounting() {
                     <tbody>
                       {deductions.map((item) => (
                         <tr key={item._id}>
-                          <td>{/* Add the corresponding date field here */}</td>
                           <td>{item.amount}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
-                      <tr>
-                        <td>{totalDeductions}</td>
-                        <td>{/* Add the corresponding value field here */}</td>
-                        <td>{/* Add the corresponding date field here */}</td>
-                      </tr>
                     </tbody>
                   </table>
                 </Tab>
@@ -668,7 +788,21 @@ function Accounting() {
           </Row>
         </>
       )}
+      <ResetSalary
+        isOpen={isOpen}
+        onClose={closeModal}
+        id={id}
+        name={name}
+        loan={totalLoans}
+        compensation={totalCompensations}
+        deduction={totalDeductions}
+        bonus={totalBonuses}
+        baseSalary={baseSalary}
+        totalSalary={totalSalary}
+      />
     </Container>
+  ) : (
+    <Navigate to={"/"} />
   );
 }
 export default Accounting;

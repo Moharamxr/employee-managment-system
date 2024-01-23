@@ -32,16 +32,17 @@ export default function Navbar() {
     });
   }, [location]);
 
-  const handleSignOut = async() => {
+  const handleSignOut = async () => {
     await logout();
-    localStorage.setItem('token','');
+    localStorage.setItem("token", "");
     localStorage.setItem("isLoggedIn", false);
-    navigate('/login');
-
+    navigate("/login");
   };
+  const isAccountant = localStorage.getItem("role") === "accountant";
+  const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
   return (
     <>
-      {showNav &&(
+      {showNav &&isLoggedIn&& (
         <>
           <AppBar
             position="fixed"
@@ -71,26 +72,26 @@ export default function Navbar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <GroupsIcon
-                        color={`${
-                          active === "/" ? "primary" : "action"
-                        }`}
+                        color={`${active === "/" ? "primary" : "action"}`}
                       />
                     </ListItemIcon>
                     <ListItemText primary={"الموظفين"} />
                   </ListItemButton>
                 </ListItem>
-                <ListItem onClick={() => navigate("/accounting")}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <PaidIcon
-                        color={`${
-                          active === "/accounting" ? "primary" : "action"
-                        }`}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={"الحسابات"} />
-                  </ListItemButton>
-                </ListItem>
+                {isAccountant && (
+                  <ListItem onClick={() => navigate("/accounting")}>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <PaidIcon
+                          color={`${
+                            active === "/accounting" ? "primary" : "action"
+                          }`}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={"الحسابات"} />
+                    </ListItemButton>
+                  </ListItem>
+                )}
                 <ListItem onClick={() => navigate("/shifts")}>
                   <ListItemButton>
                     <ListItemIcon>
