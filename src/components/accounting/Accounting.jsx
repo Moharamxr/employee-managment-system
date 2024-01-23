@@ -1,7 +1,8 @@
-import { Card, Container, ListGroup, Tab, Tabs } from "react-bootstrap";
+import { Alert, Card, Container, ListGroup, Tab, Tabs } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import {
@@ -45,6 +46,7 @@ function Accounting() {
 
   const [show, setShow] = useState(false);
 
+  const [isSuccess,setIsSuccess]=useState(false);
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(searchId);
@@ -136,9 +138,14 @@ function Accounting() {
       setIsLoading(true);
       try {
         await updateEmployee(newData);
-        toggleUpdate();
+        toggleUpdate();setIsLoading(false);
+        setIsSuccess(true);
+        const timeout = setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000);
 
-        setIsLoading(false);
+        return () => clearTimeout(timeout);
+        
       } catch (error) {
         setError(
           error.response.data.error || "حدث خطأ أثناء تحديث الراتب الاساسى."
@@ -175,6 +182,12 @@ function Accounting() {
         getEmployeeByID(searchId);
         setLoan("");
         setIsLLoading(false);
+        setIsSuccess(true);
+        const timeout = setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
       } catch (error) {
         console.log("errorLoan");
         setIsLLoading(false);
@@ -199,6 +212,12 @@ function Accounting() {
         getEmployeeByID(searchId);
         setDeduction("");
         setIsDLoading(false);
+        setIsSuccess(true);
+        const timeout = setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
       } catch (error) {
         console.log("error setDeduction");
         setIsDLoading(false);
@@ -222,6 +241,12 @@ function Accounting() {
         getEmployeeByID(searchId);
         setCompensation("");
         setIsCLoading(false);
+        setIsSuccess(true);
+        const timeout = setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
       } catch (error) {
         console.log("error setCompensation");
         setIsCLoading(false);
@@ -245,6 +270,12 @@ function Accounting() {
         getEmployeeByID(searchId);
         setBonus("");
         setIsBLoading(false);
+        setIsSuccess(true);
+        const timeout = setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
       } catch (error) {
         console.log("error setBonus");
         setIsBLoading(false);
@@ -264,6 +295,11 @@ function Accounting() {
   const closeModal = () => {
     setIsOpen(false);
     getEmployeeByID(searchId);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return isAccountant ? (
@@ -296,6 +332,7 @@ function Accounting() {
                     style={{ width: "300px" }}
                     onChange={(e) => setSearchId(e.target.value)}
                     autoComplete="off"
+                    onKeyDown={handleKeyPress}
                   />
                 </div>
               </div>
@@ -306,8 +343,13 @@ function Accounting() {
               {show && (
                 <>
                   <ListGroup.Item className="text-end">
-                    <h5 className="text-center">حسابات الموظف</h5>
-
+                    <h4 className="text-center">حسابات الموظف</h4>
+                    {isSuccess&&<Alert
+                      severity="success"
+                    >
+                      
+                      تم الإضافة بنجاح<CheckCircleOutlineIcon/>
+                    </Alert>}
                     {error && (
                       <p className="text-center text-danger">{error}</p>
                     )}
@@ -680,11 +722,15 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <div className="d-flex justify-content-between mt-2">
-                    <button className="btn btn-primary " style={{width:'300px'}} onClick={openModal}>
+                    <button
+                      className="btn btn-primary "
+                      style={{ width: "300px" }}
+                      onClick={openModal}
+                    >
                       تصفية حساب الشهر
                     </button>
                     <button
-                    style={{width:'300px'}}
+                      style={{ width: "300px" }}
                       className={`btn btn-${
                         enableEdit ? "secondary" : "primary"
                       } fs-6 p-1 `}
