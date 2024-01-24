@@ -83,8 +83,11 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
-                      className="border-0 me-5 text-center"
-                      style={{ backgroundColor: "white" }}
+                      className="form-control border-0 text-center"
+                      style={{
+                        backgroundColor: "white",
+                        width: "138px",
+                      }}
                       type="text"
                       disabled
                       id="empID"
@@ -180,8 +183,11 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
-                      className="border-0 me-5 text-center"
-                      style={{ backgroundColor: "white" }}
+                      className="form-control border-0 text-center"
+                      style={{
+                        backgroundColor: "white",
+                        width: "138px",
+                      }}
                       type="text"
                       disabled
                       id="salary"

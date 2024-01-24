@@ -158,7 +158,6 @@ function Accounting() {
 
         return () => clearTimeout(timeout);
       }
-      setIsLoading(false);
     } else {
       setError("حدث خطأ أثناء تحديث الراتب الاساسى.");
     }
@@ -439,7 +438,7 @@ function Accounting() {
                       <label htmlFor="empPhone">رقم الهاتف</label>
                     </div>
                   </ListGroup.Item>
-
+                  
                   {enableEdit ? (
                     <>
                       <ListGroup.Item className="text-end">
@@ -462,13 +461,13 @@ function Accounting() {
 
                             <button
                               type="button"
-                              className="btn btn-primary fs-6 p-1 "
+                              className="btn btn-primary  p-2 "
                               style={{ height: "38px" }}
                               data-mdb-ripple-init
                               onClick={handleUpdateBaseSalary}
                               disabled={isLoading}
                             >
-                              {isLoading ? "..." : "تأكيد"}
+                              {isLoading ? "....." : "تأكيد"}
                             </button>
                           </div>
 
@@ -537,7 +536,7 @@ function Accounting() {
                         <div className="d-flex justify-content-between align-items-center me-5">
                           <div className="d-flex me-5">
                             <input
-                              className="form-control text-center  "
+                              className="form-control text-center"
                               style={{
                                 backgroundColor: "lightgrey",
                                 width: "138px",
@@ -696,8 +695,8 @@ function Accounting() {
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
-                        className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white" }}
+                        className=" form-control border-0  text-center"
+                        style={{ backgroundColor: "white", width: "138px", }}
                         type="text"
                         disabled
                         id="salary"
@@ -711,7 +710,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white" }}
+                        style={{ backgroundColor: "white", width: "138px",  }}
                         type="number"
                         disabled
                         id="delayedSalary"
@@ -724,16 +723,16 @@ function Accounting() {
                   <div className="d-flex justify-content-between mt-2">
                     <button
                       className="btn btn-primary "
-                      style={{ width: "300px" }}
+                      style={{ width: "280px" }}
                       onClick={openModal}
                     >
                       تصفية حساب الشهر
                     </button>
                     <button
-                      style={{ width: "300px" }}
+                      style={{ width: "280px" }}
                       className={`btn btn-${
                         enableEdit ? "secondary" : "primary"
-                      } fs-6 p-1 `}
+                      } fs-6 p-1  `}
                       onClick={toggleUpdate}
                     >
                       {!enableEdit ? "تحديث حسابات الموظف" : "ألغاء التحديث"}
