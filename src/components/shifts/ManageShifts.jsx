@@ -18,87 +18,77 @@ const ManageShifts = ({
   const [time, setTime] = useState(dayjs());
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState('');
-  // Function to handle changes in the DateField
+
   const handleDateChange = (newDate) => {
     setDate(newDate);
   };
 
-  // Function to handle changes in the TimeField
   const handleTimeChange = (newTime) => {
     setTime(newTime);
   };
 
   const getShiftData = async () => {
     if (currentShift) {
-      const data = await getShiftById(currentShift);
-      setStartTime(dayjs(data.shift.startTime));
+      try {
+        const data = await getShiftById(currentShift);
+        setStartTime(dayjs(data.shift.startTime));
+      } catch (error) {
+        console.error("Error fetching shift data:", error);
+      }
     }
-
   };
+
   useEffect(() => {
     getShiftData();
-  }, []);
+  }, [currentShift]);
 
   const reset = () => {
-    setTime('')
-    setDate('')
-  }
-  const handleAddShift = async(newData) => {
+    setTime(dayjs()); // Reset time to the current time
+    setDate(dayjs()); // Reset date to the current date
+  };
+
+  const handleAddShift = async (newData) => {
     setIsLoading(true);
     try {
       await addShift(newData);
       reset();
       onClose();
-      setIsLoading(false);
     } catch (error) {
       setError("حدث خطأ أثناء إضافة الوردية.");
-      setIsLoading(false);
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
-
       return () => clearTimeout(timeout);
+    } finally {
+      setIsLoading(false);
     }
   };
-  
-  // Function to handle form submission
-  const handleFormSubmit =  () => {
-    console.log("date",date)
+
+  const handleFormSubmit = () => {
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = time.format("HH:mm");
-    console.log("Formatted Date:", formattedDate);
-    console.log("Formatted Time:", formattedTime);
 
     const newData = {
       id: id,
       time: formattedTime,
-      date: formattedDate
-    }
-    
+      date: formattedDate,
+    };
+
     if (inShift) {
       if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime)) {
         handleAddShift(newData);
-      }
-      else {
+      } else {
         setError("يجب ان يكون تاريخ النزول بعد تاريخ الصعود");
         const timeout = setTimeout(() => {
           setError("");
         }, 3000);
-
         return () => clearTimeout(timeout);
-
-
       }
-
     } else {
       if (formattedDate !== '' && formattedTime !== '') {
         handleAddShift(newData);
       }
-
     }
-
-
-
   };
 
   return (
@@ -156,6 +146,7 @@ const ManageShifts = ({
                 type="button"
                 className="btn btn-primary text-light"
                 onClick={handleFormSubmit}
+                disabled={isLoading}
               >
                 {!isLoading ? "أضافة الوردية" : "...جارى أضافة الوردية"}
               </button>
@@ -163,9 +154,7 @@ const ManageShifts = ({
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
-                onClick={() => {
-                  onClose();
-                }}
+                onClick={onClose}
                 disabled={isLoading}
               >
                 أغلاق
