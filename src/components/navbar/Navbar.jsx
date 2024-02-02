@@ -97,7 +97,7 @@ export default function Navbar() {
                         color={`${active === "/shifts" ? "primary" : "action"}`}
                       />
                     </ListItemIcon>
-                    <ListItemText primary={"الشفتات"} />
+                    <ListItemText primary={"الورديات"} />
                   </ListItemButton>
                 </ListItem>
 

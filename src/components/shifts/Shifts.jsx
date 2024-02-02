@@ -103,6 +103,7 @@ function Shifts() {
     setIsOpen(false);
     getEmployeeByID(searchId);
   };
+  const isAccountant = localStorage.getItem("role") === "accountant";
 
   return (
     <Container>
@@ -253,12 +254,12 @@ function Shifts() {
                       <label htmlFor="empPhone">رقم الهاتف</label>
                     </div>
                   </ListGroup.Item>
-                  <button
+                  {!isAccountant&&<button
                     className={`btn btn-primary fs-6 p-1 mt-2 float-start`}
                     onClick={openModal}
                   >
                     أضافة وردية
-                  </button>
+                  </button>}
                 </>
               )}
             </ListGroup>

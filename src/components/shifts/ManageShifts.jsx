@@ -31,7 +31,7 @@ const ManageShifts = ({
   const getShiftData = async () => {
     if (currentShift) {
       const data = await getShiftById(currentShift);
-      setStartTime(dayjs(data.shift.startTime).format("YYYY-MM-DD"));
+      setStartTime(dayjs(data.shift.startTime));
     }
 
   };
@@ -60,8 +60,10 @@ const ManageShifts = ({
       return () => clearTimeout(timeout);
     }
   };
+  
   // Function to handle form submission
   const handleFormSubmit =  () => {
+    console.log("date",date)
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = time.format("HH:mm");
     console.log("Formatted Date:", formattedDate);
@@ -72,7 +74,8 @@ const ManageShifts = ({
       time: formattedTime,
       date: formattedDate
     }
-    if (currentShift) {
+    
+    if (inShift) {
       if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime)) {
         handleAddShift(newData);
       }
