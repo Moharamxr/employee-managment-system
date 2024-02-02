@@ -51,8 +51,8 @@ input[type="number"] {
   background-color: lightgrey;
   cursor: pointer;
 }
-.centered{
-  display:flex;
+.centered {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -61,10 +61,17 @@ input[type="number"] {
   bottom: 580px;
   right: 650px;
   background-color: lightgrey;
-   /* Optional: add a smooth transition effect */
+  /* Optional: add a smooth transition effect */
 }
 
 /* Change background color on hover */
 .fab:hover {
   background-color: red !important;
+}
+/* .btn{
+  padding:1 rem !important
+} */
+.logo {
+  width: 15rem !important;
+  hight: 15rem !important;
 }

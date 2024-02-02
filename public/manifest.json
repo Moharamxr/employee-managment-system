@@ -1,19 +1,19 @@
 {
   "short_name": "React App",
-  "name": "EMS",
+  "name": "Sea Breeze",
   "icons": [
     {
-      "src": "staff.png",
+      "src": "../src/media/logo-old-wide-01_s.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "staff.png",
+      "src": "../src/media/logo-old-wide-01_s.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "staff.png",
+      "src": "../src/media/logo-old-wide-01_s.png",
       "type": "image/png",
       "sizes": "512x512"
     }

@@ -49,9 +49,7 @@ export default function Navbar() {
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
             <Toolbar>
-              <Typography variant="h6" noWrap component="div">
-                EMS
-              </Typography>
+              <img src={require('../../media/logo-old-wide-01_s.png')} alt="logo" className="logo"/>
             </Toolbar>
           </AppBar>
           <Drawer

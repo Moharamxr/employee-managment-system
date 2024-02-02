@@ -23,29 +23,28 @@ const EmployeeDetails = () => {
 
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
-  const [ssn, setSsn] = useState('');
-  const [phone, setPhone] = useState('');
+  const [ssn, setSsn] = useState("");
+  const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-  const [baseSalary, setBaseSalary] = useState('');
-  const [totalSalary, setTotalSalary] = useState('');
+  const [baseSalary, setBaseSalary] = useState("");
+  const [totalSalary, setTotalSalary] = useState("");
 
   const [bonuses, setBonuses] = useState([]);
-  const [totalBonuses, setTotalBonuses] = useState('');
+  const [totalBonuses, setTotalBonuses] = useState("");
 
   const [loans, setLoans] = useState([]);
-  const [totalLoans, setTotalLoans] = useState('');
+  const [totalLoans, setTotalLoans] = useState("");
 
   const [deductions, setDeductions] = useState([]);
-  const [totalDeductions, setTotalDeductions] = useState('');
+  const [totalDeductions, setTotalDeductions] = useState("");
 
   const [compensations, setCompensations] = useState([]);
-  const [totalCompensations, setTotalCompensations] = useState('');
+  const [totalCompensations, setTotalCompensations] = useState("");
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
-const navigate=useNavigate();
+  const navigate = useNavigate();
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
@@ -125,17 +124,15 @@ const navigate=useNavigate();
     }
   };
 
-const handleDeleteEmp = async() =>{
-  const decision = window.confirm('هل متأكد أنك تريد حذف هذا الموظف؟');
+  const handleDeleteEmp = async () => {
+    const decision = window.confirm("هل متأكد أنك تريد حذف هذا الموظف؟");
 
-    
     if (decision) {
-      alert('لقد تم حذف الموظف');
+      alert("لقد تم حذف الموظف");
       await deleteEmployee(id);
-      navigate('/')
+      navigate("/");
     }
-  
-}
+  };
 
   return (
     <Container>
@@ -150,7 +147,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
-                  autoComplete="off"
+                    autoComplete="off"
                     className="form-control w-50 border-0 form-control w-50  text-end"
                     style={{ backgroundColor: "white" }}
                     type="text"
@@ -164,7 +161,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
-                  autoComplete="off"
+                    autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
@@ -191,13 +188,24 @@ const handleDeleteEmp = async() =>{
                       onChange={(e) => setJobRole(e.target.value)}
                     >
                       <option value="">اختر وظيفة</option>
-                      <option value="قبطان">قبطان</option>
+
                       <option value="ضابط أول">ضابط أول</option>
-                      <option value="مساعد">مساعد</option>
+                      <option value="قبطان">ظابط تانى</option>
+                      <option value="ريس بحرى">ريس بحرى</option>
+                      <option value="بحرى">بحرى</option>
+                      <option value="ميكانيكى">ميكانيكى</option>
+                      <option value="مساعد ميكانيكى">مساعد ميكانيكى</option>
+                      <option value="طباخ">طباخ</option>
+                      <option value="صيانات">صيانات</option>
+                      <option value="ربان">ربان</option>
+                      <option value="مندوب">مندوب</option>
+                      <option value="فنى كهرباء">فنى كهرباء</option>
+                      <option value="مهندس"> مهندس</option>
+                      <option value="مساعد مهندس">مساعد مهندس</option>
                     </Form.Select>
                   ) : (
                     <input
-                    autoComplete="off"
+                      autoComplete="off"
                       className="border-0 form-control w-50  text-end"
                       style={{
                         backgroundColor: "white ",
@@ -223,13 +231,19 @@ const handleDeleteEmp = async() =>{
                       onChange={(e) => setWorkAddress(e.target.value)}
                     >
                       <option value="">اختر مكان العمل</option>
-                      <option value="سى بريز 9">سى بريز 9</option>
-                      <option value="سى بريز 3">سى بريز 3 </option>
-                      <option value="سى بريز 1">سى بريز 1</option>
+                      <option value="SeaBreeze 1">SeaBreeze 1</option>
+                      <option value="SeaBreeze 7">SeaBreeze 7</option>
+                      <option value="SeaBreeze 9">SeaBreeze 9</option>
+                      <option value="SeaBreeze 18">SeaBreeze 18</option>
+                      <option value="SeaBreeze 22">SeaBreeze 22</option>
+                      <option value="SeaBreeze 39">SeaBreeze 39</option>
+                      <option value="SeaBreeze 55">SeaBreeze 55</option>
+                      <option value="NAPHT">NAPHT</option>
+                      <option value="NAPHT 7">NAPHT 7</option>
                     </Form.Select>
                   ) : (
                     <input
-                    autoComplete="off"
+                      autoComplete="off"
                       className="border-0 form-control w-50  text-end"
                       style={{
                         backgroundColor: "white ",
@@ -246,7 +260,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
-                  autoComplete="off"
+                    autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
@@ -264,7 +278,7 @@ const handleDeleteEmp = async() =>{
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
-                  autoComplete="off"
+                    autoComplete="off"
                     className="border-0 form-control w-50  text-end"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
@@ -314,12 +328,10 @@ const handleDeleteEmp = async() =>{
             </ListGroup>
           </Card>
           <button
-            className={`btn btn-${
-              "danger"
-            } float-end ms-1`}
+            className={`btn btn-${"danger"} float-end ms-1`}
             onClick={handleDeleteEmp}
           >
-              حذف الموظف
+            حذف الموظف
           </button>
           <button
             className={`btn btn-${
@@ -451,7 +463,6 @@ const handleDeleteEmp = async() =>{
           </Tabs>
         </Col>
       </Row> */}
-      
     </Container>
   );
 };

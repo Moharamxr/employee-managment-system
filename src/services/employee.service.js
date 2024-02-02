@@ -22,6 +22,29 @@ export const getAllEmployees = async () => {
     
   }
 };
+export const getAllEmployeeById = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `${path}/financials/${id}`,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Employee by ID fetched successfully");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    console.error(error.response.data.error);
+    
+  }
+};
 export const getEmployeeById = async (id) => {
   try {
     const token = localStorage.getItem("token");

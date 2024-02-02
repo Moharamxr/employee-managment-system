@@ -4,17 +4,16 @@ import { Form } from "react-bootstrap";
 import { addEmployee } from "../../services/employee.service";
 
 const AddEmployee = ({ isOpen, onClose }) => {
-  
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
-  const [ssn, setSsn] = useState('');
-  const [phone, setPhone] = useState('');
+  const [ssn, setSsn] = useState("");
+  const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-  const [baseSalary, setBaseSalary] = useState('');
+  const [baseSalary, setBaseSalary] = useState("");
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const reset = () => {
     setError("");
     setName("");
@@ -24,7 +23,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
     setWorkAddress("");
     setBaseSalary("");
   };
-  
+
   const handleAddEmp = async () => {
     const newData = {
       name: name,
@@ -48,7 +47,6 @@ const AddEmployee = ({ isOpen, onClose }) => {
       setError("");
       setIsLoading(true);
       try {
-        console.log("try")
         await addEmployee(newData);
         reset();
         onClose();
@@ -65,7 +63,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
       setIsLoading(false);
     } else {
       setError("تأكد من صحة البيانات الموظف مجداا");
-      console.log("else")
+      console.log("else");
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
@@ -74,7 +72,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
     }
     reset();
   };
-  
+
   return (
     <>
       {isOpen && (
@@ -108,7 +106,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
                     <div className="form-group text-end">
                       <label htmlFor="name">أسم الموظف</label>
                       <input
-                      autoComplete="off"
+                        autoComplete="off"
                         type="text"
                         className="form-control"
                         name="textMessage"
@@ -129,9 +127,20 @@ const AddEmployee = ({ isOpen, onClose }) => {
                         onChange={(e) => setJobRole(e.target.value)} // Handle the onChange event
                       >
                         <option value="">اختر وظيفة</option>
-                        <option value="قبطان">قبطان</option>
+
                         <option value="ضابط أول">ضابط أول</option>
-                        <option value="مساعد">مساعد</option>
+                        <option value="قبطان">ظابط تانى</option>
+                        <option value="ريس بحرى">ريس بحرى</option>
+                        <option value="بحرى">بحرى</option>
+                        <option value="ميكانيكى">ميكانيكى</option>
+                        <option value="مساعد ميكانيكى">مساعد ميكانيكى</option>
+                        <option value="طباخ">طباخ</option>
+                        <option value="صيانات">صيانات</option>
+                        <option value="ربان">ربان</option>
+                        <option value="مندوب">مندوب</option>
+                        <option value="فنى كهرباء">فنى كهرباء</option>
+                        <option value="مهندس"> مهندس</option>
+                        <option value="مساعد مهندس">مساعد مهندس</option>
                       </Form.Select>
                     </div>
                   </Col>
@@ -148,9 +157,15 @@ const AddEmployee = ({ isOpen, onClose }) => {
                         onChange={(e) => setWorkAddress(e.target.value)} // Handle the onChange event
                       >
                         <option value="">اختر مكان العمل</option>
-                        <option value="سى بريز 9">سى بريز 9</option>
-                        <option value="سى بريز 3">سى بريز 3 </option>
-                        <option value="سى بريز 1">سى بريز 1</option>
+                        <option value="SeaBreeze 1">SeaBreeze 1</option>
+                        <option value="SeaBreeze 7">SeaBreeze 7</option>
+                        <option value="SeaBreeze 9">SeaBreeze 9</option>
+                        <option value="SeaBreeze 18">SeaBreeze 18</option>
+                        <option value="SeaBreeze 22">SeaBreeze 22</option>
+                        <option value="SeaBreeze 39">SeaBreeze 39</option>
+                        <option value="SeaBreeze 55">SeaBreeze 55</option>
+                        <option value="NAPHT">NAPHT</option>
+                        <option value="NAPHT 7">NAPHT 7</option>
                       </Form.Select>
                     </div>
                   </Col>
@@ -158,7 +173,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
                     <div className="form-group text-end">
                       <label htmlFor="salary">الراتب الأساسى</label>
                       <input
-                      autoComplete="off"
+                        autoComplete="off"
                         type="number"
                         className="form-control"
                         name="textMessage"
@@ -175,7 +190,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
                     <div className="form-group text-end">
                       <label htmlFor="naID">رقم البطاقة</label>
                       <input
-                      autoComplete="off"
+                        autoComplete="off"
                         type="number"
                         className="form-control"
                         name="textMessage"
@@ -189,7 +204,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
                     <div className="form-group text-end">
                       <label htmlFor="phone">رقم الهاتف</label>
                       <input
-                      autoComplete="off"
+                        autoComplete="off"
                         type="number"
                         className="form-control"
                         name="textMessage"
@@ -214,7 +229,10 @@ const AddEmployee = ({ isOpen, onClose }) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
-                onClick={()=>{onClose();reset();}}
+                onClick={() => {
+                  onClose();
+                  reset();
+                }}
               >
                 أغلاق
               </button>
