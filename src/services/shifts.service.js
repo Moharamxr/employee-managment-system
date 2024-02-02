@@ -46,6 +46,28 @@ export const getShiftByEmployeeId = async (id) => {
     console.error(error.response.data.error);
   }
 };
+export const getShiftsFinancial = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `${path}/shifts/financials/${id}`,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Financial of Shifts by Employee ID fetched successfully");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    console.error(error.response.data.error);
+  }
+};
 
 export const addShift = async (newData) => {
   try {
@@ -74,3 +96,4 @@ export const addShift = async (newData) => {
     console.error(error.response.data.error);
   }
 };
+

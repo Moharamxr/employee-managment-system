@@ -19,11 +19,11 @@ const Layout = (props) => {
   useEffect(() => {
     if (!isLoggedIn && localStorage.getItem("token")==='') {
       navigate("/login");
-      console.log('sdfkhsdf')
+      console.log('goes to login');
     }
-    window.addEventListener("beforeunload", function (event) {
-      signOut();
-    });
+    // window.addEventListener("beforeunload", function (event) {
+    //   signOut();
+    // });
 
      setTimeout(function () {
       signOut();

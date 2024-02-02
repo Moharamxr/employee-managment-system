@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
-import { getShiftByEmployeeId } from "../../services/shifts.service";
+import { getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
 import ManageShifts from "./ManageShifts";
 
 function Shifts() {
@@ -27,9 +27,11 @@ function Shifts() {
 
   const [show, setShow] = useState(false);
 
-  const getEmployeeByID = async (id) => {
+  const getEmployeeShifts = async (id) => {
     try {
       const shiftsData = await getShiftByEmployeeId(id);
+      const shiftsFinance = await getShiftsFinancial(id);
+      console.log('shiftsFinance', shiftsFinance)
       setShow(true);
       setId(shiftsData.employee.id);
       setName(shiftsData.employee.name);
@@ -59,7 +61,7 @@ function Shifts() {
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
-        getEmployeeByID(searchId);
+        getEmployeeShifts(searchId);
 
         setSearchError(false);
         setSearchLoading(false);
@@ -101,9 +103,23 @@ function Shifts() {
 
   const closeModal = () => {
     setIsOpen(false);
-    getEmployeeByID(searchId);
+    getEmployeeShifts(searchId);
   };
   const isAccountant = localStorage.getItem("role") === "accountant";
+
+  const convertTo12HourFormat = (inputTime) => {
+
+    const [hours, minutes] = inputTime.split(':').map(Number);
+
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const twelveHourFormat = hours % 12 || 12;
+
+    const formattedTime = `${twelveHourFormat}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+
+    return formattedTime;
+  }
+
+
 
   return (
     <Container>
@@ -188,7 +204,7 @@ function Shifts() {
                         type="text"
                         disabled
                         id="empID"
-                        value={inShift?"داخل وردية الآن":"خارج الوردية"}
+                        value={inShift ? "داخل وردية الآن" : "خارج الوردية"}
                       />
 
                       <label htmlFor="empName">حاله الموظف</label>
@@ -254,7 +270,7 @@ function Shifts() {
                       <label htmlFor="empPhone">رقم الهاتف</label>
                     </div>
                   </ListGroup.Item>
-                  {!isAccountant&&<button
+                  {!isAccountant && <button
                     className={`btn btn-primary fs-6 p-1 mt-2 float-start`}
                     onClick={openModal}
                   >
@@ -277,9 +293,10 @@ function Shifts() {
                 <table className="table text-center">
                   <thead>
                     <tr>
+                      <th scope="col">صافى نقد الوردية </th>
                       <th scope="col">صافى أيام العمل </th>
-                      <th scope="col"> ألايام مخصومة </th>
-                      <th scope="col"> ألايام مكافئة </th>
+                      <th scope="col"> أيام مخصومة </th>
+                      <th scope="col"> أيام مكافئة </th>
                       <th scope="col">وقت النزول</th>
                       <th scope="col">تاريخ النزول</th>
                       <th scope="col">وقت الصعود</th>
@@ -289,14 +306,15 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item.id}>
+                        <td>{}</td>
                         <td>
-                          {item.duration ?? '---'} {/* Provide a default value or display '---' if duration is null */}
+                          {item.duration !== null &&item.deduction !== null && item.bonus !== null ? item.duration+item.bonus-item.deduction :  '---'}
                         </td>
                         <td>{item.deduction ?? '---'}</td>
                         <td>{item.bonus ?? '---'}</td>
-                        <td>{item.endTime ? item.endTime.slice(11, 16) : '---'}</td>
+                        <td>{item.endTime ? convertTo12HourFormat(item.endTime.slice(11, 16)) : '---'}</td>
                         <td>{item.endTime ? item.endTime.slice(0, 10) : '---'}</td>
-                        <td>{item.startTime.slice(11, 16)}</td>
+                        <td>{item.startTime ? convertTo12HourFormat(item.startTime.slice(11, 16)) : '---'}</td>
                         <td>{item.startTime.slice(0, 10)}</td>
                       </tr>
                     ))}
@@ -315,7 +333,7 @@ function Shifts() {
         isOpen={isOpen}
         inShift={inShift}
         id={id}
-currentShift={currentShift&&currentShift}
+        currentShift={currentShift && currentShift}
       />
     </Container>
   );
