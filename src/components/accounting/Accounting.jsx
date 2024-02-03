@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 import ResetSalary from "./ResetSalary";
 import UpdateFinancial from "./UpdateFinancial";
 import { gState } from "../../context/Context";
+import { CircularProgress } from "@mui/material";
 
 function Accounting() {
   const [searchError, setSearchError] = useState(false);
@@ -42,16 +43,16 @@ function Accounting() {
   const [compensations, setCompensations] = useState([]);
   const [totalCompensations, setTotalCompensations] = useState("");
 
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   const [show, setShow] = useState(false);
 
   const getEmployeeByID = async (id) => {
-    setIsLoading(true);
+    setIsPageLoading(true)
     try {
       const data = await getAllEmployeeById(id);
       setShow(true);
+      setIsPageLoading(false)
       setId(data.employee.id);
       setName(data.employee.name);
       setSsn(data.employee.ssn);
@@ -84,6 +85,7 @@ function Accounting() {
       });
     } catch (error) {
       console.log(error);
+      setIsPageLoading(false)
       setSearchError(true);
       setSearchLoading(false);
       setShow(false);
@@ -93,6 +95,8 @@ function Accounting() {
 
       return () => clearTimeout(timeout);
     }
+    setIsPageLoading(false)
+
   };
   const handleSearch = async () => {
     if (searchId && searchId > 0) {
@@ -195,14 +199,11 @@ function Accounting() {
           </Row>
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
+            <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
               {show && (
                 <>
                   <ListGroup.Item className="text-end">
                     <h4 className="text-center">حسابات الموظف </h4>
-
-                    {error && (
-                      <p className="text-center text-danger">{error}</p>
-                    )}
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-end">

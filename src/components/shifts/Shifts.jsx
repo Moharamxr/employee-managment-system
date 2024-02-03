@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import { getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
 import ManageShifts from "./ManageShifts";
+import { CircularProgress } from "@mui/material";
 
 function Shifts() {
   const [searchError, setSearchError] = useState(false);
@@ -21,8 +22,8 @@ function Shifts() {
   const [currentShift, setCurrentShift] = useState('');
   const [shifts, setShift] = useState([]);
 
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(false);
+
 
   const [show, setShow] = useState(false);
   const isAccountant = localStorage.getItem("role") === "accountant";
@@ -40,13 +41,18 @@ function Shifts() {
   }
 
   const getEmployeeShifts = async (id) => {
+    setIsPageLoading(true);
     try {
       if (isAccountant) {
         const AccShiftsData = await getShiftsFinancial(id);
         handelSetData(AccShiftsData);
+    setIsPageLoading(false);
+
       } else {
         const SecShiftsData = await getShiftByEmployeeId(id);
         handelSetData(SecShiftsData);
+    setIsPageLoading(false);
+
 
       }
       setShow(true);
@@ -55,12 +61,15 @@ function Shifts() {
       setSearchError(true);
       setSearchLoading(false);
       setShow(false);
+    setIsPageLoading(false);
       const timeout = setTimeout(() => {
         setSearchError(false);
       }, 3000);
 
       return () => clearTimeout(timeout);
     }
+    setIsPageLoading(false);
+
   };
 
   const handleSearch = async () => {
@@ -167,6 +176,7 @@ function Shifts() {
           </Row>
           <Card className="text-end border-0 mb-5">
             <ListGroup variant="flush">
+            <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
               {show && (
                 <>
                   <ListGroup.Item className="text-end">

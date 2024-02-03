@@ -11,6 +11,7 @@ import {
   searchForAll,
 } from "../../services/employee.service";
 import CloseIcon from '@mui/icons-material/Close';
+import { CircularProgress } from "@mui/material";
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -24,6 +25,8 @@ const Employees = () => {
   const [searchData, setSearchData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [showSearchData, setShowSearchData] = useState(false);
+
+  const [isPageLoading, setIsPageLoading] = useState(false);
   const navigate = useNavigate();
 
   const openModal = () => {
@@ -36,17 +39,22 @@ const Employees = () => {
   };
 
   const getData = useCallback(async () => {
+    setIsPageLoading(true);
     try {
       const data = await getAllEmployees();
       setEmployees(data.employees);
       setError('');
+      setIsPageLoading(false);
     } catch (error) {
+      setIsPageLoading(false);
       if (error.response && error.response.status === 401) {
+        console.log(error.response.status)
         navigate("/");
         return;
       }
       setError(error.response.data.error);
     }
+    setIsPageLoading(false);
   }, [navigate]);
 
   useEffect(() => {
@@ -203,7 +211,9 @@ const Employees = () => {
                 </tr>
               ))}
             </tbody>
+            
           </table>
+          <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
         </Col>
       </Row>
 
