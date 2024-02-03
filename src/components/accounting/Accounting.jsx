@@ -27,10 +27,11 @@ function Accounting() {
   const [totalSalary, setTotalSalary] = useState("");
   const [delayedSalary, setDelayedSalary] = useState("");
   const [dailySalary, setDailySalary] = useState("");
+ const [payments, setPayments] = useState("");
 
   const [bonuses, setBonuses] = useState([]);
   const [totalBonuses, setTotalBonuses] = useState("");
-
+const [paymentMethod, setPaymentMethod] = useState("");
   const [loans, setLoans] = useState([]);
   const [totalLoans, setTotalLoans] = useState("");
 
@@ -60,7 +61,8 @@ function Accounting() {
       setTotalSalary(data.employee.totalSalary);
       setDelayedSalary(data.employee.delayedSalary);
       setDailySalary(data.employee.dailySalary);
-
+      setPayments(data.employee.payments);
+      setPaymentMethod(data.employee.paymentMethod);
       setBonuses(data.employee.bonuses.bonusesDetails);
       setLoans(data.employee.loans.loansDetails);
       setDeductions(data.employee.deductions.deductionsDetails);
@@ -454,7 +456,7 @@ function Accounting() {
         <>
           <Row className="centered my-5">
             <h4 className="text-center">حسابات سابقة</h4>
-            <Col sm={6}>
+            <Col sm={8}>
               <Tabs
                 defaultActiveKey="Loans"
                 id="fill-tab-example"
@@ -472,7 +474,7 @@ function Accounting() {
                     <tbody>
                       {loans.map((item) => (
                         <tr key={item._id}>
-                          <td>{item.amount}</td>
+                          <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -490,7 +492,7 @@ function Accounting() {
                     <tbody>
                       {compensations.map((item) => (
                         <tr key={item._id}>
-                          <td>{item.amount}</td>
+                          <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -508,7 +510,7 @@ function Accounting() {
                     <tbody>
                       {bonuses.map((item) => (
                         <tr key={item._id}>
-                          <td>{item.amount}</td>
+                          <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -526,7 +528,38 @@ function Accounting() {
                     <tbody>
                       {deductions.map((item) => (
                         <tr key={item._id}>
-                          <td>{item.amount}</td>
+                          <td>{item.amount.toFixed(2)}</td>
+                          <td>{item.date.slice(0, 10)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </Tab>
+                <Tab eventKey="payments" title="رواتب سابقة">
+                  <table className="table text-center">
+                    <thead>
+                      <tr>
+                      <th scope="col">إجمالى نقد الشهر </th>
+                      <th scope="col"> طريقة الدفع </th>
+                      <th scope="col">صافى أيام العمل </th>
+                      <th scope="col"> أيام مخصومة </th>
+                      <th scope="col"> أيام مكافئة </th>
+                      <th scope="col"> أيام العمل </th>
+                        
+                        <th scope="col">التاريخ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {payments.map((item) => (
+                        <tr key={item._id}>
+                          <td>{item.payedAmount.toFixed(2)}</td>
+                          <td>{item.paymentMethod}</td>
+                          <td>{item.daysWorked-item.deductionDays+item.bonusDays}</td>
+                          <td>{item.deductionDays}</td>
+                          <td>{item.bonusDays}</td>
+                          <td>{item.daysWorked}</td>
+                          
+                          
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -549,6 +582,7 @@ function Accounting() {
         bonus={totalBonuses}
         baseSalary={baseSalary}
         totalSalary={totalSalary}
+        paymentMethod={paymentMethod}
       />
       <UpdateFinancial
         isOpen={isUpdating}

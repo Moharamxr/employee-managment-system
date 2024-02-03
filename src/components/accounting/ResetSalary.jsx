@@ -1,23 +1,23 @@
-import React, {useState } from "react";
-import {  ListGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import { ListGroup } from "react-bootstrap";
 import { payroll } from "../../services/financials.service";
 
-const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,totalSalary,bonus ,id,name}) => {
+const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalary, totalSalary, bonus, id, name, paymentMethod }) => {
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [payedAmount,setPayedAmount]=useState('');
+  const [payedAmount, setPayedAmount] = useState('');
 
-  const handelPayedAmount =async()=>{
+  const handelPayedAmount = async () => {
     setIsLoading(true)
     const newData = {
       id: id,
       payedAmount: payedAmount,
-      
+
     };
-    if(payedAmount>0&&payedAmount<=totalSalary){
-      
+    if (payedAmount > 0 && payedAmount <= totalSalary) {
+
       try {
         await payroll(newData)
         console.log('true')
@@ -33,8 +33,8 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
         setIsLoading(false)
         return () => clearTimeout(timeout);
       }
-      
-    }else{
+
+    } else {
       setError(" يجب ان لا يكون النقد الخارج اكبر من صافى اجمالى الراتب ")
       console.log('else')
       setIsLoading(false)
@@ -43,10 +43,10 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
       }, 3000);
 
       return () => clearTimeout(timeout);
-      
+
     }
     setIsLoading(false)
-    
+
   }
 
 
@@ -74,7 +74,7 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
               <h5 className="modal-title" id="exampleModalLabel">
                 تصفية حساب الشهر
               </h5>
-              
+
             </div>
 
             <div className="modal-body">
@@ -197,7 +197,26 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
                     <label htmlFor="salary">صافى اجمالى الراتب</label>
                   </div>
 
-              
+
+                </ListGroup.Item>
+                <ListGroup.Item className="text-end">
+                  <div className="d-flex justify-content-between align-items-center me-5">
+                    <input
+                      className="form-control border-0 text-center"
+                      style={{
+                        backgroundColor: "white",
+                        width: "138px",
+                      }}
+                      type="text"
+                      disabled
+                      id="paymentMethod"
+                      value={paymentMethod}
+                    />
+
+                    <label htmlFor="paymentMethod">طريقة الدفع</label>
+                  </div>
+
+
                 </ListGroup.Item>
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
@@ -205,17 +224,17 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
                       className="form-control border-1 w-50   text-center "
                       style={{ backgroundColor: "gainsboro" }}
                       type="text"
-                      
+
                       id="payedAmount"
                       value={payedAmount}
-                      onChange={(e)=>setPayedAmount(e.target.value)}
+                      onChange={(e) => setPayedAmount(e.target.value)}
                       autoComplete="off"
                     />
 
                     <label htmlFor="payedAmount">النقد الخارج</label>
                   </div>
 
-              
+
                 </ListGroup.Item>
               </ListGroup>
             </div>
@@ -233,7 +252,7 @@ const ResetSalary = ({ isOpen, onClose ,loan,deduction,compensation,baseSalary,t
                 data-bs-dismiss="modal"
                 onClick={() => {
                   onClose();
-                 
+
                 }}
               >
                 أغلاق

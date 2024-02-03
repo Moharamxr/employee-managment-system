@@ -18,7 +18,6 @@ function Shifts() {
   const [phone, setPhone] = useState(0);
   const [workAddress, setWorkAddress] = useState("");
   const [inShift, setInShift] = useState(false);
-
   const [currentShift, setCurrentShift] = useState('');
   const [shifts, setShift] = useState([]);
 
@@ -26,23 +25,31 @@ function Shifts() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [show, setShow] = useState(false);
+  const isAccountant = localStorage.getItem("role") === "accountant";
+
+  const handelSetData = (shiftsData) => {
+    setId(shiftsData.employee.id);
+    setName(shiftsData.employee.name);
+    setSsn(shiftsData.employee.ssn);
+    setJobRole(shiftsData.employee.jobRole);
+    setPhone(shiftsData.employee.phone);
+    setWorkAddress(shiftsData.employee.workAddress);
+    setInShift(shiftsData.employee.shift.inShift);
+    setCurrentShift(shiftsData.employee.shift.currentShift)
+    setShift(shiftsData.shifts);
+  }
 
   const getEmployeeShifts = async (id) => {
     try {
-      const shiftsData = await getShiftByEmployeeId(id);
-      const shiftsFinance = await getShiftsFinancial(id);
-      console.log('shiftsFinance', shiftsFinance)
-      setShow(true);
-      setId(shiftsData.employee.id);
-      setName(shiftsData.employee.name);
-      setSsn(shiftsData.employee.ssn);
-      setJobRole(shiftsData.employee.jobRole);
-      setPhone(shiftsData.employee.phone);
-      setWorkAddress(shiftsData.employee.workAddress);
-      setInShift(shiftsData.employee.shift.inShift);
-      setCurrentShift(shiftsData.employee.shift.currentShift)
+      if (isAccountant) {
+        const AccShiftsData = await getShiftsFinancial(id);
+        handelSetData(AccShiftsData);
+      } else {
+        const SecShiftsData = await getShiftByEmployeeId(id);
+        handelSetData(SecShiftsData);
 
-      setShift(shiftsData.shifts);
+      }
+      setShow(true);
     } catch (error) {
       console.log(error);
       setSearchError(true);
@@ -105,7 +112,7 @@ function Shifts() {
     setIsOpen(false);
     getEmployeeShifts(searchId);
   };
-  const isAccountant = localStorage.getItem("role") === "accountant";
+
 
   const convertTo12HourFormat = (inputTime) => {
 
@@ -288,15 +295,16 @@ function Shifts() {
             <Row className="centered my-5">
               <h4 className="text-center">ورديات سابقة </h4>
 
-              <Col sm={8}>
+              <Col sm={10}>
                 <hr className="m-0 mt-1" />
                 <table className="table text-center">
                   <thead>
                     <tr>
-                      <th scope="col">صافى نقد الوردية </th>
+                      {isAccountant && <th scope="col">صافى نقد الوردية </th>}
                       <th scope="col">صافى أيام العمل </th>
                       <th scope="col"> أيام مخصومة </th>
                       <th scope="col"> أيام مكافئة </th>
+                      <th scope="col"> أيام العمل </th>
                       <th scope="col">وقت النزول</th>
                       <th scope="col">تاريخ النزول</th>
                       <th scope="col">وقت الصعود</th>
@@ -305,13 +313,27 @@ function Shifts() {
                   </thead>
                   <tbody>
                     {shifts.map((item) => (
-                      <tr key={item.id}>
-                        <td>{}</td>
+                      <tr key={item._id}>
+                        {isAccountant ? <>
+                        <td>{item.totalSalary}</td>
+                          <td>
+                            {item.duration !== null && item.deduction.days !== null && item.bonus.days !== null
+                              ? item.duration + item.bonus.days - item.deduction.days
+                              : '---'}
+                          </td>
+                          <td>{item.deduction.days !== null ? item.deduction.days : '---'}</td>
+                          <td>{item.bonus.days !== null ? item.bonus.days : '---'}</td>
+                          <td>{item.duration !== null ? item.duration : '---'}</td>
+                        </>:<>
                         <td>
-                          {item.duration !== null &&item.deduction !== null && item.bonus !== null ? item.duration+item.bonus-item.deduction :  '---'}
-                        </td>
-                        <td>{item.deduction ?? '---'}</td>
-                        <td>{item.bonus ?? '---'}</td>
+                            {item.duration !== null && item.deduction !== null && item.bonus !== null
+                              ? item.duration + item.bonus - item.deduction
+                              : '---'}
+                          </td>
+                          <td>{item.deduction !== null ? item.deduction : '---'}</td>
+                          <td>{item.bonus !== null ? item.bonus : '---'}</td>
+                          <td>{item.duration !== null ? item.duration : '---'}</td>
+                        </>}
                         <td>{item.endTime ? convertTo12HourFormat(item.endTime.slice(11, 16)) : '---'}</td>
                         <td>{item.endTime ? item.endTime.slice(0, 10) : '---'}</td>
                         <td>{item.startTime ? convertTo12HourFormat(item.startTime.slice(11, 16)) : '---'}</td>
