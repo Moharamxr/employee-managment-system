@@ -17,7 +17,7 @@ const ManageShifts = ({
   const [isLoading, setIsLoading] = useState(false);
   const [time, setTime] = useState(dayjs());
   const [date, setDate] = useState(dayjs());
-  const [startTime, setStartTime] = useState('');
+  const [startTime, setStartTime] = useState(dayjs());
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -63,7 +63,9 @@ const ManageShifts = ({
       setIsLoading(false);
     }
   };
-
+  const now = dayjs();
+  console.log(date.isBefore(now))
+  
   const handleFormSubmit = () => {
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = time.format("HH:mm");
@@ -75,7 +77,7 @@ const ManageShifts = ({
     };
 
     if (inShift) {
-      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime)) {
+      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime) && date.isBefore(now)) {
         handleAddShift(newData);
       } else {
         setError("يجب ان يكون تاريخ النزول بعد تاريخ الصعود");

@@ -61,7 +61,6 @@ function Shifts() {
       }
       setShow(true);
     } catch (error) {
-      console.log(error);
       setSearchError(true);
       setSearchLoading(false);
       setShow(false);
@@ -77,7 +76,7 @@ function Shifts() {
   };
 
   const handleSearch = async () => {
-    if (searchId && searchId > 0&&empIDs.includes(parseInt(searchId, 10))) {
+    if (searchId && searchId > 0) {
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
