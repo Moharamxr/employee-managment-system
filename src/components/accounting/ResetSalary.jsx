@@ -85,7 +85,7 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
                     <input
                       className="form-control border-0 text-center"
                       style={{
-                        backgroundColor: "blue",
+                        backgroundColor: "white",
                         width: "250px",
                       }}
                       type="text"
