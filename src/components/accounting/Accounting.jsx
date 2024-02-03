@@ -27,11 +27,12 @@ function Accounting() {
   const [totalSalary, setTotalSalary] = useState("");
   const [delayedSalary, setDelayedSalary] = useState("");
   const [dailySalary, setDailySalary] = useState("");
- const [payments, setPayments] = useState("");
+  const [payments, setPayments] = useState("");
 
   const [bonuses, setBonuses] = useState([]);
   const [totalBonuses, setTotalBonuses] = useState("");
-const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [bankAccount,setBankAccount] = useState("");
   const [loans, setLoans] = useState([]);
   const [totalLoans, setTotalLoans] = useState("");
 
@@ -63,6 +64,8 @@ const [paymentMethod, setPaymentMethod] = useState("");
       setDailySalary(data.employee.dailySalary);
       setPayments(data.employee.payments);
       setPaymentMethod(data.employee.paymentMethod);
+      setBankAccount(data.employee.bankAccount);
+
       setBonuses(data.employee.bonuses.bonusesDetails);
       setLoans(data.employee.loans.loansDetails);
       setDeductions(data.employee.deductions.deductionsDetails);
@@ -539,13 +542,13 @@ const [paymentMethod, setPaymentMethod] = useState("");
                   <table className="table text-center">
                     <thead>
                       <tr>
-                      <th scope="col">إجمالى نقد الشهر </th>
-                      <th scope="col"> طريقة الدفع </th>
-                      <th scope="col">صافى أيام العمل </th>
-                      <th scope="col"> أيام مخصومة </th>
-                      <th scope="col"> أيام مكافئة </th>
-                      <th scope="col"> أيام العمل </th>
-                        
+                        <th scope="col">إجمالى نقد الشهر </th>
+                        <th scope="col"> طريقة الدفع </th>
+                        <th scope="col">صافى أيام العمل </th>
+                        <th scope="col"> أيام مخصومة </th>
+                        <th scope="col"> أيام مكافئة </th>
+                        <th scope="col"> أيام العمل </th>
+
                         <th scope="col">التاريخ</th>
                       </tr>
                     </thead>
@@ -554,12 +557,12 @@ const [paymentMethod, setPaymentMethod] = useState("");
                         <tr key={item._id}>
                           <td>{item.payedAmount.toFixed(2)}</td>
                           <td>{item.paymentMethod}</td>
-                          <td>{item.daysWorked-item.deductionDays+item.bonusDays}</td>
+                          <td>{item.daysWorked - item.deductionDays + item.bonusDays}</td>
                           <td>{item.deductionDays}</td>
                           <td>{item.bonusDays}</td>
                           <td>{item.daysWorked}</td>
-                          
-                          
+
+
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -583,6 +586,7 @@ const [paymentMethod, setPaymentMethod] = useState("");
         baseSalary={baseSalary}
         totalSalary={totalSalary}
         paymentMethod={paymentMethod}
+        bankAccount={bankAccount}
       />
       <UpdateFinancial
         isOpen={isUpdating}

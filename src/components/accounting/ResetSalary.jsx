@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ListGroup } from "react-bootstrap";
 import { payroll } from "../../services/financials.service";
 
-const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalary, totalSalary, bonus, id, name, paymentMethod }) => {
+const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalary, totalSalary, bonus, id, name, paymentMethod ,bankAccount}) => {
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -86,7 +86,7 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
                       className="form-control border-0 text-center"
                       style={{
                         backgroundColor: "white",
-                        width: "138px",
+                        width: "200px",
                       }}
                       type="text"
                       disabled
@@ -218,6 +218,25 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
 
 
                 </ListGroup.Item>
+                {paymentMethod==='حساب بنكى'&&<ListGroup.Item className="text-end">
+                  <div className="d-flex justify-content-between align-items-center me-5">
+                    <input
+                      className="form-control border-0 text-center"
+                      style={{
+                        backgroundColor: "white",
+                        width: "180px",
+                      }}
+                      type="text"
+                      disabled
+                      id="bankAccount"
+                      value={bankAccount}
+                    />
+
+                    <label htmlFor="bankAccount">رقم الحساب البنكى</label>
+                  </div>
+
+
+                </ListGroup.Item>}
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input

@@ -38,7 +38,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
       paymentMethod:paymentMethod,
     };
     if (bankNumber.trim() !== "") {
-      newData.bankNumber = bankNumber;
+      newData.bankAccount = bankNumber;
     }
     
     if (

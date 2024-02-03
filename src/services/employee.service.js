@@ -80,6 +80,8 @@ export const addEmployee = async (newEmployeeData) => {
       phone: newEmployeeData.phone,
       workAddress: newEmployeeData.workAddress,
       baseSalary: newEmployeeData.baseSalary,
+      paymentMethod:newEmployeeData.paymentMethod,
+      bankAccount : newEmployeeData.bankAccount,
     };
 
     const response = await axios.post(`${path}/employees/add`, requestBody, {

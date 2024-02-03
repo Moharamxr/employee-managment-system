@@ -51,7 +51,7 @@ export default function Navbar() {
               <div>
                 <img src={require('../../media/logo-old-wide-01_s.png')} alt="logo" className="logo" />
               </div>
-              <p className="text-end text-dark mt-2"><h5 className="p-0 m-0 mt-1">أهلا احمد عبدالله<br /></h5>{!isAccountant?'محاسب':'سكيرتير'}</p>
+              <p className="text-end text-dark mt-2"><h5 className="p-0 m-0 mt-1">أهلا احمد عبدالله<br /></h5>{isAccountant?'محاسب':'سكيرتير'}</p>
               
             </Toolbar>
           </AppBar>
