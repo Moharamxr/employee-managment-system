@@ -16,8 +16,9 @@ function Accounting() {
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const { setData } = useContext(gState);
-
+  const { data, setData } = useContext(gState);
+  const { empIDs } = data;
+console.log(empIDs);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
@@ -99,7 +100,7 @@ function Accounting() {
 
   };
   const handleSearch = async () => {
-    if (searchId && searchId > 0) {
+    if (searchId && searchId > 0 && empIDs.includes(parseInt(searchId, 10))) {
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
@@ -180,7 +181,7 @@ function Accounting() {
                   onClick={handleSearch}
                   disabled={searchLoading}
                 >
-                  <SearchIcon />
+                 {searchLoading ? "جارى البحث" : <SearchIcon />}
                 </button>
                 <div className="form-outline">
                   <input

@@ -2,15 +2,19 @@ import { Card, Container, ListGroup } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
 import ManageShifts from "./ManageShifts";
 import { CircularProgress } from "@mui/material";
+import { gState } from "../../context/Context";
 
 function Shifts() {
   const [searchError, setSearchError] = useState(false);
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
+
+  const { data } = useContext(gState);
+  const { empIDs } = data;
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -73,7 +77,7 @@ function Shifts() {
   };
 
   const handleSearch = async () => {
-    if (searchId && searchId > 0) {
+    if (searchId && searchId > 0&&empIDs.includes(parseInt(searchId, 10))) {
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
@@ -157,7 +161,7 @@ function Shifts() {
                   onClick={handleSearch}
                   disabled={searchLoading}
                 >
-                  <SearchIcon />
+                 {searchLoading ? "جارى البحث" : <SearchIcon />}
                 </button>
                 <div className="form-outline">
                   <input

@@ -5,6 +5,7 @@ export const gState = createContext();
 const Context = ({ children }) => {
   const [data, setData] = useState({
     baseSalary: "",
+    empIDs: [],
   });
 
   return (

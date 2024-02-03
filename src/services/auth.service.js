@@ -22,6 +22,7 @@ export const login = async (email, password) => {
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("isLoggedIn", true);
     localStorage.setItem('role',response.data.user.role)
+    localStorage.setItem('username',response.data.user.username)
     console.log(response.data)
     return response.data;
   } catch (error) {

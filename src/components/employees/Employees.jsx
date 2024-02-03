@@ -12,6 +12,8 @@ import {
 } from "../../services/employee.service";
 import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from "@mui/material";
+import { useContext } from "react";
+import { gState } from "../../context/Context";
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -25,6 +27,9 @@ const Employees = () => {
   const [searchData, setSearchData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [showSearchData, setShowSearchData] = useState(false);
+  const [empIDs, setEmpIDs] = useState([]);
+
+  const { setData } = useContext(gState);
 
   const [isPageLoading, setIsPageLoading] = useState(false);
   const navigate = useNavigate();
@@ -42,7 +47,18 @@ const Employees = () => {
     setIsPageLoading(true);
     try {
       const data = await getAllEmployees();
+      const employeeIds = data.employees.map((employee) => employee.id);
+
       setEmployees(data.employees);
+      setEmpIDs(employeeIds);
+
+      await setData((prevState) => {
+        return {
+          ...prevState,
+          empIDs: employeeIds,
+        };
+      });
+
       setError('');
       setIsPageLoading(false);
     } catch (error) {
@@ -61,19 +77,24 @@ const Employees = () => {
     getData();
   }, [getData]);
 
+  console.log(empIDs.includes(parseInt(searchId, 10)), searchId);
   const handleSearch = async () => {
-    console.log("Search ID:", searchId);
-    if (searchId === "") {
-      return;
-    }
     try {
-      setSearchLoading(true);
-      await getEmployeeById(searchId);
-      navigate(`details/${searchId}`);
-      setSearchError(false);
-      setSearchLoading(false);
+      if (empIDs.includes(parseInt(searchId, 10))) {
+        console.log("Search ID:", searchId);
+        setSearchLoading(true);
+        await getEmployeeById(searchId);
+        console.log("Employee details fetched successfully");
+        navigate(`details/${searchId}`);
+        setSearchError(false);
+      } else {
+        console.log("Invalid search ID or not found in empIDs");
+        setSearchError(true);
+      }
     } catch (error) {
+      console.error("Error fetching employee details:", error);
       setSearchError(true);
+    } finally {
       setSearchLoading(false);
 
       const timeout = setTimeout(() => {
@@ -83,6 +104,7 @@ const Employees = () => {
       return () => clearTimeout(timeout);
     }
   };
+
 
   const handleBigSearch = async () => {
     console.log("searchInput :", searchInput);
@@ -133,7 +155,7 @@ const Employees = () => {
           <div className="input-group my-4 centered">
             <button
               type="button"
-              className={`btn btn-${showSearchData?'secondary':'primary'}`}
+              className={`btn btn-${showSearchData ? 'secondary' : 'primary'}`}
               style={{ height: "38px" }}
               data-mdb-ripple-init
               onClick={handleBigSearch}
@@ -165,13 +187,14 @@ const Employees = () => {
               style={{ height: "38px" }}
               data-mdb-ripple-init
               onClick={handleSearch}
+              disabled={searchLoading}
             >
               {searchLoading ? "جارى البحث" : <SearchIcon />}
             </button>
             <div className="form-outline">
               <input
                 autoComplete="off"
-                type="search"
+                type="number"
                 id="form1"
                 className="form-control text-center"
                 placeholder="ابحث بكود الموظف"
@@ -185,7 +208,7 @@ const Employees = () => {
       <Row>
         <Col>
           {error && <p className="text-danger text-center">{error}</p>}
-          <table className="table my-custom-table text-end">
+          <table className="table my-custom-table text-center">
             <thead>
               <tr>
                 <th scope="col">رقم الهاتف</th>
@@ -211,9 +234,9 @@ const Employees = () => {
                 </tr>
               ))}
             </tbody>
-            
+
           </table>
-          <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
+          <div className="centered"> {isPageLoading && <CircularProgress />}</div>
         </Col>
       </Row>
 
