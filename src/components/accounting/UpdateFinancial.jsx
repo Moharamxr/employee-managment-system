@@ -207,7 +207,7 @@ const UpdateFinancial = ({
                       className="form-control border-0 text-center"
                       style={{
                         backgroundColor: "white",
-                        width: "138px",
+                        width: "250px",
                       }}
                       type="text"
                       disabled
