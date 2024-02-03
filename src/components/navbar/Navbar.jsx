@@ -4,7 +4,6 @@ import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -27,9 +26,9 @@ export default function Navbar() {
     const path = location.pathname;
     setShowNav(path !== "/login");
     setActive(path);
-    window.addEventListener("beforeunload", function (event) {
-      handleSignOut();
-    });
+    // window.addEventListener("beforeunload", function (event) {
+    //   handleSignOut();
+    // });
   }, [location]);
 
   const handleSignOut = async () => {
@@ -39,19 +38,24 @@ export default function Navbar() {
     navigate("/login");
   };
   const isAccountant = localStorage.getItem("role") === "accountant";
-  const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   return (
     <>
-      {showNav &&isLoggedIn&& (
+      {showNav && isLoggedIn && (
         <>
           <AppBar
             position="fixed"
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
-            <Toolbar>
-              <img src={require('../../media/logo-old-wide-01_s.png')} alt="logo" className="logo"/>
+            <Toolbar className="d-flex justify-content-between align-content-center">
+              <div>
+                <img src={require('../../media/logo-old-wide-01_s.png')} alt="logo" className="logo" />
+              </div>
+              <p className="text-end text-dark mt-2"><h5 className="p-0 m-0 mt-1">أهلا احمد عبدالله<br /></h5>{!isAccountant?'محاسب':'سكيرتير'}</p>
+              
             </Toolbar>
           </AppBar>
+
           <Drawer
             variant="permanent"
             sx={{
@@ -81,9 +85,8 @@ export default function Navbar() {
                     <ListItemButton>
                       <ListItemIcon>
                         <PaidIcon
-                          color={`${
-                            active === "/accounting" ? "primary" : "action"
-                          }`}
+                          color={`${active === "/accounting" ? "primary" : "action"
+                            }`}
                         />
                       </ListItemIcon>
                       <ListItemText primary={"الحسابات"} />

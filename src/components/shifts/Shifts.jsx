@@ -192,7 +192,7 @@ function Shifts() {
                       <input
                         autoComplete="off"
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white" }}
+                        style={{ backgroundColor: "white",width: "220px",}}
                         type="text"
                         disabled
                         id="empID"
@@ -207,7 +207,7 @@ function Shifts() {
                       <input
                         autoComplete="off"
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white" }}
+                        style={{ backgroundColor: "white", }}
                         type="text"
                         disabled
                         id="empID"

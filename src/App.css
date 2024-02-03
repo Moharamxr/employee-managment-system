@@ -75,3 +75,6 @@ input[type="number"] {
   width: 15rem !important;
   hight: 15rem !important;
 }
+.cardWithMargin {
+  margin-left: 16px;
+}

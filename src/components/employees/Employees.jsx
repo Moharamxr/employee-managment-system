@@ -8,15 +8,22 @@ import SearchIcon from "@mui/icons-material/Search";
 import {
   getAllEmployees,
   getEmployeeById,
+  searchForAll,
 } from "../../services/employee.service";
+import CloseIcon from '@mui/icons-material/Close';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [searchError, setSearchError] = useState(false);
+  const [searchError2, setSearchError2] = useState(false);
   const [error, setError] = useState("");
   const [searchId, setSearchId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [searchLoading2, setSearchLoading2] = useState(false);
+  const [searchData, setSearchData] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [showSearchData, setShowSearchData] = useState(false);
   const navigate = useNavigate();
 
   const openModal = () => {
@@ -32,7 +39,6 @@ const Employees = () => {
     try {
       const data = await getAllEmployees();
       setEmployees(data.employees);
-      console.log(data.employees);
       setError('');
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -70,10 +76,77 @@ const Employees = () => {
     }
   };
 
+  const handleBigSearch = async () => {
+    console.log("searchInput :", searchInput);
+
+    try {
+      setSearchLoading2(true);
+
+      if (searchInput !== "" && !showSearchData) {
+        const data = await searchForAll(searchInput);
+
+        setShowSearchData(true);
+        setSearchData(data.employees);
+        setSearchError2(false);
+      } else {
+        setShowSearchData(false);
+        setSearchData([]);
+      }
+
+      setSearchLoading2(false);
+    } catch (error) {
+      setSearchError2(true);
+      setSearchLoading2(false);
+
+      const timeout = setTimeout(() => {
+        setSearchError2(false);
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  };
+
+  const whichData = () => {
+    if (showSearchData) {
+      return searchData || [];
+    } else {
+      return employees || [];
+    }
+  };
+
+  const DATA = whichData();
   return (
     <Container>
       <Row>
-        <Col xs={12}>
+        <Col xs={6} className="px-0">
+          {searchError2 && (
+            <p className="text-danger text-center"> غير صحيح حاول مجدداً</p>
+          )}
+          <div className="input-group my-4 centered">
+            <button
+              type="button"
+              className={`btn btn-${showSearchData?'secondary':'primary'}`}
+              style={{ height: "38px" }}
+              data-mdb-ripple-init
+              onClick={handleBigSearch}
+              disabled={searchLoading2}
+            >
+              {searchLoading2 ? "جارى البحث" : showSearchData ? <CloseIcon /> : <SearchIcon />}
+            </button>
+            <div className="form-outline">
+              <input
+                autoComplete="off"
+                type="search"
+                id="form2"
+                className="form-control text-center"
+                placeholder="ابحث بأسم, وظيفة, مكان عمل, رقم هاتف, رقم قومى "
+                style={{ width: "400px" }}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+            </div>
+          </div>
+        </Col>
+        <Col xs={5}>
           {searchError && (
             <p className="text-danger text-center">كود غير صحيح حاول مجدداً</p>
           )}
@@ -89,12 +162,12 @@ const Employees = () => {
             </button>
             <div className="form-outline">
               <input
-              autoComplete="off"
+                autoComplete="off"
                 type="search"
                 id="form1"
                 className="form-control text-center"
                 placeholder="ابحث بكود الموظف"
-                style={{ width: "300px" }}
+                style={{ width: "250px" }}
                 onChange={(e) => setSearchId(e.target.value)}
               />
             </div>
@@ -103,7 +176,7 @@ const Employees = () => {
       </Row>
       <Row>
         <Col>
-        {error&&<p className="text-danger text-center">{error}</p>}
+          {error && <p className="text-danger text-center">{error}</p>}
           <table className="table my-custom-table text-end">
             <thead>
               <tr>
@@ -116,7 +189,7 @@ const Employees = () => {
               </tr>
             </thead>
             <tbody>
-              {employees.map((item) => (
+              {Array.isArray(DATA) && DATA.map((item) => (
                 <tr
                   key={item.id}
                   onClick={() => navigate(`details/${item.id}`)}

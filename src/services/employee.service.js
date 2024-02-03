@@ -16,10 +16,10 @@ export const getAllEmployees = async () => {
     return response.data;
   } catch (error) {
     console.error(error);
-    console.log("req",error.response.status);
+    console.log("req", error.response.status);
     console.log('Status Code:', error.response.status);
     console.error(error.response.data.error);
-    
+
   }
 };
 export const getAllEmployeeById = async (id) => {
@@ -42,7 +42,7 @@ export const getAllEmployeeById = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    
+
   }
 };
 export const getEmployeeById = async (id) => {
@@ -65,14 +65,14 @@ export const getEmployeeById = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    
+
   }
 };
 
 export const addEmployee = async (newEmployeeData) => {
   try {
     const token = localStorage.getItem("token");
-    
+
     const requestBody = {
       name: newEmployeeData.name,
       jobRole: newEmployeeData.jobRole,
@@ -94,7 +94,7 @@ export const addEmployee = async (newEmployeeData) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    
+
   }
 };
 
@@ -124,7 +124,7 @@ export const updateEmployee = async (newEmployeeData) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    
+
   }
 };
 
@@ -146,6 +146,38 @@ export const deleteEmployee = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    
+
   }
+};
+
+export const searchForAll = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `${path}/employees/search`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          query: data,
+        },
+      }
+    );
+
+    console.log("Employee by ID fetched successfully");
+    console.log(response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+
+    if (error.response) {
+      console.error(error.response.data.error);
+    }
+  }
+
+
 };

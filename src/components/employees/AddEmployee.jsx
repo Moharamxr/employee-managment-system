@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { addEmployee } from "../../services/employee.service";
@@ -10,9 +10,12 @@ const AddEmployee = ({ isOpen, onClose }) => {
   const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [baseSalary, setBaseSalary] = useState("");
-
+  const [paymentMethod, setPaymentMethod] = useState("كاش");
+  const [bankNumber, setBankNumber] = useState("");
+  const [isBank, setIsBank] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
 
   const reset = () => {
     setError("");
@@ -32,8 +35,12 @@ const AddEmployee = ({ isOpen, onClose }) => {
       phone: phone,
       workAddress: workAddress,
       baseSalary: baseSalary,
+      paymentMethod:paymentMethod,
     };
-    console.log(newData);
+    if (bankNumber.trim() !== "") {
+      newData.bankNumber = bankNumber;
+    }
+    
     if (
       name !== "" &&
       jobRole !== "" &&
@@ -215,6 +222,47 @@ const AddEmployee = ({ isOpen, onClose }) => {
                     </div>
                   </Col>
                 </Row>
+                <Row>
+                  <Col sm={6}>
+                    {isBank && (
+                      <div className="form-group text-end">
+                        <label htmlFor="name">رقم الحساب البنكى</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="name"
+                          value={bankNumber}
+                          onChange={(e) => setBankNumber(e.target.value)}
+                        />
+                      </div>
+                    )}
+                  </Col>
+                  <Col sm={6}>
+                    <div className="form-group text-end">
+                      <label htmlFor="job">طريقة صرف الراتب</label>
+                      <Form.Select
+                        className="form-control"
+                        name="job"
+                        id="job"
+                        value={paymentMethod}
+                        onChange={(e) => {
+                          const selectedPaymentMethod = e.target.value;
+                          setPaymentMethod(selectedPaymentMethod);
+                          setIsBank(selectedPaymentMethod === "حساب بنكى");
+                        }}
+                      >
+                        <option value="كاش">كاش</option>
+                        <option value="حساب بنكى">حساب بنكى</option>
+                        <option value="فوري">فوري</option>
+                        <option value="فودافون كاش">فودافون كاش</option>
+                        <option value="بريد">بريد</option>
+                      </Form.Select>
+                    </div>
+                  </Col>
+                </Row>
+
               </div>
             </div>
             <div className="modal-footer">
