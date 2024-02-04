@@ -18,7 +18,6 @@ function Accounting() {
 
   const { data, setData } = useContext(gState);
   const { empIDs } = data;
-console.log(empIDs);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
@@ -34,7 +33,7 @@ console.log(empIDs);
   const [bonuses, setBonuses] = useState([]);
   const [totalBonuses, setTotalBonuses] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [bankAccount,setBankAccount] = useState("");
+  const [bankAccount, setBankAccount] = useState("");
   const [loans, setLoans] = useState([]);
   const [totalLoans, setTotalLoans] = useState("");
 
@@ -100,7 +99,7 @@ console.log(empIDs);
 
   };
   const handleSearch = async () => {
-    if (searchId && searchId > 0 && empIDs.includes(parseInt(searchId, 10))) {
+    if (searchId && searchId > 0 /*&& empIDs.includes(parseInt(searchId, 10))*/) {
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
@@ -181,7 +180,7 @@ console.log(empIDs);
                   onClick={handleSearch}
                   disabled={searchLoading}
                 >
-                 {searchLoading ? "جارى البحث" : <SearchIcon />}
+                  {searchLoading ? "جارى البحث" : <SearchIcon />}
                 </button>
                 <div className="form-outline">
                   <input
@@ -200,7 +199,7 @@ console.log(empIDs);
           </Row>
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
-            <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
+              <div className="centered"> {isPageLoading && <CircularProgress />}</div>
               {show && (
                 <>
                   <ListGroup.Item className="text-end">

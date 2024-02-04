@@ -97,46 +97,46 @@ const UpdateFinancial = ({
     };
 
     if (value && value > 0) {
-      if(type === 'loan' || type === 'deduction') {
-        if(value <= baseSalary){
+      if (type === 'loan' || type === 'deduction') {
+        if (value <= totalSalary) {
           setIsLLoading(true);
-        try {
-          await addFinancial(newData);
+          try {
+            await addFinancial(newData);
 
-          reset();
-          getData(id);
-          setIsSuccess(true);
+            reset();
+            getData(id);
+            setIsSuccess(true);
 
-          const timeout = setTimeout(() => {
+            const timeout = setTimeout(() => {
+              setIsSuccess(false);
+            }, 3000);
+
+            return () => clearTimeout(timeout);
+          } catch (error) {
+            console.log("Error adding financial data:", error);
             setIsSuccess(false);
-          }, 3000);
+            setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
+            const timeout = setTimeout(() => {
+              setError("");
+            }, 3000);
 
-          return () => clearTimeout(timeout);
-        } catch (error) {
-          console.log("Error adding financial data:", error);
-          setIsSuccess(false);
-          setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
-          const timeout = setTimeout(() => {
-            setError("");
-          }, 3000);
-
-          return () => clearTimeout(timeout);
-        } finally {
-          setIsLLoading(false);
-        }
-        }else {
+            return () => clearTimeout(timeout);
+          } finally {
+            setIsLLoading(false);
+          }
+        } else {
           console.log("Invalid loan value");
           setError("يجب ان تكون قيمة الأستقطاع اقل من صافى الراتب");
-  
+
           setIsSuccess(false);
           setIsLLoading(false);
           const timeout = setTimeout(() => {
             setError("");
           }, 3000);
-  
+
           return () => clearTimeout(timeout);
         }
-        
+
       } else {
         setIsLLoading(true);
         try {
@@ -194,7 +194,7 @@ const UpdateFinancial = ({
 
             <div className="modal-body">
               <ListGroup variant="flush">
-                {error ? <p className="text-center text-danger">{error}</p>:<p className="text-center text-white">{error}</p>}
+                {error ? <p className="text-center text-danger">{error}</p> : <p className="text-center text-white">{error}</p>}
                 {isSuccess && (
                   <p className="text-end">
                     تم الإضافة بنجاح
@@ -218,153 +218,6 @@ const UpdateFinancial = ({
                     <label htmlFor="empName">أسم الموظف</label>
                   </div>
                 </ListGroup.Item>
-
-                {/* <ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5 mb-5">
-                    <div className="d-flex me-5">
-                      <input
-                        className="form-control text-center "
-                        style={{
-                          backgroundColor: "lightgrey",
-                          width: "138px",
-                        }}
-                        type="number"
-                        id="baseSalary"
-                        onChange={(e) => setBaseSalary(e.target.value)}
-                        value={baseSalary}
-                      />
-
-                      <button
-                        type="button"
-                        className="btn btn-primary  p-2 "
-                        style={{ height: "38px" }}
-                        data-mdb-ripple-init
-                        onClick={handleUpdateBaseSalary}
-                        disabled={isLoading}
-                      >
-                        تحديث
-                      </button>
-                    </div>
-
-                    <label htmlFor="baseSalary">الراتب الأساسى</label>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5 mb-5">
-                    <div className="d-flex me-5">
-                      <input
-                        className="form-control text-center  "
-                        style={{
-                          backgroundColor: "lightgrey",
-                          width: "138px",
-                        }}
-                        type="number"
-                        id="loans"
-                        onChange={(e) => setLoan(e.target.value)}
-                        value={loan}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-primary p-2 text-center"
-                        style={{ height: "38px" }}
-                        data-mdb-ripple-init
-                        onClick={handleAddLoans}
-                        disabled={isLLoading}
-                      >
-                        إضافة
-                      </button>
-                    </div>
-
-                    <label htmlFor="loans">سلف</label>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5 mb-5">
-                    <div className="d-flex me-5">
-                      <input
-                        className="form-control text-center  "
-                        style={{
-                          backgroundColor: "lightgrey",
-                          width: "138px",
-                        }}
-                        type="number"
-                        id="deductions"
-                        onChange={(e) => setDeduction(e.target.value)}
-                        value={deduction}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-primary p-2 text-center"
-                        style={{ height: "38px" }}
-                        data-mdb-ripple-
-                        onClick={handleAddDeduction}
-                        disabled={isDLoading}
-                      >
-                        إضافة
-                      </button>
-                    </div>
-
-                    <label htmlFor="deductions">استقطاعات</label>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5 mb-5">
-                    <div className="d-flex me-5">
-                      <input
-                        className="form-control text-center"
-                        style={{
-                          backgroundColor: "lightgrey",
-                          width: "138px",
-                        }}
-                        type="number"
-                        id="Compensation"
-                        onChange={(e) => setCompensation(e.target.value)}
-                        value={compensation}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-primary p-2 text-center"
-                        style={{ height: "38px" }}
-                        data-mdb-ripple-init
-                        onClick={handleAddCompensation}
-                        disabled={isCLoading}
-                      >
-                        إضافة
-                      </button>
-                    </div>
-
-                    <label htmlFor="Compensation">بدلات</label>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5 mb-5">
-                    <div className="d-flex me-5">
-                      <input
-                        className="form-control text-center"
-                        style={{
-                          backgroundColor: "lightgrey",
-                          width: "138px",
-                        }}
-                        type="number"
-                        id="bonus"
-                        onChange={(e) => setBonus(e.target.value)}
-                        value={bonus}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-primary p-2 text-center"
-                        style={{ height: "38px" }}
-                        data-mdb-ripple-init
-                        onClick={handleAddBonus}
-                        disabled={isBLoading}
-                      >
-                        إضافة
-                      </button>
-                    </div>
-
-                    <label htmlFor="bonus">مكافئات</label>
-                  </div>
-                </ListGroup.Item> */}
                 <Tabs
                   defaultActiveKey="Loans"
                   id="fill-tab-example"
