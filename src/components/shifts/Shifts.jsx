@@ -142,12 +142,13 @@ function Shifts() {
     return formattedTime;
   }
 
-  const handleDeleteShift = async () => {
+  const handleDeleteShift = async (id) => {
+    console.log(id)
     const decision = window.confirm("هل متأكد أنك تريد حذف هذا الشيفت ؟");
 
     if (decision) {
       alert("لقد تم حذف الشيفت");
-      await deleteShift(searchId);
+      await deleteShift(id);
       getEmployeeShifts(searchId);
     }
   };
@@ -345,7 +346,7 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
-                        {isAdmin && <td scope="col"><DeleteIcon className="delete-icon" onClick={handleDeleteShift} />
+                        {isAdmin && <td scope="col"><DeleteIcon className="delete-icon" onClick={()=>handleDeleteShift(item._id)} />
                         </td>}
 
                         {!isSecretary ? <>
