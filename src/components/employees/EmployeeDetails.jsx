@@ -12,7 +12,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import {
   deleteEmployee,
-  getAllEmployeeById,
   getEmployeeById,
   updateEmployee,
 } from "../../services/employee.service";
@@ -44,7 +43,7 @@ const EmployeeDetails = () => {
   };
   const getEmployeeByID = async (id) => {
     try {
-      const data = await getAllEmployeeById(id);
+      const data = await getEmployeeById(id);
 
       setName(data.employee.name);
       setSsn(data.employee.ssn);

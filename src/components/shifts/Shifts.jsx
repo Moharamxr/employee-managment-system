@@ -2,11 +2,10 @@ import { Card, Container, ListGroup } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { deleteShift, getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
 import ManageShifts from "./ManageShifts";
 import { CircularProgress } from "@mui/material";
-import { gState } from "../../context/Context";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function Shifts() {
@@ -14,8 +13,7 @@ function Shifts() {
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const { data } = useContext(gState);
-  const { empIDs } = data;
+  
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -55,13 +53,10 @@ function Shifts() {
         const AccShiftsData = await getShiftsFinancial(id);
         handelSetData(AccShiftsData);
         setIsPageLoading(false);
-
       } else {
         const SecShiftsData = await getShiftByEmployeeId(id);
         handelSetData(SecShiftsData);
         setIsPageLoading(false);
-
-
       }
       setShow(true);
     } catch (error) {

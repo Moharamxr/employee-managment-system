@@ -572,8 +572,6 @@ function Accounting() {
                           <td>{item.deductionDays}</td>
                           <td>{item.bonusDays}</td>
                           <td>{item.daysWorked}</td>
-
-
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}

@@ -21,7 +21,7 @@ export default function SignIn() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(email, password);
+    
     setIsLoading(true);
     try {
       await login(email, password);
