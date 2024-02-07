@@ -84,7 +84,7 @@ const PaymentDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "220px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"

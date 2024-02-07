@@ -100,11 +100,8 @@ const Employees = () => {
       return () => clearTimeout(timeout);
     }
   };
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
+ 
+  
 
 
   const handleBigSearch = async () => {
@@ -173,7 +170,7 @@ const Employees = () => {
                 placeholder="ابحث بأسم, وظيفة, مكان عمل, رقم هاتف, رقم قومى "
                 style={{ width: "190%" }}
                 onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={handleKeyPress}
+             
               />
             </div>
           </div>
