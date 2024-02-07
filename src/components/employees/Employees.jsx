@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from "@mui/material";
 import { useContext } from "react";
 import { gState } from "../../context/Context";
+import { getAllLoans } from "../../services/loans.service";
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -47,9 +48,9 @@ const Employees = () => {
     setIsPageLoading(true);
     try {
       const data = await getAllEmployees();
-      const employeeIds = data.employees.map((employee) => employee.id);
-
       setEmployees(data.employees);
+      
+      const employeeIds = data.employees.map((employee) => employee.id);
       setEmpIDs(employeeIds);
 
       await setData((prevState) => {
@@ -63,11 +64,6 @@ const Employees = () => {
       setIsPageLoading(false);
     } catch (error) {
       setIsPageLoading(false);
-      if (error.response && error.response.status === 401) {
-        console.log(error.response.status)
-        navigate("/");
-        return;
-      }
       setError(error.response.data.error);
     }
     setIsPageLoading(false);
@@ -77,7 +73,7 @@ const Employees = () => {
     getData();
   }, [getData]);
 
-  console.log(empIDs.includes(parseInt(searchId, 10)), searchId);
+
   const handleSearch = async () => {
     try {
       if (empIDs.includes(parseInt(searchId, 10))) {
@@ -104,10 +100,15 @@ const Employees = () => {
       return () => clearTimeout(timeout);
     }
   };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
 
   const handleBigSearch = async () => {
-    console.log("searchInput :", searchInput);
+    
 
     try {
       setSearchLoading2(true);
@@ -148,7 +149,7 @@ const Employees = () => {
   return (
     <Container>
       <Row>
-        <Col xs={6} className="px-0">
+        <Col lg={6} xs={10} className="px-0">
           {searchError2 && (
             <p className="text-danger text-center"> غير صحيح حاول مجدداً</p>
           )}
@@ -170,13 +171,14 @@ const Employees = () => {
                 id="form2"
                 className="form-control text-center"
                 placeholder="ابحث بأسم, وظيفة, مكان عمل, رقم هاتف, رقم قومى "
-                style={{ width: "400px" }}
+                style={{ width: "190%" }}
                 onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={handleKeyPress}
               />
             </div>
           </div>
         </Col>
-        <Col xs={5}>
+        <Col lg={5} xs={10} className=" offset-md-1" >
           {searchError && (
             <p className="text-danger text-center">كود غير صحيح حاول مجدداً</p>
           )}
@@ -198,7 +200,7 @@ const Employees = () => {
                 id="form1"
                 className="form-control text-center"
                 placeholder="ابحث بكود الموظف"
-                style={{ width: "250px" }}
+                style={{ width: "15rem" }}
                 onChange={(e) => setSearchId(e.target.value)}
               />
             </div>

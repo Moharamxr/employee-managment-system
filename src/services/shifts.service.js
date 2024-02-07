@@ -44,6 +44,10 @@ export const getShiftByEmployeeId = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
+    if (error.response.status===401) {
+      localStorage.setItem("token",'');
+      localStorage.setItem('isLoggedIn',false); 
+      }
   }
 };
 export const getShiftsFinancial = async (id) => {
@@ -66,6 +70,10 @@ export const getShiftsFinancial = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
+    if (error.response.status===401) {
+      localStorage.setItem("token",'');
+      localStorage.setItem('isLoggedIn',false); 
+      }
   }
 };
 
@@ -76,6 +84,7 @@ export const addShift = async (newData) => {
     const requestBody = {
       date: newData.date,
       time: newData.time,
+      location:newData.location,
     };
 
     const response = await axios.post(
@@ -94,6 +103,35 @@ export const addShift = async (newData) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
+    if (error.response.status===401) {
+      localStorage.setItem("token",'');
+      localStorage.setItem('isLoggedIn',false); 
+      }
+  }
+};
+export const deleteShift = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(
+      `${path}/shifts/${id}`,
+      
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response.data.message);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    console.error(error.response.data.error);
+    if (error.response.status === 401) {
+      localStorage.setItem("token", "");
+      localStorage.setItem("isLoggedIn", false); 
+    }
   }
 };
 

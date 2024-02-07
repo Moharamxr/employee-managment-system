@@ -15,9 +15,14 @@ export const getAllEmployees = async () => {
     console.log(response.data.message);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.log("req", error.response.status);
     console.log('Status Code:', error.response.status);
+
     console.error(error.response.data.error);
 
   }
@@ -40,6 +45,10 @@ export const getAllEmployeeById = async (id) => {
     console.log(response.data);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
 
@@ -63,6 +72,10 @@ export const getEmployeeById = async (id) => {
     console.log(response.data);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
 
@@ -80,8 +93,8 @@ export const addEmployee = async (newEmployeeData) => {
       phone: newEmployeeData.phone,
       workAddress: newEmployeeData.workAddress,
       baseSalary: newEmployeeData.baseSalary,
-      paymentMethod:newEmployeeData.paymentMethod,
-      bankAccount : newEmployeeData.bankAccount,
+      paymentMethod: newEmployeeData.paymentMethod,
+      bankAccount: newEmployeeData.bankAccount,
     };
 
     const response = await axios.post(`${path}/employees/add`, requestBody, {
@@ -94,6 +107,10 @@ export const addEmployee = async (newEmployeeData) => {
     console.log(response.data.message);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
 
@@ -108,10 +125,12 @@ export const updateEmployee = async (newEmployeeData) => {
       id: newEmployeeData.id,
       name: newEmployeeData.name,
       jobRole: newEmployeeData.jobRole,
-      ssn: newEmployeeData.ssn,
+
       phone: newEmployeeData.phone,
       workAddress: newEmployeeData.workAddress,
       baseSalary: newEmployeeData.baseSalary,
+      paymentMethod: newEmployeeData.paymentMethod,
+      bankAccount: newEmployeeData.bankAccount,
     };
 
     const response = await axios.put(`${path}/employees/update/${newEmployeeData.id}`, requestBody, {
@@ -124,6 +143,10 @@ export const updateEmployee = async (newEmployeeData) => {
     console.log(response.data.message);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
 
@@ -146,6 +169,10 @@ export const deleteEmployee = async (id) => {
     console.log(response.data.message);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
 
@@ -174,6 +201,10 @@ export const searchForAll = async (data) => {
 
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
 
     if (error.response) {

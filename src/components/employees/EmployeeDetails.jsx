@@ -12,6 +12,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import {
   deleteEmployee,
+  getAllEmployeeById,
   getEmployeeById,
   updateEmployee,
 } from "../../services/employee.service";
@@ -26,20 +27,12 @@ const EmployeeDetails = () => {
   const [ssn, setSsn] = useState("");
   const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-  const [baseSalary, setBaseSalary] = useState("");
-  const [totalSalary, setTotalSalary] = useState("");
 
-  const [bonuses, setBonuses] = useState([]);
-  const [totalBonuses, setTotalBonuses] = useState("");
+  const [bankAccount, setBankAccount] = useState("");
+  const [isBank, setIsBank] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("");
 
-  const [loans, setLoans] = useState([]);
-  const [totalLoans, setTotalLoans] = useState("");
 
-  const [deductions, setDeductions] = useState([]);
-  const [totalDeductions, setTotalDeductions] = useState("");
-
-  const [compensations, setCompensations] = useState([]);
-  const [totalCompensations, setTotalCompensations] = useState("");
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,26 +44,24 @@ const EmployeeDetails = () => {
   };
   const getEmployeeByID = async (id) => {
     try {
-      const data = await getEmployeeById(id);
+      const data = await getAllEmployeeById(id);
 
       setName(data.employee.name);
       setSsn(data.employee.ssn);
       setJobRole(data.employee.jobRole);
       setPhone(data.employee.phone);
-      setBaseSalary(data.employee.baseSalary);
+
       setWorkAddress(data.employee.workAddress);
-      setTotalSalary(data.employee.totalSalary);
 
-      setBonuses(data.employee.bonuses.bonusesDetails);
-      setLoans(data.employee.loans.loansDetails);
-      setDeductions(data.employee.deductions.deductionsDetails);
-      setCompensations(data.employee.compensations.compensationsDetails);
+      setPaymentMethod(data.employee.paymentMethod);
+      if (data.employee.bankAccount) {
+        setBankAccount(data.employee.bankAccount);
+      }
 
-      setTotalBonuses(data.employee.bonuses.totalBonuses);
-      setTotalLoans(data.employee.loans.totalLoans);
-      setTotalDeductions(data.employee.deductions.totalDeductions);
-      setTotalCompensations(data.employee.compensations.totalCompensations);
-    } catch (error) {}
+
+    } catch (error) {
+      navigate('/')
+    }
   };
 
   useEffect(() => {
@@ -82,21 +73,25 @@ const EmployeeDetails = () => {
       id: id,
       name: name,
       jobRole: jobRole,
-      ssn: ssn,
+      
       phone: phone,
       workAddress: workAddress,
+      paymentMethod:paymentMethod,
     };
-    console.log(newData);
+    
+    if (paymentMethod==="حساب بنكى"&&bankAccount.trim() !== "") {
+      newData.bankAccount = bankAccount;
+    }
 
     if (
       id !== "" &&
       name !== "" &&
       jobRole !== "" &&
-      ssn !== "" &&
-      ssn.length === 14 &&
+      
       phone !== "" &&
       phone.length === 11 &&
-      workAddress !== ""
+      workAddress !== ""&&
+      paymentMethod !==''
     ) {
       setIsLoading(true);
 
@@ -148,7 +143,7 @@ const EmployeeDetails = () => {
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                     autoComplete="off"
-                    className="form-control w-50 border-0 form-control w-50  text-end"
+                    className="form-control w-50 border-0 form-control w-50  text-center"
                     style={{ backgroundColor: "white" }}
                     type="text"
                     disabled
@@ -162,7 +157,7 @@ const EmployeeDetails = () => {
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                     autoComplete="off"
-                    className="border-0 form-control w-50  text-end"
+                    className="border-0 form-control w-50  text-center"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
                     }}
@@ -206,7 +201,7 @@ const EmployeeDetails = () => {
                   ) : (
                     <input
                       autoComplete="off"
-                      className="border-0 form-control w-50  text-end"
+                      className="border-0 form-control w-50  text-center"
                       style={{
                         backgroundColor: "white ",
                       }}
@@ -230,7 +225,7 @@ const EmployeeDetails = () => {
                       value={workAddress}
                       onChange={(e) => setWorkAddress(e.target.value)}
                     >
-                      <option value="">اختر مكان العمل</option>
+                      
                       <option value="SeaBreeze 1">SeaBreeze 1</option>
                       <option value="SeaBreeze 7">SeaBreeze 7</option>
                       <option value="SeaBreeze 9">SeaBreeze 9</option>
@@ -244,7 +239,7 @@ const EmployeeDetails = () => {
                   ) : (
                     <input
                       autoComplete="off"
-                      className="border-0 form-control w-50  text-end"
+                      className="border-0 form-control w-50  text-center"
                       style={{
                         backgroundColor: "white ",
                       }}
@@ -261,12 +256,12 @@ const EmployeeDetails = () => {
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                     autoComplete="off"
-                    className="border-0 form-control w-50  text-end"
+                    className="border-0 form-control w-50  text-center"
                     style={{
-                      backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
+                      backgroundColor: "white ",
                     }}
                     type="number"
-                    disabled={!enableEdit}
+                    disabled
                     id="empNaID"
                     value={ssn}
                     onChange={(e) => setSsn(e.target.value)}
@@ -279,7 +274,7 @@ const EmployeeDetails = () => {
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                     autoComplete="off"
-                    className="border-0 form-control w-50  text-end"
+                    className="border-0 form-control w-50  text-center"
                     style={{
                       backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
                     }}
@@ -293,38 +288,61 @@ const EmployeeDetails = () => {
                   <label htmlFor="empPhone">رقم الهاتف</label>
                 </div>
               </ListGroup.Item>
-              {/* <ListGroup.Item className="text-end">
+              {paymentMethod==="حساب بنكى"&&<ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
-                  autoComplete="off"
-                    className="border-0 form-control w-50  text-end"
+                    autoComplete="off"
+                    className="border-0 form-control w-50  text-center"
                     style={{
-                      backgroundColor: "white ",
+                      backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
                     }}
                     type="number"
-                    disabled
-                    id="baseSalary"
-                    value={baseSalary}
+                    disabled={!enableEdit}
+                    id="empPhone"
+                    value={bankAccount}
+                    onChange={(e) => setBankAccount(e.target.value)}
                   />
 
-                  <label htmlFor="baseSalary">الراتب الأساسى</label>
+                  <label htmlFor="empPhone">الحساب البنكى</label>
                 </div>
-              </ListGroup.Item>
+              </ListGroup.Item>}
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
-                  <input
-                  autoComplete="off"
-                    className="form-control w-50 border-0 text-end"
-                    style={{ backgroundColor: "white" }}
-                    type="text"
-                    disabled
-                    id="salary"
-                    value={totalSalary}
-                  />
-
-                  <label htmlFor="salary">صافى اجمالى الراتب</label>
+                  {enableEdit ? (
+                    <Form.Select
+                      size="sm"
+                      className="w-50 float-start me-5 text-end bg-body-secondary"
+                      name="paymentMethod"
+                      id="paymentMethod"
+                      value={paymentMethod}
+                      onChange={(e) => {
+                        const selectedPaymentMethod = e.target.value;
+                        setPaymentMethod(selectedPaymentMethod);
+                        setIsBank(selectedPaymentMethod === "حساب بنكى");}}
+                    >
+                      <option value="كاش">كاش</option>
+                      <option value="حساب بنكى">حساب بنكى</option>
+                      <option value="فوري">فوري</option>
+                      <option value="فودافون كاش">فودافون كاش</option>
+                      <option value="بريد">بريد</option>
+                    </Form.Select>
+                  ) : (
+                    <input
+                      autoComplete="off"
+                      className="border-0 form-control w-50  text-center"
+                      style={{
+                        backgroundColor: "white ",
+                      }}
+                      type="text"
+                      disabled
+                      id="paymentMethod"
+                      value={paymentMethod}
+                    />
+                  )}
+                  <label htmlFor="paymentMethod"> طريقة القبض</label>
                 </div>
-              </ListGroup.Item> */}
+              </ListGroup.Item>
+
             </ListGroup>
           </Card>
           <button
@@ -334,9 +352,8 @@ const EmployeeDetails = () => {
             حذف الموظف
           </button>
           <button
-            className={`btn btn-${
-              enableEdit ? "secondary" : "primary"
-            } float-end`}
+            className={`btn btn-${enableEdit ? "secondary" : "primary"
+              } float-end`}
             onClick={toggleUpdate}
           >
             {!enableEdit ? "تحديث البيانات" : "إلغاء"}{" "}

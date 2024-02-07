@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -18,6 +18,8 @@ const ManageShifts = ({
   const [time, setTime] = useState(dayjs());
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
+
+  const [workAddress,setWorkAddress]=useState('');
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -50,9 +52,18 @@ const ManageShifts = ({
   const handleAddShift = async (newData) => {
     setIsLoading(true);
     try {
-      await addShift(newData);
-      reset();
+      const data =await addShift(newData);
+      if (data) {
+         reset();
       onClose();
+      }else{
+        setError("حدث خطأ أثناء إضافة الوردية.");
+        const timeout = setTimeout(() => {
+          setError("");
+        }, 3000);
+        return () => clearTimeout(timeout);
+      }
+     
     } catch (error) {
       setError("حدث خطأ أثناء إضافة الوردية.");
       const timeout = setTimeout(() => {
@@ -64,8 +75,8 @@ const ManageShifts = ({
     }
   };
   const now = dayjs();
-  console.log(date.isBefore(now))
-  
+
+
   const handleFormSubmit = () => {
     const formattedDate = date.format("YYYY-MM-DD");
     const formattedTime = time.format("HH:mm");
@@ -74,10 +85,11 @@ const ManageShifts = ({
       id: id,
       time: formattedTime,
       date: formattedDate,
+      location:workAddress,
     };
 
     if (inShift) {
-      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime) && date.isBefore(now)) {
+      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime) && date.isBefore(now)&&workAddress!=='') {
         handleAddShift(newData);
       } else {
         setError("يجب ان يكون تاريخ النزول بعد تاريخ الصعود");
@@ -142,6 +154,35 @@ const ManageShifts = ({
                   </LocalizationProvider>
                 </Col>
               </Row>
+              {!inShift&&<Row>
+                <Col>
+                  <div className="d-flex justify-content-between align-items-center me-5 my-3">
+
+                    <Form.Select
+                      size="sm"
+                      className="form-control w-50 float-start me-5 text-end "
+                      name="workAddress"
+                      id="workAddress"
+                      value={workAddress}
+                      onChange={(e) => setWorkAddress(e.target.value)}
+                    >
+                      <option value="">اختر مكان العمل</option>
+                      <option value="SeaBreeze 1">SeaBreeze 1</option>
+                      <option value="SeaBreeze 7">SeaBreeze 7</option>
+                      <option value="SeaBreeze 9">SeaBreeze 9</option>
+                      <option value="SeaBreeze 18">SeaBreeze 18</option>
+                      <option value="SeaBreeze 22">SeaBreeze 22</option>
+                      <option value="SeaBreeze 39">SeaBreeze 39</option>
+                      <option value="SeaBreeze 55">SeaBreeze 55</option>
+                      <option value="NAPHT">NAPHT</option>
+                      <option value="NAPHT 7">NAPHT 7</option>
+                      <option value="Waiting">Waiting</option>
+                    </Form.Select>
+
+                    <label htmlFor="workAddress">مكان العمل</label>
+                  </div>
+                </Col>
+              </Row>}
             </div>
             <div className="modal-footer">
               <button

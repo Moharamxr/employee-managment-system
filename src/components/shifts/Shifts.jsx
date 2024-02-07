@@ -3,10 +3,11 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
 import { useContext, useState } from "react";
-import { getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
+import { deleteShift, getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
 import ManageShifts from "./ManageShifts";
 import { CircularProgress } from "@mui/material";
 import { gState } from "../../context/Context";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Shifts() {
   const [searchError, setSearchError] = useState(false);
@@ -30,7 +31,10 @@ function Shifts() {
 
 
   const [show, setShow] = useState(false);
+  const isSecretary = localStorage.getItem("role") === "secretary";
   const isAccountant = localStorage.getItem("role") === "accountant";
+  const isAdmin = localStorage.getItem("role") === "admin";
+
 
   const handelSetData = (shiftsData) => {
     setId(shiftsData.employee.id);
@@ -47,15 +51,15 @@ function Shifts() {
   const getEmployeeShifts = async (id) => {
     setIsPageLoading(true);
     try {
-      if (isAccountant) {
+      if (!isSecretary) {
         const AccShiftsData = await getShiftsFinancial(id);
         handelSetData(AccShiftsData);
-    setIsPageLoading(false);
+        setIsPageLoading(false);
 
       } else {
         const SecShiftsData = await getShiftByEmployeeId(id);
         handelSetData(SecShiftsData);
-    setIsPageLoading(false);
+        setIsPageLoading(false);
 
 
       }
@@ -64,7 +68,7 @@ function Shifts() {
       setSearchError(true);
       setSearchLoading(false);
       setShow(false);
-    setIsPageLoading(false);
+      setIsPageLoading(false);
       const timeout = setTimeout(() => {
         setSearchError(false);
       }, 3000);
@@ -138,6 +142,16 @@ function Shifts() {
     return formattedTime;
   }
 
+  const handleDeleteShift = async () => {
+    const decision = window.confirm("هل متأكد أنك تريد حذف هذا الشيفت ؟");
+
+    if (decision) {
+      alert("لقد تم حذف الشيفت");
+      await deleteShift(searchId);
+      getEmployeeShifts(searchId);
+    }
+  };
+
 
 
   return (
@@ -160,7 +174,7 @@ function Shifts() {
                   onClick={handleSearch}
                   disabled={searchLoading}
                 >
-                 {searchLoading ? "جارى البحث" : <SearchIcon />}
+                  {searchLoading ? "جارى البحث" : <SearchIcon />}
                 </button>
                 <div className="form-outline">
                   <input
@@ -179,8 +193,8 @@ function Shifts() {
           </Row>
           <Card className="text-end border-0 mb-5">
             <ListGroup variant="flush">
-            <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
-              {show && (
+              <div className="centered"> {isPageLoading && <CircularProgress />}</div>
+              {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
                     <h4 className="text-center">ورديات الموظف</h4>
@@ -205,7 +219,7 @@ function Shifts() {
                       <input
                         autoComplete="off"
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white",width: "220px",}}
+                        style={{ backgroundColor: "white", width: "260px", }}
                         type="text"
                         disabled
                         id="empID"
@@ -302,24 +316,28 @@ function Shifts() {
           </Card>
         </Col>
       </Row>
-      {show && (
+      {show && !isPageLoading && (
         <>
-          {shifts.length > 0 ? (
+          {shifts && shifts.length > 0 ? (
             <Row className="centered my-5">
               <h4 className="text-center">ورديات سابقة </h4>
 
-              <Col sm={10}>
+              <Col >
                 <hr className="m-0 mt-1" />
                 <table className="table text-center">
                   <thead>
-                    <tr>
-                      {isAccountant && <th scope="col">صافى نقد الوردية </th>}
+                    <tr>{isAdmin && <th scope="col"> </th>}
+                      {!isSecretary && <th scope="col">صافى نقد الوردية </th>}
+
+
                       <th scope="col">صافى أيام العمل </th>
                       <th scope="col"> أيام مخصومة </th>
                       <th scope="col"> أيام مكافئة </th>
                       <th scope="col"> أيام العمل </th>
+                      
                       <th scope="col">وقت النزول</th>
                       <th scope="col">تاريخ النزول</th>
+                      <th scope="col"> مكان العمل </th>
                       <th scope="col">وقت الصعود</th>
                       <th scope="col">تاريخ الصعود</th>
                     </tr>
@@ -327,8 +345,11 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
-                        {isAccountant ? <>
-                        <td>{item.totalSalary}</td>
+                        {isAdmin && <td scope="col"><DeleteIcon className="delete-icon" onClick={handleDeleteShift} />
+                        </td>}
+
+                        {!isSecretary ? <>
+                          <td>{item.totalSalary !== null ? item.totalSalary : '---'}</td>
                           <td>
                             {item.duration !== null && item.deduction.days !== null && item.bonus.days !== null
                               ? item.duration + item.bonus.days - item.deduction.days
@@ -337,8 +358,8 @@ function Shifts() {
                           <td>{item.deduction.days !== null ? item.deduction.days : '---'}</td>
                           <td>{item.bonus.days !== null ? item.bonus.days : '---'}</td>
                           <td>{item.duration !== null ? item.duration : '---'}</td>
-                        </>:<>
-                        <td>
+                        </> : <>
+                          <td>
                             {item.duration !== null && item.deduction !== null && item.bonus !== null
                               ? item.duration + item.bonus - item.deduction
                               : '---'}
@@ -347,8 +368,10 @@ function Shifts() {
                           <td>{item.bonus !== null ? item.bonus : '---'}</td>
                           <td>{item.duration !== null ? item.duration : '---'}</td>
                         </>}
+                        
                         <td>{item.endTime ? convertTo12HourFormat(item.endTime.slice(11, 16)) : '---'}</td>
                         <td>{item.endTime ? item.endTime.slice(0, 10) : '---'}</td>
+                        <td>{item.location}</td>
                         <td>{item.startTime ? convertTo12HourFormat(item.startTime.slice(11, 16)) : '---'}</td>
                         <td>{item.startTime.slice(0, 10)}</td>
                       </tr>

@@ -78,3 +78,7 @@ input[type="number"] {
 .cardWithMargin {
   margin-left: 16px;
 }
+
+.delete-icon:hover {
+  color: red;
+}

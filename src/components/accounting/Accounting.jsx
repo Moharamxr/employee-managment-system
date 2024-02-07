@@ -18,7 +18,7 @@ function Accounting() {
 
   const { data, setData } = useContext(gState);
   const { empIDs } = data;
-console.log(empIDs);
+
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
@@ -100,7 +100,7 @@ console.log(empIDs);
 
   };
   const handleSearch = async () => {
-    if (searchId && searchId > 0 && empIDs.includes(parseInt(searchId, 10))) {
+    if (searchId && searchId > 0) {
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
@@ -134,7 +134,8 @@ console.log(empIDs);
     setSearchLoading(false);
   };
 
-  const isAccountant = localStorage.getItem("role") === "accountant";
+  const isSecretary = localStorage.getItem("role") === "secretary";
+
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -161,7 +162,7 @@ console.log(empIDs);
     }
   };
 
-  return isAccountant ? (
+  return !isSecretary ? (
     <Container>
       <Row className="centered">
         <Col sm={6}>
@@ -201,7 +202,7 @@ console.log(empIDs);
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
             <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
-              {show && (
+              {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
                     <h4 className="text-center">حسابات الموظف </h4>
@@ -224,7 +225,7 @@ console.log(empIDs);
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "220px" }}
+                        style={{ backgroundColor: "white", width: "270px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -457,7 +458,7 @@ console.log(empIDs);
           </Card>
         </Col>
       </Row>
-      {show && (
+      {show && !isPageLoading &&  (
         <>
           <Row className="centered my-5">
             <h4 className="text-center">حسابات سابقة</h4>
@@ -472,6 +473,7 @@ console.log(empIDs);
                   <table className="table text-center">
                     <thead>
                       <tr>
+                        <th scope="col">ملاحظة</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -479,6 +481,7 @@ console.log(empIDs);
                     <tbody>
                       {loans.map((item) => (
                         <tr key={item._id}>
+                          <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
@@ -490,6 +493,7 @@ console.log(empIDs);
                   <table className="table text-center">
                     <thead>
                       <tr>
+                        <th scope="col">ملاحظة</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -497,6 +501,7 @@ console.log(empIDs);
                     <tbody>
                       {compensations.map((item) => (
                         <tr key={item._id}>
+                          <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
@@ -508,6 +513,7 @@ console.log(empIDs);
                   <table className="table text-center">
                     <thead>
                       <tr>
+                        <th scope="col">ملاحظة</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -515,6 +521,7 @@ console.log(empIDs);
                     <tbody>
                       {bonuses.map((item) => (
                         <tr key={item._id}>
+                          <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
@@ -526,6 +533,7 @@ console.log(empIDs);
                   <table className="table text-center">
                     <thead>
                       <tr>
+                        <th scope="col">ملاحظة</th>
                         <th scope="col">القيمة</th>
                         <th scope="col">التاريخ</th>
                       </tr>
@@ -533,6 +541,7 @@ console.log(empIDs);
                     <tbody>
                       {deductions.map((item) => (
                         <tr key={item._id}>
+                          <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>

@@ -10,6 +10,7 @@ export const addFinancial = async (newData) => {
       id: newData.id,
       type: newData.type,
       amount: newData.amount,
+      description: newData.description,
     };
 
     const response = await axios.post(
@@ -26,6 +27,10 @@ export const addFinancial = async (newData) => {
     console.log(response.data.message);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
   }
@@ -53,6 +58,10 @@ export const payroll = async (newData) => {
     console.log(response.data.message);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
     console.error(error);
     console.error(error.response.data.error);
   }

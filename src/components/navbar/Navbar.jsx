@@ -14,6 +14,7 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../services/auth.service";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 const drawerWidth = 240;
 
@@ -37,26 +38,25 @@ export default function Navbar() {
     localStorage.setItem("isLoggedIn", false);
     navigate("/login");
   };
-  const isAccountant = localStorage.getItem("role") === "accountant";
-  const username = localStorage.getItem("username") ;
+  const isSecretary = localStorage.getItem("role") === "secretary";
+  const username = localStorage.getItem("username");
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-console.log(username)
   return (
     <>
       {showNav && isLoggedIn && (
         <>
-          <AppBar
-            position="fixed"
-            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          >
+          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar className="d-flex justify-content-between align-content-center">
               <div>
                 <img src={require('../../media/logo-old-wide-01_s.png')} alt="logo" className="logo" />
               </div>
-              <p className="text-end text-dark p-0 m-0 mt-2"><h5 className="p-0 m-0 mt-1">Welcome, {username&&username}<br /></h5>{isAccountant?'محاسب':'سكيرتير'}</p>
-              
+              <div className="text-end text-dark">
+                <h5 className="m-0">Welcome, {username && username}</h5>
+                {/* <p className="m-0">{localStorage.getItem("username")}</p> */}
+              </div>
             </Toolbar>
           </AppBar>
+
 
           <Drawer
             variant="permanent"
@@ -82,18 +82,29 @@ console.log(username)
                     <ListItemText primary={"الموظفين"} />
                   </ListItemButton>
                 </ListItem>
-                {isAccountant && (
+                {!isSecretary && (<>
                   <ListItem onClick={() => navigate("/accounting")}>
                     <ListItemButton>
                       <ListItemIcon>
                         <PaidIcon
-                          color={`${active === "/accounting" ? "primary" : "action"
+                          color={`${active.includes("/accounting") ? "primary" : "action"
                             }`}
                         />
                       </ListItemIcon>
                       <ListItemText primary={"الحسابات"} />
                     </ListItemButton>
                   </ListItem>
+                  <ListItem onClick={() => navigate("/loans")}>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <AccountBalanceWalletIcon
+                          color={`${active.includes("/loans") ? "primary" : "action"
+                            }`}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={"الديون"} />
+                    </ListItemButton>
+                  </ListItem></>
                 )}
                 <ListItem onClick={() => navigate("/shifts")}>
                   <ListItemButton>
