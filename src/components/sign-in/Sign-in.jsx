@@ -114,7 +114,7 @@ export default function SignIn() {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  disabled={!isLoading}
+                  disabled={isLoading}
                 >
                   {isLoading ? "جاري تسجيل الدخول" : "تسجيل الدخول"}
                 </Button>
