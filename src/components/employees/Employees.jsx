@@ -64,7 +64,7 @@ const Employees = () => {
       setIsPageLoading(false);
     } catch (error) {
       setIsPageLoading(false);
-      setError(error.response.data.error);
+      setError('Error while loading');
     }
     setIsPageLoading(false);
   }, [navigate]);

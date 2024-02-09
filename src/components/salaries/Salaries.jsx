@@ -13,7 +13,7 @@ import { gState } from "../../context/Context";
 const Salaries = () => {
   const [employees, setEmployees] = useState([]);
   const [totalSalaries, setTotalSalaries] = useState();
-  
+
   const [error, setError] = useState("");
   const [empIDs, setEmpIDs] = useState([]);
 
@@ -22,12 +22,12 @@ const Salaries = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const navigate = useNavigate();
 
-  const [all,setAll]=useState(true);
+  const [all, setAll] = useState(false);
 
-  const getData = useCallback(async () => {
+  const getData = useCallback(async (flag) => {
     setIsPageLoading(true);
     try {
-      const data = await getAllUnPaidEmployees(all);
+      const data = await getAllUnPaidEmployees(flag);
       setEmployees(data.employees);
       setTotalSalaries(data.totalSalaries);
       const employeeIds = data.employees.map((employee) => employee.id);
@@ -44,14 +44,14 @@ const Salaries = () => {
       setIsPageLoading(false);
     } catch (error) {
       setIsPageLoading(false);
-      setError(error.response.data.error);
+      setError(true);
     }
     setIsPageLoading(false);
   }, [navigate]);
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    getData(all);
+  }, [getData, all]);
 
 
   return (
@@ -59,12 +59,13 @@ const Salaries = () => {
       <Row>
         <Col>
           {error && <p className="text-danger text-center">{error}</p>}
-          <h2 className="text-center mt-3">مرتبات غير مدفوعة</h2>
+          <h2 className="text-center mt-3">مرتبات {!all && 'ورديات '}غير مدفوعة</h2>
           {!isPageLoading && <p className="text-end fs-5"> <b>إجمالى الرواتب المتبقية</b> : {totalSalaries}</p>}
+          {!isPageLoading && <button className="btn btn-primary float-start" onClick={() => setAll(!all)}>تبديل</button>}
           <table className="table my-custom-table text-center">
             <thead>
               <tr>
-                
+
                 <th scope="col">طريقة القبض</th>
                 <th scope="col">الراتب المرحل </th>
                 <th scope="col">صافى إجمالى الراتب</th>
@@ -77,12 +78,12 @@ const Salaries = () => {
               </tr>
             </thead>
             <tbody>
-              
-              {Array.isArray(employees) && employees.map((item) => (
+
+              {!isPageLoading && Array.isArray(employees) && employees.map((item) => (
                 <tr
                   key={item.id}
                 >
-                  
+
                   <td>{item.paymentMethod}</td>
                   <td>{item.delayedSalary}</td>
                   <td>{item.totalSalary}</td>
@@ -101,7 +102,7 @@ const Salaries = () => {
         </Col>
       </Row>
 
-      
+
     </Container>
   );
 };
