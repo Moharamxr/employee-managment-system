@@ -59,7 +59,7 @@ const Salaries = () => {
       <Row>
         <Col>
           {error && <p className="text-danger text-center">{error}</p>}
-          <h2 className="text-center mt-3">مرتبات {!all && 'ورديات '}غير مدفوعة</h2>
+          <h2 className="text-center mt-3">{!all ? 'مرتبات ورديات غير مدفوعة ' :'جميع المرتبات الغير مدفوعة' } </h2>
           {!isPageLoading && <p className="text-end fs-5"> <b>إجمالى الرواتب المتبقية</b> : {totalSalaries}</p>}
           {!isPageLoading && <button className="btn btn-primary float-start" onClick={() => setAll(!all)}>تبديل</button>}
           <table className="table my-custom-table text-center">
