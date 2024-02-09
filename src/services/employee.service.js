@@ -27,6 +27,31 @@ export const getAllEmployees = async () => {
 
   }
 };
+export const getAllUnPaidEmployees = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(`${path}/financials/unpayed`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data.message);
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false)
+      localStorage.setItem("token", '');
+    }
+    console.error(error);
+    console.log("req", error.response.status);
+    console.log('Status Code:', error.response.status);
+
+    console.error(error.response.data.error);
+
+  }
+};
 export const getAllEmployeeById = async (id) => {
   try {
     const token = localStorage.getItem("token");

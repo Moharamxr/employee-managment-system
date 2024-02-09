@@ -14,7 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from "@mui/material";
 import { useContext } from "react";
 import { gState } from "../../context/Context";
-import { getAllLoans } from "../../services/loans.service";
+
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);

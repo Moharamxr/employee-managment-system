@@ -11,6 +11,7 @@ import Plank from "./components/Plank.jsx";
 import Loans from "./components/loans/Loans.jsx";
 import LoanDetails from "./components/loans/LoanDetails.jsx";
 import PaymentDetails from "./components/loans/PaymentsDetails.jsx";
+import Salaries from "./components/salaries/Salaries.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           </Route>
           <Route path="/accounting" element={<Accounting />} />
           <Route path="/shifts" element={<Shifts />} />
+          <Route path="/salaries" element={<Salaries />} />
           <Route path="/loans" exact >
             <Route index element={<Loans />} />
             <Route path="pay/:id" element={<PaymentDetails />} />

@@ -104,7 +104,19 @@ export default function Navbar() {
                       </ListItemIcon>
                       <ListItemText primary={"الديون"} />
                     </ListItemButton>
-                  </ListItem></>
+                  </ListItem>
+                  <ListItem onClick={() => navigate("/salaries")}>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <AccountBalanceWalletIcon
+                          color={`${active.includes("/salaries") ? "primary" : "action"
+                            }`}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={"المرتبات"} />
+                    </ListItemButton>
+                  </ListItem>
+                  </>
                 )}
                 <ListItem onClick={() => navigate("/shifts")}>
                   <ListItemButton>
