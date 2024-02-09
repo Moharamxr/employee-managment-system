@@ -14,7 +14,6 @@ import PaymentDetails from "./components/loans/PaymentsDetails.jsx";
 import Salaries from "./components/salaries/Salaries.jsx";
 
 function App() {
-  
   return (
     <Layout>
       <Routes>
@@ -30,7 +29,6 @@ function App() {
             <Route index element={<Loans />} />
             <Route path="pay/:id" element={<PaymentDetails />} />
             <Route path="details/:id" element={<LoanDetails />} />
-
           </Route>
         </Route>
         <Route path="/login" element={<SignIn />} />
