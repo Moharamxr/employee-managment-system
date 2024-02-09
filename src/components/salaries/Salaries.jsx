@@ -61,7 +61,7 @@ const Salaries = () => {
         <Col>
           {error && <p className="text-danger text-center">{error}</p>}
           <h2 className="text-center mt-3">{!all ? 'مرتبات ورديات غير مدفوعة ' :'جميع المرتبات الغير مدفوعة' } </h2>
-          {!isPageLoading && <p className="text-end fs-5"> <b>إجمالى الرواتب المتبقية</b> : {totalSalaries}</p>}
+          {!isPageLoading && <p className="text-end fs-5"> <b>إجمالى الرواتب المتبقية</b> : {totalSalaries.toFixed(2)}</p>}
           {!isPageLoading && <button className="btn btn-primary float-start" onClick={() => setAll(!all)}>تبديل</button>}
           <table className="table my-custom-table text-center">
             <thead>
@@ -86,8 +86,8 @@ const Salaries = () => {
                 >
 
                   <td>{item.paymentMethod}</td>
-                  <td>{item.delayedSalary}</td>
-                  <td>{item.totalSalary}</td>
+                  <td>{item.delayedSalary.toFixed(2)}</td>
+                  <td>{item.totalSalary.toFixed(2)}</td>
                   <td>{item.phone}</td>
                   <td>{item.ssn}</td>
                   <td>{item.workAddress}</td>

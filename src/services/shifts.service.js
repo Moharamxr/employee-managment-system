@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const path = process.env.SERVER_BASE_URL;
+const path = process.env.REACT_APP_BACKEND_URL;
 
 export const getShiftById = async (id) => {
   try {
@@ -44,10 +44,10 @@ export const getShiftByEmployeeId = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    if (error.response.status===401) {
-      localStorage.setItem("token",'');
-      localStorage.setItem('isLoggedIn',false); 
-      }
+    if (error.response.status === 401) {
+      localStorage.setItem("token", '');
+      localStorage.setItem('isLoggedIn', false);
+    }
   }
 };
 export const getShiftsFinancial = async (id) => {
@@ -70,10 +70,10 @@ export const getShiftsFinancial = async (id) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    if (error.response.status===401) {
-      localStorage.setItem("token",'');
-      localStorage.setItem('isLoggedIn',false); 
-      }
+    if (error.response.status === 401) {
+      localStorage.setItem("token", '');
+      localStorage.setItem('isLoggedIn', false);
+    }
   }
 };
 
@@ -84,7 +84,7 @@ export const addShift = async (newData) => {
     const requestBody = {
       date: newData.date,
       time: newData.time,
-      location:newData.location,
+      location: newData.location,
     };
 
     const response = await axios.post(
@@ -103,10 +103,10 @@ export const addShift = async (newData) => {
   } catch (error) {
     console.error(error);
     console.error(error.response.data.error);
-    if (error.response.status===401) {
-      localStorage.setItem("token",'');
-      localStorage.setItem('isLoggedIn',false); 
-      }
+    if (error.response.status === 401) {
+      localStorage.setItem("token", '');
+      localStorage.setItem('isLoggedIn', false);
+    }
   }
 };
 export const deleteShift = async (id) => {
@@ -114,7 +114,7 @@ export const deleteShift = async (id) => {
     const token = localStorage.getItem("token");
     const response = await axios.delete(
       `${path}/shifts/${id}`,
-      
+
       {
         headers: {
           "Content-Type": "application/json",
@@ -130,7 +130,7 @@ export const deleteShift = async (id) => {
     console.error(error.response.data.error);
     if (error.response.status === 401) {
       localStorage.setItem("token", "");
-      localStorage.setItem("isLoggedIn", false); 
+      localStorage.setItem("isLoggedIn", false);
     }
   }
 };

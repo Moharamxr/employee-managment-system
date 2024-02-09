@@ -167,9 +167,7 @@ function Accounting() {
       <Row className="centered">
         <Col sm={6} className="bg-">
           <Row>
-            {/* <Col md={4}className="offset-3">
-              {!show && <h4 className="text-center mt-4">حسابات الموظفين </h4>}
-            </Col> */}
+
 
             <Col  >
               {searchError && (

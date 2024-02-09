@@ -14,6 +14,7 @@ import PaymentDetails from "./components/loans/PaymentsDetails.jsx";
 import Salaries from "./components/salaries/Salaries.jsx";
 
 function App() {
+  
   return (
     <Layout>
       <Routes>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const path = process.env.SERVER_BASE_URL;
+const path = process.env.REACT_APP_BACKEND_URL;
 
 export const getAllLoans = async (data) => {
     try {
