@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const path = "https://abo-abdallah.onrender.com";
+
+const path = process.env.SERVER_BASE_URL;
 
 export const login = async (email, password) => {
   try {
