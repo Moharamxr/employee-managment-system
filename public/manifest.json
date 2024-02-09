@@ -3,17 +3,17 @@
   "name": "Sea Breeze",
   "icons": [
     {
-      "src": "/icon.png", 
+      "src": "/sea-breeze-co-marine--amp--petroleum-services-Egypt-41017-1552999541.png", 
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/png"
     },
     {
-      "src": "/icon.png",
+      "src": "/sea-breeze-co-marine--amp--petroleum-services-Egypt-41017-1552999541.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/icon.png", 
+      "src": "/sea-breeze-co-marine--amp--petroleum-services-Egypt-41017-1552999541.png", 
       "type": "image/png",
       "sizes": "512x512"
     }
