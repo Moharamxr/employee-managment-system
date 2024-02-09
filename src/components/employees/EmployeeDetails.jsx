@@ -28,7 +28,7 @@ const EmployeeDetails = () => {
   const [workAddress, setWorkAddress] = useState("");
 
   const [bankAccount, setBankAccount] = useState("");
-  const [isBank, setIsBank] = useState(false);
+  
   const [paymentMethod, setPaymentMethod] = useState("");
 
 
