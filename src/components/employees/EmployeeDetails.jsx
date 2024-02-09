@@ -41,6 +41,7 @@ const EmployeeDetails = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
   };
+  
   const getEmployeeByID = async (id) => {
     try {
       const data = await getEmployeeById(id);
@@ -56,6 +57,9 @@ const EmployeeDetails = () => {
       if (data.employee.bankAccount) {
         setBankAccount(data.employee.bankAccount);
       }
+      if (paymentMethod !=="حساب بنكى") {
+        setBankAccount('');
+      }
 
 
     } catch (error) {
@@ -65,6 +69,7 @@ const EmployeeDetails = () => {
 
   useEffect(() => {
     getEmployeeByID(id);
+    
   }, [id]);
 
   const handleUpdateEmp = async () => {
@@ -90,7 +95,10 @@ const EmployeeDetails = () => {
       phone !== "" &&
       phone.length === 11 &&
       workAddress !== ""&&
-      paymentMethod !==''
+      paymentMethod !==''&&
+      bankAccount.length >= 10 &&
+      bankAccount.length  <=30 
+
     ) {
       setIsLoading(true);
 
