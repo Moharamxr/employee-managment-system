@@ -44,7 +44,8 @@ const Salaries = () => {
       setIsPageLoading(false);
     } catch (error) {
       setIsPageLoading(false);
-      setError(true);
+      setError('Error while loading');
+
     }
     setIsPageLoading(false);
   }, [navigate]);

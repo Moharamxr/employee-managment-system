@@ -178,7 +178,7 @@ function Shifts() {
                     id="form1"
                     className="form-control text-center"
                     placeholder="ابحث بكود الموظف"
-                    style={{ width: "300px" }}
+                    style={{ width: "auto" }}
                     onChange={(e) => setSearchId(e.target.value)}
                     autoComplete="off"
                     onKeyDown={handleKeyPress}

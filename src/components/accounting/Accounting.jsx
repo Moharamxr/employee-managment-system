@@ -34,7 +34,7 @@ function Accounting() {
   const [bonuses, setBonuses] = useState([]);
   const [totalBonuses, setTotalBonuses] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [bankAccount,setBankAccount] = useState("");
+  const [bankAccount, setBankAccount] = useState("");
   const [loans, setLoans] = useState([]);
   const [totalLoans, setTotalLoans] = useState("");
 
@@ -165,9 +165,13 @@ function Accounting() {
   return !isSecretary ? (
     <Container>
       <Row className="centered">
-        <Col sm={6}>
+        <Col sm={6} className="bg-">
           <Row>
-            <Col>
+            {/* <Col md={4}className="offset-3">
+              {!show && <h4 className="text-center mt-4">حسابات الموظفين </h4>}
+            </Col> */}
+
+            <Col  >
               {searchError && (
                 <p className="text-danger text-center">
                   كود غير صحيح حاول مجدداً
@@ -182,7 +186,7 @@ function Accounting() {
                   onClick={handleSearch}
                   disabled={searchLoading}
                 >
-                 {searchLoading ? "جارى البحث" : <SearchIcon />}
+                  {searchLoading ? "جارى البحث" : <SearchIcon />}
                 </button>
                 <div className="form-outline">
                   <input
@@ -190,7 +194,7 @@ function Accounting() {
                     id="form1"
                     className="form-control text-center"
                     placeholder="ابحث بكود الموظف"
-                    style={{ width: "300px" }}
+                    style={{ width: "auto" }}
                     onChange={(e) => setSearchId(e.target.value)}
                     autoComplete="off"
                     onKeyDown={handleKeyPress}
@@ -201,7 +205,8 @@ function Accounting() {
           </Row>
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
-            <div className="centered"> {isPageLoading&&<CircularProgress />}</div>
+
+              <div className="centered"> {isPageLoading && <CircularProgress />}</div>
               {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
@@ -458,7 +463,7 @@ function Accounting() {
           </Card>
         </Col>
       </Row>
-      {show && !isPageLoading &&  (
+      {show && !isPageLoading && (
         <>
           <Row className="centered my-5">
             <h4 className="text-center">حسابات سابقة</h4>

@@ -33,7 +33,7 @@ const LoanDetails = () => {
     try {
       setIsPageLoading(true);
       const data = await getEmpLoans(id);
-      setDebts(data.debts);
+      setDebts(data.debts.reverse());
       setEmployee(data.employee);
       setError('');
       setIsPageLoading(false);
