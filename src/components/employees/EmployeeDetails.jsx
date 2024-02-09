@@ -316,8 +316,7 @@ const EmployeeDetails = () => {
                       value={paymentMethod}
                       onChange={(e) => {
                         const selectedPaymentMethod = e.target.value;
-                        setPaymentMethod(selectedPaymentMethod);
-                        setIsBank(selectedPaymentMethod === "حساب بنكى");}}
+                        setPaymentMethod(selectedPaymentMethod);}}
                     >
                       <option value="كاش">كاش</option>
                       <option value="حساب بنكى">حساب بنكى</option>
@@ -367,118 +366,6 @@ const EmployeeDetails = () => {
           )}
         </Col>
       </Row>
-
-      {/* <Row className="centered my-5">
-        <Col sm={6}>
-          <Tabs
-            defaultActiveKey="Loans"
-            id="fill-tab-example"
-            className="mb-3"
-            justify
-          >
-            <Tab eventKey="Loans" title="سلف">
-              <table className="table text-end">
-                <thead>
-                  <tr>
-                    <th scope="col">الأجمالى</th>
-                    <th scope="col">القيمة</th>
-                    <th scope="col">التاريخ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loans.map((item) => (
-                    <tr key={item._id}>
-                      <td></td>
-                      <td>{item.amount}</td>
-                      <td>{item.date.slice(0, 10)}</td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td>{totalLoans}</td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </Tab>
-            <Tab eventKey="Exchanges" title="بدلات">
-              <table className="table text-end">
-                <thead>
-                  <tr>
-                    <th scope="col">الأجمالى</th>
-                    <th scope="col">القيمة</th>
-                    <th scope="col">التاريخ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {compensations.map((item) => (
-                    <tr key={item._id}>
-                      <td></td>
-                      <td>{item.amount}</td>
-                      <td>{item.date.slice(0, 10)}</td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td>{totalCompensations}</td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </Tab>
-            <Tab eventKey="bonus" title="مكافئات">
-              <table className="table text-end">
-                <thead>
-                  <tr>
-                    <th scope="col">الأجمالى</th>
-                    <th scope="col">القيمة</th>
-                    <th scope="col">التاريخ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bonuses.map((item) => (
-                    <tr key={item._id}>
-                      <td></td>
-                      <td>{item.amount}</td>
-                      <td>{item.date.slice(0, 10)}</td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td>{totalBonuses}</td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </Tab>
-            <Tab eventKey="Deductions" title="استقطاعات">
-              <table className="table text-end">
-                <thead>
-                  <tr>
-                    <th scope="col">الأجمالى</th>
-                    <th scope="col">القيمة</th>
-                    <th scope="col">التاريخ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {deductions.map((item) => (
-                    <tr key={item._id}>
-                      <td></td>
-                      <td>{item.amount}</td>
-                      <td>{item.date.slice(0, 10)}</td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td>{totalDeductions}</td>
-                    <td>{}</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </Tab>
-          </Tabs>
-        </Col>
-      </Row> */}
     </Container>
   );
 };
