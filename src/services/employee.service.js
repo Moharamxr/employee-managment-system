@@ -27,7 +27,7 @@ export const getAllEmployees = async () => {
 
   }
 };
-export const getAllUnPaidEmployees = async () => {
+export const getAllUnPaidEmployees = async (all) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -36,8 +36,12 @@ export const getAllUnPaidEmployees = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      params: {
+        all: all,
+      },
     });
     console.log(response.data.message);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     if (error.response.status === 401) {

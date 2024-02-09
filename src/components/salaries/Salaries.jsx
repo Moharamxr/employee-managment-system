@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import {
-  getAllEmployees,
+  getAllEmployees, getAllUnPaidEmployees,
 } from "../../services/employee.service";
 import { CircularProgress } from "@mui/material";
 import { useContext } from "react";
@@ -12,6 +12,7 @@ import { gState } from "../../context/Context";
 
 const Salaries = () => {
   const [employees, setEmployees] = useState([]);
+  const [totalSalaries, setTotalSalaries] = useState();
   
   const [error, setError] = useState("");
   const [empIDs, setEmpIDs] = useState([]);
@@ -21,12 +22,14 @@ const Salaries = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [all,setAll]=useState(true);
+
   const getData = useCallback(async () => {
     setIsPageLoading(true);
     try {
-      const data = await getAllEmployees();
+      const data = await getAllUnPaidEmployees(all);
       setEmployees(data.employees);
-      
+      setTotalSalaries(data.totalSalaries);
       const employeeIds = data.employees.map((employee) => employee.id);
       setEmpIDs(employeeIds);
 
@@ -56,9 +59,15 @@ const Salaries = () => {
       <Row>
         <Col>
           {error && <p className="text-danger text-center">{error}</p>}
+          <h2 className="text-center mt-3">مرتبات غير مدفوعة</h2>
+          {!isPageLoading && <p className="text-end fs-5"> <b>إجمالى الرواتب المتبقية</b> : {totalSalaries}</p>}
           <table className="table my-custom-table text-center">
             <thead>
               <tr>
+                
+                <th scope="col">طريقة القبض</th>
+                <th scope="col">الراتب المرحل </th>
+                <th scope="col">صافى إجمالى الراتب</th>
                 <th scope="col">رقم الهاتف</th>
                 <th scope="col">رقم البطاقة</th>
                 <th scope="col">مكان العمل</th>
@@ -68,11 +77,15 @@ const Salaries = () => {
               </tr>
             </thead>
             <tbody>
+              
               {Array.isArray(employees) && employees.map((item) => (
                 <tr
                   key={item.id}
-                  onClick={() => navigate(`details/${item.id}`)}
                 >
+                  
+                  <td>{item.paymentMethod}</td>
+                  <td>{item.delayedSalary}</td>
+                  <td>{item.totalSalary}</td>
                   <td>{item.phone}</td>
                   <td>{item.ssn}</td>
                   <td>{item.workAddress}</td>

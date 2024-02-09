@@ -15,7 +15,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../services/auth.service";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 const drawerWidth = 240;
 
 export default function Navbar() {
@@ -108,7 +108,7 @@ export default function Navbar() {
                   <ListItem onClick={() => navigate("/salaries")}>
                     <ListItemButton>
                       <ListItemIcon>
-                        <AccountBalanceWalletIcon
+                        <CurrencyExchangeIcon
                           color={`${active.includes("/salaries") ? "primary" : "action"
                             }`}
                         />
