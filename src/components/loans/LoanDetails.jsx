@@ -174,7 +174,7 @@ const LoanDetails = () => {
 
                     onClick={openModal}
                   >
-                    إضافة دين جديد
+                    إضافة دين 
                   </button>
                   </Row>
                   
