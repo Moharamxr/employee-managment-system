@@ -10,7 +10,7 @@ import { DateField } from "@mui/x-date-pickers";
 const AddLoan = ({ isOpen, onClose }) => {
   const { id } = useParams();
   const [amount, setAmount] = useState('');
-  const [reason, setReason] = useState('لا يوجد');
+  const [reason, setReason] = useState('');
   const [date, setDate] = useState(dayjs());
 
   const [error, setError] = useState(false);
@@ -30,7 +30,7 @@ const AddLoan = ({ isOpen, onClose }) => {
       reason: reason,
       date: formattedDate,
     }
-    if (amount && amount > 0 && date.isBefore(now)) {
+    if (amount && amount > 0 && date.isBefore(now) &&reason !== '') {
       setIsLoading(true);
 
       try {
@@ -38,14 +38,16 @@ const AddLoan = ({ isOpen, onClose }) => {
         if (data) {
           reset();
           onClose();
+          setError(false);
         }
 
         setIsLoading(false);
+
       } catch (error) {
         setError(true);
         setIsLoading(false);
         const timeout = setTimeout(() => {
-          setError("");
+          setError(false);
         }, 3000);
         return () => clearTimeout(timeout);
       }
@@ -53,7 +55,7 @@ const AddLoan = ({ isOpen, onClose }) => {
       setError(true);
       setIsLoading(false);
       const timeout = setTimeout(() => {
-        setError("");
+        setError(false);
       }, 3000);
       return () => clearTimeout(timeout);
     }

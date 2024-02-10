@@ -71,7 +71,7 @@ const PaymentDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -100,7 +100,7 @@ const PaymentDetails = () => {
                         <>
                           <input
                             className="form-control border-0 text-center"
-                            style={{ backgroundColor: "white", width: "150px" }}
+                            style={{ backgroundColor: "white", width: "280px" }}
                             type="text"
                             disabled
                             id="empID"
@@ -116,7 +116,7 @@ const PaymentDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -130,7 +130,7 @@ const PaymentDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="empID"
@@ -145,7 +145,7 @@ const PaymentDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="empID"
@@ -161,9 +161,9 @@ const PaymentDetails = () => {
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                            width: "280px",
                           }}
-                          type="text" // Change type to text
+                          type="text" 
                           id="totalSalary"
                           disabled
                           value={debt.reason}
@@ -179,9 +179,9 @@ const PaymentDetails = () => {
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                            width: "280px",
                           }}
-                          type="text" // Change type to text
+                          type="text" 
                           id="totalSalary"
                           disabled
                           value={debt.status === 'paid' ? 'تم التسديد' : 'جارى'}

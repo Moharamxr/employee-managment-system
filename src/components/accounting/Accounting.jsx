@@ -165,7 +165,7 @@ function Accounting() {
   return !isSecretary ? (
     <Container>
       <Row className="centered">
-        <Col sm={6} className="bg-">
+        <Col sm={7} className="bg-">
           <Row>
 
 
@@ -215,7 +215,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -242,7 +242,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -256,7 +256,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -270,7 +270,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="empID"
@@ -285,7 +285,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="empID"
@@ -302,7 +302,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                           width: "280px",
                           }}
                           type="number"
                           id="baseSalary"
@@ -321,7 +321,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                           width: "280px",
                           }}
                           type="number"
                           id="dailySalary"
@@ -341,7 +341,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                           width: "280px",
                           }}
                           type="number"
                           id="loans"
@@ -360,7 +360,7 @@ function Accounting() {
                           className="form-control border-0   text-center  "
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                           width: "280px",
                           }}
                           type="number"
                           id="deductions"
@@ -379,7 +379,7 @@ function Accounting() {
                           className="form-control border-0   text-center  "
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                           width: "280px",
                           }}
                           type="number"
                           id="Compensation"
@@ -398,7 +398,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                           width: "280px",
                           }}
                           type="number"
                           id="bonus"
@@ -415,7 +415,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className=" form-control border-0  text-center"
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white",width: "280px" }}
                         type="text"
                         disabled
                         id="salary"
@@ -429,7 +429,7 @@ function Accounting() {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white",width: "280px" }}
                         type="number"
                         disabled
                         id="delayedSalary"

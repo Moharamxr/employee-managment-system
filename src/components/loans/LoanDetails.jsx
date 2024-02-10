@@ -57,7 +57,7 @@ const LoanDetails = () => {
   return (
     <Container>
       <Row className='centered'>
-        <Col md={6}>
+        <Col md={7}>
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
               {isPageLoading && <div className="centered my-5"> <CircularProgress /></div>}
@@ -71,7 +71,7 @@ const LoanDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -98,7 +98,7 @@ const LoanDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -112,7 +112,7 @@ const LoanDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -126,7 +126,7 @@ const LoanDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="empID"
@@ -141,7 +141,7 @@ const LoanDetails = () => {
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "150px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="empID"
@@ -157,7 +157,7 @@ const LoanDetails = () => {
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "138px",
+                            width: "280px",
                           }}
                           type="number"
                           id="totalSalary"
@@ -168,13 +168,16 @@ const LoanDetails = () => {
                       <label htmlFor="totalSalary">إجمالى صافى الراتب </label>
                     </div>
                   </ListGroup.Item>
-                  <button
-                    className="btn btn-primary me-2 my-2"
+                  <Row className='centered'>
+                    <button
+                    className="btn btn-primary me-2 my-2 w-75 "
 
                     onClick={openModal}
                   >
                     إضافة دين جديد
                   </button>
+                  </Row>
+                  
 
                 </>
               )}
