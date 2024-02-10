@@ -40,6 +40,9 @@ const EmployeeDetails = () => {
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
+    if (paymentMethod !=="حساب بنكى") {
+      setBankAccount('');
+    }
   };
   
   const getEmployeeByID = async (id) => {
@@ -57,9 +60,7 @@ const EmployeeDetails = () => {
       if (data.employee.bankAccount) {
         setBankAccount(data.employee.bankAccount);
       }
-      if (paymentMethod !=="حساب بنكى") {
-        setBankAccount('');
-      }
+      
 
 
     } catch (error) {
