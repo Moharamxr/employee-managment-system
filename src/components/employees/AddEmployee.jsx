@@ -136,7 +136,7 @@ const AddEmployee = ({ isOpen, onClose }) => {
                         <option value="">اختر وظيفة</option>
 
                         <option value="ضابط أول">ضابط أول</option>
-                        <option value="قبطان">ظابط تانى</option>
+                        <option value="ضابط ثاني">ظابط تانى</option>
                         <option value="ريس بحرى">ريس بحرى</option>
                         <option value="بحرى">بحرى</option>
                         <option value="ميكانيكى">ميكانيكى</option>

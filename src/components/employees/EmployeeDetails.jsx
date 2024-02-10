@@ -28,7 +28,7 @@ const EmployeeDetails = () => {
   const [workAddress, setWorkAddress] = useState("");
 
   const [bankAccount, setBankAccount] = useState("");
-  
+
   const [paymentMethod, setPaymentMethod] = useState("");
 
 
@@ -40,11 +40,11 @@ const EmployeeDetails = () => {
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
-    if (paymentMethod !=="حساب بنكى") {
+    if (paymentMethod !== "حساب بنكى") {
       setBankAccount('');
     }
   };
-  
+
   const getEmployeeByID = async (id) => {
     try {
       const data = await getEmployeeById(id);
@@ -60,7 +60,7 @@ const EmployeeDetails = () => {
       if (data.employee.bankAccount) {
         setBankAccount(data.employee.bankAccount);
       }
-      
+
 
 
     } catch (error) {
@@ -70,7 +70,7 @@ const EmployeeDetails = () => {
 
   useEffect(() => {
     getEmployeeByID(id);
-    
+
   }, [id]);
 
   const handleUpdateEmp = async () => {
@@ -78,13 +78,13 @@ const EmployeeDetails = () => {
       id: id,
       name: name,
       jobRole: jobRole,
-      
+
       phone: phone,
       workAddress: workAddress,
-      paymentMethod:paymentMethod,
+      paymentMethod: paymentMethod,
     };
-    
-    if (paymentMethod==="حساب بنكى"&&bankAccount.trim() !== "") {
+
+    if (paymentMethod === "حساب بنكى" && bankAccount.trim() !== "") {
       newData.bankAccount = bankAccount;
     }
 
@@ -92,13 +92,13 @@ const EmployeeDetails = () => {
       id !== "" &&
       name !== "" &&
       jobRole !== "" &&
-      
+
       phone !== "" &&
       phone.length === 11 &&
-      workAddress !== ""&&
-      paymentMethod !==''&&
+      workAddress !== "" &&
+      paymentMethod !== '' &&
       bankAccount.length >= 10 &&
-      bankAccount.length  <=30 
+      bankAccount.length <= 30
 
     ) {
       setIsLoading(true);
@@ -191,9 +191,8 @@ const EmployeeDetails = () => {
                       onChange={(e) => setJobRole(e.target.value)}
                     >
                       <option value="">اختر وظيفة</option>
-
                       <option value="ضابط أول">ضابط أول</option>
-                      <option value="قبطان">ظابط تانى</option>
+                      <option value="ضابط ثاني">ظابط تانى</option>
                       <option value="ريس بحرى">ريس بحرى</option>
                       <option value="بحرى">بحرى</option>
                       <option value="ميكانيكى">ميكانيكى</option>
@@ -233,7 +232,7 @@ const EmployeeDetails = () => {
                       value={workAddress}
                       onChange={(e) => setWorkAddress(e.target.value)}
                     >
-                      
+
                       <option value="SeaBreeze 1">SeaBreeze 1</option>
                       <option value="SeaBreeze 7">SeaBreeze 7</option>
                       <option value="SeaBreeze 9">SeaBreeze 9</option>
@@ -296,7 +295,7 @@ const EmployeeDetails = () => {
                   <label htmlFor="empPhone">رقم الهاتف</label>
                 </div>
               </ListGroup.Item>
-              {paymentMethod==="حساب بنكى"&&<ListGroup.Item className="text-end">
+              {paymentMethod === "حساب بنكى" && <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   <input
                     autoComplete="off"
@@ -325,7 +324,8 @@ const EmployeeDetails = () => {
                       value={paymentMethod}
                       onChange={(e) => {
                         const selectedPaymentMethod = e.target.value;
-                        setPaymentMethod(selectedPaymentMethod);}}
+                        setPaymentMethod(selectedPaymentMethod);
+                      }}
                     >
                       <option value="كاش">كاش</option>
                       <option value="حساب بنكى">حساب بنكى</option>
