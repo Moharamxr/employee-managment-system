@@ -38,26 +38,27 @@ const LoanDetails = () => {
       setError('');
       setIsPageLoading(false);
     } catch (error) {
-      setError(true);
+      setError('Error while loading');
       setIsPageLoading(false);
       const timeout = setTimeout(() => {
-        setError(false);
-      }, 3000);
+        setError('');
+            }, 3000);
 
       return () => clearTimeout(timeout);
     } finally {
-      setError(false);
+      setError('');
       setIsPageLoading(false);
     }
 
-  }, []);
+  }, [id]);
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
   return (
     <Container>
       <Row className='centered'>
         <Col md={7}>
+        {error && <p className="text-danger text-center">{error}</p>}
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
               {isPageLoading && <div className="centered my-5"> <CircularProgress /></div>}

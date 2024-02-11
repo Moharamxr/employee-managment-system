@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addDept, makePayment } from '../../services/loans.service';
+import { addDept } from '../../services/loans.service';
 import { useParams } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 import dayjs from 'dayjs';

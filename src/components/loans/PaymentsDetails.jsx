@@ -37,13 +37,13 @@ const PaymentDetails = () => {
       setDebt(data.debt);
       setEmployee(data.employee);
 
-      setError(false);
+      setError('');
       setIsPageLoading(false);
     } catch (error) {
-      setError(true);
+      setError('Error while loading');
       setIsPageLoading(false);
       const timeout = setTimeout(() => {
-        setError(false);
+        setError('');
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -59,6 +59,7 @@ const PaymentDetails = () => {
       <Row className='centered'>
         <Col md={6}>
           <Card className="text-end border-0 ">
+          {error && <p className="text-danger text-center">{error}</p>}
             <ListGroup variant="flush">
               {isPageLoading && <div className="centered my-5"> <CircularProgress /></div>}
               {!isPageLoading && (

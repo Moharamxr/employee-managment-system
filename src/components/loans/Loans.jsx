@@ -3,7 +3,6 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
-import AddLoan from './AddLoan';
 import { useCallback } from 'react';
 import { getAllLoans } from '../../services/loans.service';
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,20 +13,13 @@ const Loans = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  
 
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    fetchLoansData();
-  };
+  
 
   const fetchLoansData = useCallback(async () => {
     try {
@@ -53,7 +45,7 @@ const Loans = () => {
 
   useEffect(() => {
     fetchLoansData();
-  }, []);
+  }, [fetchLoansData]);
 
   const handleSearch = async () => {
     if (searchId && searchId > 0) {

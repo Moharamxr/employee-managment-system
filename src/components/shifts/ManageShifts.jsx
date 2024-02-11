@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField, TimeField } from "@mui/x-date-pickers";
 import { addShift, getShiftById } from "../../services/shifts.service";
+import { useCallback } from "react";
 
 const ManageShifts = ({
   isOpen,
@@ -19,7 +20,7 @@ const ManageShifts = ({
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
 
-  const [workAddress,setWorkAddress]=useState('');
+  const [workAddress, setWorkAddress] = useState('');
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -29,7 +30,7 @@ const ManageShifts = ({
     setTime(newTime);
   };
 
-  const getShiftData = async () => {
+  const getShiftData = useCallback(async () => {
     if (currentShift) {
       try {
         const data = await getShiftById(currentShift);
@@ -38,11 +39,12 @@ const ManageShifts = ({
         console.error("Error fetching shift data:", error);
       }
     }
-  };
+  }, [ currentShift]);
 
   useEffect(() => {
     getShiftData();
-  }, [currentShift]);
+  }, [getShiftData]);
+
 
   const reset = () => {
     setTime(dayjs()); // Reset time to the current time
@@ -52,18 +54,18 @@ const ManageShifts = ({
   const handleAddShift = async (newData) => {
     setIsLoading(true);
     try {
-      const data =await addShift(newData);
+      const data = await addShift(newData);
       if (data) {
-         reset();
-      onClose();
-      }else{
+        reset();
+        onClose();
+      } else {
         setError("حدث خطأ أثناء إضافة الوردية.");
         const timeout = setTimeout(() => {
           setError("");
         }, 3000);
         return () => clearTimeout(timeout);
       }
-     
+
     } catch (error) {
       setError("حدث خطأ أثناء إضافة الوردية.");
       const timeout = setTimeout(() => {
@@ -85,11 +87,11 @@ const ManageShifts = ({
       id: id,
       time: formattedTime,
       date: formattedDate,
-      location:workAddress,
+      location: workAddress,
     };
 
     if (inShift) {
-      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime) && date.isBefore(now)&&workAddress!=='') {
+      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime) && date.isBefore(now) && workAddress !== '') {
         handleAddShift(newData);
       } else {
         setError("يجب ان يكون تاريخ النزول بعد تاريخ الصعود");
@@ -154,7 +156,7 @@ const ManageShifts = ({
                   </LocalizationProvider>
                 </Col>
               </Row>
-              {!inShift&&<Row>
+              {!inShift && <Row>
                 <Col>
                   <div className="d-flex justify-content-between align-items-center me-5 my-3">
 

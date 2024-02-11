@@ -67,7 +67,7 @@ const Employees = () => {
       setError('Error while loading');
     }
     setIsPageLoading(false);
-  }, [navigate]);
+  }, [setData]);
 
   useEffect(() => {
     getData();

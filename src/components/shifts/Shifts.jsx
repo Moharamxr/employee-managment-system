@@ -341,7 +341,7 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
-                        {isAdmin && <td scope="col"><DeleteIcon className="delete-icon" onClick={()=>handleDeleteShift(item._id)} />
+                        {isAdmin && <td ><DeleteIcon className="delete-icon" onClick={()=>handleDeleteShift(item._id)} />
                         </td>}
 
                         {!isSecretary ? <>

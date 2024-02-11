@@ -8,27 +8,26 @@ const Layout = (props) => {
   const navigate = useNavigate(); // Move this line inside the component
   const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
 
-  const signOut =()=>{
-    logout();
+  useEffect(() => {
+    const signOut = () => {
+      logout();
       localStorage.setItem('token', '');
       localStorage.setItem("isLoggedIn", false);
       console.log("logged out");
       navigate("/login");
-  }
-
-  useEffect(() => {
-    if (!isLoggedIn && localStorage.getItem("token")==='') {
+    };
+  
+    if (!isLoggedIn && localStorage.getItem("token") === '') {
       navigate("/login");
       console.log('goes to login');
     }
-    // window.addEventListener("beforeunload", function (event) {
-    //   signOut();
-    // });
-
-     setTimeout(function () {
+  
+    const timeoutId = setTimeout(function () {
       signOut();
-    }, 48*60*60* 1000);
-  }, [isLoggedIn]);
+    }, 48 * 60 * 60 * 1000);
+  
+    return () => clearTimeout(timeoutId);
+  }, [isLoggedIn, navigate]);
   
   return (
     <Box sx={{ display: "flex" }}>

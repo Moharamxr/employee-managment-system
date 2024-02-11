@@ -1,13 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import {
-  getAllEmployees, getAllUnPaidEmployees,
+  getAllUnPaidEmployees,
 } from "../../services/employee.service";
 import { CircularProgress } from "@mui/material";
-import { useContext } from "react";
-import { gState } from "../../context/Context";
 
 
 const Salaries = () => {
@@ -15,12 +11,9 @@ const Salaries = () => {
   const [totalSalaries, setTotalSalaries] = useState();
 
   const [error, setError] = useState("");
-  const [empIDs, setEmpIDs] = useState([]);
 
-  const { setData } = useContext(gState);
 
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const navigate = useNavigate();
 
   const [all, setAll] = useState(false);
 
@@ -30,15 +23,9 @@ const Salaries = () => {
       const data = await getAllUnPaidEmployees(flag);
       setEmployees(data.employees);
       setTotalSalaries(data.totalSalaries);
-      const employeeIds = data.employees.map((employee) => employee.id);
-      setEmpIDs(employeeIds);
 
-      await setData((prevState) => {
-        return {
-          ...prevState,
-          empIDs: employeeIds,
-        };
-      });
+
+
 
       setError('');
       setIsPageLoading(false);
@@ -48,7 +35,7 @@ const Salaries = () => {
 
     }
     setIsPageLoading(false);
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     getData(all);

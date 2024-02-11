@@ -16,8 +16,8 @@ function Accounting() {
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const { data, setData } = useContext(gState);
-  const { empIDs } = data;
+  const {  setData } = useContext(gState);
+  
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");

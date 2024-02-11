@@ -6,8 +6,7 @@ import {
   Form,
   ListGroup,
   Row,
-  Tab,
-  Tabs,
+
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -15,6 +14,7 @@ import {
   getEmployeeById,
   updateEmployee,
 } from "../../services/employee.service";
+import { useCallback } from "react";
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -45,7 +45,7 @@ const EmployeeDetails = () => {
     }
   };
 
-  const getEmployeeByID = async (id) => {
+  const getEmployeeByID = useCallback(async (id) => {
     try {
       const data = await getEmployeeById(id);
 
@@ -61,17 +61,14 @@ const EmployeeDetails = () => {
         setBankAccount(data.employee.bankAccount);
       }
 
-
-
     } catch (error) {
-      navigate('/')
+      navigate('/');
     }
-  };
+  }, [ navigate]);
 
   useEffect(() => {
     getEmployeeByID(id);
-
-  }, [id]);
+  }, [id, getEmployeeByID]);
 
   const handleUpdateEmp = async () => {
     const newData = {
