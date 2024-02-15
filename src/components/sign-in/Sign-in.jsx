@@ -15,8 +15,8 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("realadmin@seabreeze.com");
+  const [password, setPassword] = useState("a1234567");
   const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
 
   const handleSubmit = async (event) => {
@@ -92,6 +92,7 @@ export default function SignIn() {
                   autoComplete="email"
                   autoFocus
                   style={{ textAlign: "right" }}
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   
                 />
@@ -101,6 +102,7 @@ export default function SignIn() {
                   fullWidth
                   name="password"
                   label="كلمة المرور"
+                  value={password}
                   type="password"
                   id="password"
                   autoComplete="current-password"
