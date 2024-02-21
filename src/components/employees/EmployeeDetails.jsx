@@ -94,8 +94,7 @@ const EmployeeDetails = () => {
       phone.length === 11 &&
       workAddress !== "" &&
       paymentMethod !== '' &&
-      bankAccount.length >= 10 &&
-      bankAccount.length <= 30
+      
 
     ) {
       setIsLoading(true);
