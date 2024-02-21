@@ -93,7 +93,7 @@ const EmployeeDetails = () => {
       phone !== "" &&
       phone.length === 11 &&
       workAddress !== "" &&
-      paymentMethod !== '' &&
+      paymentMethod !== '' 
       
 
     ) {
