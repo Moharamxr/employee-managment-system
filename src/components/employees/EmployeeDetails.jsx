@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  Col,
-  Container,
-  Form,
-  ListGroup,
-  Row,
-
-} from "react-bootstrap";
+import { Card, Col, Container, Form, ListGroup, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   deleteEmployee,
@@ -26,12 +18,13 @@ const EmployeeDetails = () => {
   const [ssn, setSsn] = useState("");
   const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-
-  const [bankAccount, setBankAccount] = useState("");
-
-  const [paymentMethod, setPaymentMethod] = useState("");
-
-
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [bankName, setBankName] = useState("");
+  const [bankNumber, setBankNumber] = useState("");
+  const [payrollNumber, setPayrollNumber] = useState("");
+  const [walletNumber, setWalletNumber] = useState("");
+  const [postalName, setPostalName] = useState("");
+  const [postalNumber, setPostalNumber] = useState("");
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,31 +33,31 @@ const EmployeeDetails = () => {
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
-    if (paymentMethod !== "حساب بنكى") {
-      setBankAccount('');
-    }
+    
   };
 
-  const getEmployeeByID = useCallback(async (id) => {
-    try {
-      const data = await getEmployeeById(id);
+  const getEmployeeByID = useCallback(
+    async (id) => {
+      try {
+        const data = await getEmployeeById(id);
 
-      setName(data.employee.name);
-      setSsn(data.employee.ssn);
-      setJobRole(data.employee.jobRole);
-      setPhone(data.employee.phone);
+        setName(data.employee.name);
+        setSsn(data.employee.ssn);
+        setJobRole(data.employee.jobRole);
+        setPhone(data.employee.phone);
 
-      setWorkAddress(data.employee.workAddress);
+        setWorkAddress(data.employee.workAddress);
 
-      setPaymentMethod(data.employee.paymentMethod);
-      if (data.employee.bankAccount) {
-        setBankAccount(data.employee.bankAccount);
+        setPaymentMethod(data.employee.paymentMethod);
+        if (data.employee.bankAccount) {
+          setBankNumber(data.employee.bankAccount);
+        }
+      } catch (error) {
+        navigate("/");
       }
-
-    } catch (error) {
-      navigate('/');
-    }
-  }, [ navigate]);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     getEmployeeByID(id);
@@ -78,24 +71,32 @@ const EmployeeDetails = () => {
 
       phone: phone,
       workAddress: workAddress,
+
       paymentMethod: paymentMethod,
     };
-
-    if (paymentMethod === "حساب بنكى" && bankAccount.trim() !== "") {
-      newData.bankAccount = bankAccount;
+    if (paymentMethod === "bank") {
+      newData.bankName = bankName;
+      newData.bankAccount = bankNumber;
+    }
+    if (paymentMethod === "postal") {
+      newData.postalName = postalName;
+      newData.postalNumber = postalNumber;
+    }
+    if (paymentMethod === "wallet") {
+      newData.walletNumber = walletNumber;
+    }
+    if (paymentMethod === "payroll") {
+      newData.payrollNumber = payrollNumber;
     }
 
     if (
       id !== "" &&
       name !== "" &&
       jobRole !== "" &&
-
       phone !== "" &&
       phone.length === 11 &&
       workAddress !== "" &&
-      paymentMethod !== '' 
-      
-
+      paymentMethod !== ""
     ) {
       setIsLoading(true);
 
@@ -228,7 +229,6 @@ const EmployeeDetails = () => {
                       value={workAddress}
                       onChange={(e) => setWorkAddress(e.target.value)}
                     >
-
                       <option value="SeaBreeze 1">SeaBreeze 1</option>
                       <option value="SeaBreeze 7">SeaBreeze 7</option>
                       <option value="SeaBreeze 9">SeaBreeze 9</option>
@@ -267,7 +267,6 @@ const EmployeeDetails = () => {
                     disabled
                     id="empNaID"
                     value={ssn}
-                    onChange={(e) => setSsn(e.target.value)}
                   />
 
                   <label htmlFor="empNaID">رقم البطاقة</label>
@@ -291,24 +290,141 @@ const EmployeeDetails = () => {
                   <label htmlFor="empPhone">رقم الهاتف</label>
                 </div>
               </ListGroup.Item>
-              {paymentMethod === "حساب بنكى" && <ListGroup.Item className="text-end">
-                <div className="d-flex justify-content-between align-items-center me-5">
-                  <input
-                    autoComplete="off"
-                    className="border-0 form-control w-50  text-center"
-                    style={{
-                      backgroundColor: `${enableEdit ? "gainsboro" : "white "}`,
-                    }}
-                    type="number"
-                    disabled={!enableEdit}
-                    id="empPhone"
-                    value={bankAccount}
-                    onChange={(e) => setBankAccount(e.target.value)}
-                  />
+              {paymentMethod === "bank" && (
+                <>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        autoComplete="off"
+                        className="border-0 form-control w-50  text-center"
+                        style={{
+                          backgroundColor: `${
+                            enableEdit ? "gainsboro" : "white "
+                          }`,
+                        }}
+                        type="number"
+                        disabled={!enableEdit}
+                        id="bankNumber"
+                        value={bankNumber}
+                        onChange={(e) => setBankNumber(e.target.value)}
+                      />
 
-                  <label htmlFor="empPhone">الحساب البنكى</label>
-                </div>
-              </ListGroup.Item>}
+                      <label htmlFor="bankNumber">الحساب البنكى</label>
+                    </div>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        autoComplete="off"
+                        className="border-0 form-control w-50  text-center"
+                        style={{
+                          backgroundColor: `${
+                            enableEdit ? "gainsboro" : "white "
+                          }`,
+                        }}
+                        type="text"
+                        disabled={!enableEdit}
+                        id="bankName"
+                        value={bankName}
+                        onChange={(e) => setBankName(e.target.value)}
+                      />
+
+                      <label htmlFor="bankName">اسم البنك</label>
+                    </div>
+                  </ListGroup.Item>
+                </>
+              )}
+              {paymentMethod === "postal" && (
+                <>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        autoComplete="off"
+                        className="border-0 form-control w-50  text-center"
+                        style={{
+                          backgroundColor: `${
+                            enableEdit ? "gainsboro" : "white "
+                          }`,
+                        }}
+                        type="number"
+                        disabled={!enableEdit}
+                        id="postalNumber"
+                        value={postalNumber}
+                        onChange={(e) => setPostalNumber(e.target.value)}
+                      />
+
+                      <label htmlFor="postalNumber">رقم تحوبل البريد</label>
+                    </div>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        autoComplete="off"
+                        className="border-0 form-control w-50  text-center"
+                        style={{
+                          backgroundColor: `${
+                            enableEdit ? "gainsboro" : "white "
+                          }`,
+                        }}
+                        type="text"
+                        disabled={!enableEdit}
+                        id="postalName"
+                        value={postalName}
+                        onChange={(e) => setPostalName(e.target.value)}
+                      />
+
+                      <label htmlFor="postalName">اسم المرسل إليه</label>
+                    </div>
+                  </ListGroup.Item>
+                </>
+              )}
+              {paymentMethod === "payroll" && (
+                <>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        autoComplete="off"
+                        className="border-0 form-control w-50  text-center"
+                        style={{
+                          backgroundColor: `${
+                            enableEdit ? "gainsboro" : "white "
+                          }`,
+                        }}
+                        type="number"
+                        disabled={!enableEdit}
+                        id="payrollNumber"
+                        value={payrollNumber}
+                        onChange={(e) => setPayrollNumber(e.target.value)}
+                      />
+
+                      <label htmlFor="payrollNumber">رقم الحساب البنكى</label>
+                    </div>
+                  </ListGroup.Item>
+                </>
+              )}
+              {paymentMethod === "wallet" && (
+                <>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        autoComplete="off"
+                        className="border-0 form-control w-50  text-center"
+                        style={{
+                          backgroundColor: `${
+                            enableEdit ? "gainsboro" : "white "
+                          }`,
+                        }}
+                        type="number"
+                        disabled={!enableEdit}
+                        id="walletNumber"
+                        value={walletNumber}
+                        onChange={(e) => setWalletNumber(e.target.value)}
+                      />
+                      <label htmlFor="walletNumber">رقم المحفظة </label>
+                    </div>
+                  </ListGroup.Item>
+                </>
+              )}
               <ListGroup.Item className="text-end">
                 <div className="d-flex justify-content-between align-items-center me-5">
                   {enableEdit ? (
@@ -323,11 +439,11 @@ const EmployeeDetails = () => {
                         setPaymentMethod(selectedPaymentMethod);
                       }}
                     >
-                      <option value="كاش">كاش</option>
-                      <option value="حساب بنكى">حساب بنكى</option>
-                      <option value="فوري">فوري</option>
-                      <option value="فودافون كاش">فودافون كاش</option>
-                      <option value="بريد">بريد</option>
+                      <option value="cash">كاش</option>
+                      <option value="bank">حساب بنكى</option>
+                      <option value="payroll">payroll</option>
+                      <option value="wallet">فودافون كاش</option>
+                      <option value="postal">بريد</option>
                     </Form.Select>
                   ) : (
                     <input
@@ -345,7 +461,6 @@ const EmployeeDetails = () => {
                   <label htmlFor="paymentMethod"> طريقة القبض</label>
                 </div>
               </ListGroup.Item>
-
             </ListGroup>
           </Card>
           <button
@@ -355,8 +470,9 @@ const EmployeeDetails = () => {
             حذف الموظف
           </button>
           <button
-            className={`btn btn-${enableEdit ? "secondary" : "primary"
-              } float-end`}
+            className={`btn btn-${
+              enableEdit ? "secondary" : "primary"
+            } float-end`}
             onClick={toggleUpdate}
           >
             {!enableEdit ? "تحديث البيانات" : "إلغاء"}{" "}

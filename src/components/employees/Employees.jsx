@@ -52,6 +52,7 @@ const Employees = () => {
       
       const employeeIds = data.employees.map((employee) => employee.id);
       setEmpIDs(employeeIds);
+      localStorage.setItem('empIDs', employeeIds);
 
       await setData((prevState) => {
         return {
@@ -73,7 +74,7 @@ const Employees = () => {
     getData();
   }, [getData]);
 
-
+console.log(empIDs)
   const handleSearch = async () => {
     try {
       if (empIDs.includes(parseInt(searchId, 10))) {
@@ -250,6 +251,7 @@ const Employees = () => {
       <AddEmployee
         isOpen={isOpen}
         onClose={closeModal}
+        empIDs={empIDs}
       />
     </Container>
   );

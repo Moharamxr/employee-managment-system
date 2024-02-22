@@ -482,7 +482,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {loans.map((item) => (
+                      {loans.reverse().map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -502,7 +502,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {compensations.map((item) => (
+                      {compensations.reverse().map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -522,7 +522,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {bonuses.map((item) => (
+                      {bonuses.reverse().map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -542,7 +542,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {deductions.map((item) => (
+                      {deductions.reverse().map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -567,7 +567,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {payments.map((item) => (
+                      {payments.reverse().map((item) => (
                         <tr key={item._id}>
                           <td>{item.payedAmount.toFixed(2)}</td>
                           <td>{item.paymentMethod}</td>

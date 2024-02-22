@@ -141,7 +141,7 @@ const Loans = () => {
               </tr>
             </thead>
             <tbody>
-              {!isPageLoading && loans.length > 0 && loans.map((item) => (
+              {!isPageLoading && loans.length > 0 && loans.reverse().map((item) => (
                 <tr
                   key={item.employee.id}
                   onClick={() => navigate(`details/${item.employee.id}`)}
@@ -163,10 +163,7 @@ const Loans = () => {
 
 
 
-      {/* <AddLoan
-        isOpen={isOpen}
-        onClose={closeModal}
-      /> */}
+      
     </Container>
   )
 }

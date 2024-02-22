@@ -3,22 +3,27 @@ import { Col, Row } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { addEmployee } from "../../services/employee.service";
 
-const AddEmployee = ({ isOpen, onClose }) => {
+const AddEmployee = ({ isOpen, onClose, empIDs }) => {
   const [name, setName] = useState("");
+  const [newID, setNewID] = useState("");
   const [jobRole, setJobRole] = useState("");
   const [ssn, setSsn] = useState("");
   const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [baseSalary, setBaseSalary] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("كاش");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [bankName, setBankName] = useState("");
   const [bankNumber, setBankNumber] = useState("");
-  const [isBank, setIsBank] = useState(false);
+  const [payrollNumber, setPayrollNumber] = useState("");
+  const [walletNumber, setWalletNumber] = useState("");
+  const [postalName, setPostalName] = useState("");
+  const [postalNumber, setPostalNumber] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
   const reset = () => {
     setError("");
+    setNewID("");
     setName("");
     setJobRole("");
     setSsn("");
@@ -29,19 +34,33 @@ const AddEmployee = ({ isOpen, onClose }) => {
 
   const handleAddEmp = async () => {
     const newData = {
+      id: newID,
       name: name,
       jobRole: jobRole,
       ssn: ssn,
       phone: phone,
       workAddress: workAddress,
       baseSalary: baseSalary,
-      paymentMethod:paymentMethod,
+      paymentMethod: paymentMethod,
     };
-    if (bankNumber.trim() !== "") {
+    if (paymentMethod === "bank") {
+      newData.bankName = bankName;
       newData.bankAccount = bankNumber;
     }
-    
+    if (paymentMethod === "postal") {
+      newData.postalName = postalName;
+      newData.postalNumber = postalNumber;
+    }
+    if (paymentMethod === "wallet") {
+      newData.walletNumber = walletNumber;
+    }
+    if (paymentMethod === "payroll") {
+      newData.payrollNumber = payrollNumber;
+    }
+    console.log("isEmp", !empIDs.includes(parseInt(newID, 10)));
     if (
+      !empIDs.includes(parseInt(newID, 10)) &&
+      newID.length >= 3 &&
       name !== "" &&
       jobRole !== "" &&
       ssn !== "" &&
@@ -125,30 +144,17 @@ const AddEmployee = ({ isOpen, onClose }) => {
                   </Col>
                   <Col sm={6}>
                     <div className="form-group text-end">
-                      <label htmlFor="job">الوظيفة</label>
-                      <Form.Select
+                      <label htmlFor="setNewID">كود الموظف</label>
+                      <input
+                        autoComplete="off"
+                        type="number"
                         className="form-control"
-                        name="job"
-                        id="job"
-                        value={jobRole} // Set the value from the state
-                        onChange={(e) => setJobRole(e.target.value)} // Handle the onChange event
-                      >
-                        <option value="">اختر وظيفة</option>
-
-                        <option value="ضابط أول">ضابط أول</option>
-                        <option value="ضابط ثاني">ظابط تانى</option>
-                        <option value="ريس بحرى">ريس بحرى</option>
-                        <option value="بحرى">بحرى</option>
-                        <option value="ميكانيكى">ميكانيكى</option>
-                        <option value="مساعد ميكانيكى">مساعد ميكانيكى</option>
-                        <option value="طباخ">طباخ</option>
-                        <option value="صيانات">صيانات</option>
-                        <option value="ربان">ربان</option>
-                        <option value="مندوب">مندوب</option>
-                        <option value="فنى كهرباء">فنى كهرباء</option>
-                        <option value="مهندس"> مهندس</option>
-                        <option value="مساعد مهندس">مساعد مهندس</option>
-                      </Form.Select>
+                        name="setNewID"
+                        id="setNewID"
+                        value={newID}
+                        onChange={(e) => setNewID(e.target.value)}
+                        required
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -178,20 +184,34 @@ const AddEmployee = ({ isOpen, onClose }) => {
                   </Col>
                   <Col sm={6}>
                     <div className="form-group text-end">
-                      <label htmlFor="salary">الراتب الأساسى</label>
-                      <input
-                        autoComplete="off"
-                        type="number"
+                      <label htmlFor="job">الوظيفة</label>
+                      <Form.Select
                         className="form-control"
-                        name="textMessage"
-                        id="salary"
-                        value={baseSalary}
-                        onChange={(e) => setBaseSalary(e.target.value)}
-                        required
-                      />
+                        name="job"
+                        id="job"
+                        value={jobRole} // Set the value from the state
+                        onChange={(e) => setJobRole(e.target.value)} // Handle the onChange event
+                      >
+                        <option value="">اختر وظيفة</option>
+
+                        <option value="ضابط أول">ضابط أول</option>
+                        <option value="ضابط ثاني">ظابط تانى</option>
+                        <option value="ريس بحرى">ريس بحرى</option>
+                        <option value="بحرى">بحرى</option>
+                        <option value="ميكانيكى">ميكانيكى</option>
+                        <option value="مساعد ميكانيكى">مساعد ميكانيكى</option>
+                        <option value="طباخ">طباخ</option>
+                        <option value="صيانات">صيانات</option>
+                        <option value="ربان">ربان</option>
+                        <option value="مندوب">مندوب</option>
+                        <option value="فنى كهرباء">فنى كهرباء</option>
+                        <option value="مهندس"> مهندس</option>
+                        <option value="مساعد مهندس">مساعد مهندس</option>
+                      </Form.Select>
                     </div>
                   </Col>
                 </Row>
+
                 <Row>
                   <Col sm={6}>
                     <div className="form-group text-end">
@@ -224,22 +244,6 @@ const AddEmployee = ({ isOpen, onClose }) => {
                 </Row>
                 <Row>
                   <Col sm={6}>
-                    {isBank && (
-                      <div className="form-group text-end">
-                        <label htmlFor="name">رقم الحساب البنكى</label>
-                        <input
-                          autoComplete="off"
-                          type="text"
-                          className="form-control"
-                          name="textMessage"
-                          id="name"
-                          value={bankNumber}
-                          onChange={(e) => setBankNumber(e.target.value)}
-                        />
-                      </div>
-                    )}
-                  </Col>
-                  <Col sm={6}>
                     <div className="form-group text-end">
                       <label htmlFor="job">طريقة صرف الراتب</label>
                       <Form.Select
@@ -250,19 +254,134 @@ const AddEmployee = ({ isOpen, onClose }) => {
                         onChange={(e) => {
                           const selectedPaymentMethod = e.target.value;
                           setPaymentMethod(selectedPaymentMethod);
-                          setIsBank(selectedPaymentMethod === "حساب بنكى");
+                          
                         }}
                       >
-                        <option value="كاش">كاش</option>
-                        <option value="حساب بنكى">حساب بنكى</option>
-                        <option value="فوري">فوري</option>
-                        <option value="فودافون كاش">فودافون كاش</option>
-                        <option value="بريد">بريد</option>
+                        <option value="cash">كاش</option>
+                        <option value="bank">حساب بنكى</option>
+                        <option value="payroll">payroll</option>
+                        <option value="wallet">فودافون كاش</option>
+                        <option value="postal">بريد</option>
                       </Form.Select>
                     </div>
                   </Col>
+                  <Col sm={6}>
+                    <div className="form-group text-end">
+                      <label htmlFor="salary">الراتب الأساسى</label>
+                      <input
+                        autoComplete="off"
+                        type="number"
+                        className="form-control"
+                        name="textMessage"
+                        id="salary"
+                        value={baseSalary}
+                        onChange={(e) => setBaseSalary(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
                 </Row>
-
+                {paymentMethod === "bank" && (
+                  <Row>
+                    <Col sm={6}>
+                      <div className="form-group text-end">
+                        <label htmlFor="bankNumber">رقم الحساب البنكى</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="bankNumber"
+                          value={bankNumber}
+                          onChange={(e) => setBankNumber(e.target.value)}
+                        />
+                      </div>
+                    </Col>
+                    <Col sm={6}>
+                      <div className="form-group text-end">
+                        <label htmlFor="bankName">اسم البنك</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="bankName"
+                          value={bankName}
+                          onChange={(e) => setBankName(e.target.value)}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                )}
+                {paymentMethod === "payroll" && (
+                  <Row>
+                    <Col >
+                      <div className="form-group text-end">
+                        <label htmlFor="payrollNumber">رقم الحساب البنكى</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="payrollNumber"
+                          value={payrollNumber}
+                          onChange={(e) => setPayrollNumber(e.target.value)}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                )}
+                {paymentMethod === "postal" && (
+                  <Row>
+                    <Col sm={6}>
+                      <div className="form-group text-end">
+                        <label htmlFor="postalNumber">رقم تحوبل البريد</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="postalNumber"
+                          value={postalNumber}
+                          onChange={(e) => setPostalNumber(e.target.value)}
+                        />
+                      </div>
+                    </Col>
+                    <Col sm={6}>
+                      <div className="form-group text-end">
+                        <label htmlFor="postalName">اسم المرسل إليه</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="postalName"
+                          value={postalName}
+                          onChange={(e) => setPostalName(e.target.value)}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                )}
+                {paymentMethod === "wallet" && (
+                  <Row>
+                    <Col >
+                      <div className="form-group text-end">
+                        <label htmlFor="walletNumber">رقم المحفظة </label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="textMessage"
+                          id="walletNumber"
+                          value={walletNumber}
+                          onChange={(e) => setWalletNumber(e.target.value)}
+                        />
+                      </div>
+                    </Col>
+                    
+                  </Row>
+                )}
               </div>
             </div>
             <div className="modal-footer">
