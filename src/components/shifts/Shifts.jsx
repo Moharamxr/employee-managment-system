@@ -3,17 +3,19 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
-import { deleteShift, getShiftByEmployeeId, getShiftsFinancial } from "../../services/shifts.service";
+import {
+  deleteShift,
+  getShiftByEmployeeId,
+  getShiftsFinancial,
+} from "../../services/shifts.service";
 import ManageShifts from "./ManageShifts";
 import { CircularProgress } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Shifts() {
   const [searchError, setSearchError] = useState(false);
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
-
-  
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -22,17 +24,15 @@ function Shifts() {
   const [phone, setPhone] = useState(0);
   const [workAddress, setWorkAddress] = useState("");
   const [inShift, setInShift] = useState(false);
-  const [currentShift, setCurrentShift] = useState('');
+  const [currentShift, setCurrentShift] = useState("");
   const [shifts, setShift] = useState([]);
 
   const [isPageLoading, setIsPageLoading] = useState(false);
-
 
   const [show, setShow] = useState(false);
   const isSecretary = localStorage.getItem("role") === "secretary";
   const isAccountant = localStorage.getItem("role") === "accountant";
   const isAdmin = localStorage.getItem("role") === "admin";
-
 
   const handelSetData = (shiftsData) => {
     setId(shiftsData.employee.id);
@@ -42,9 +42,9 @@ function Shifts() {
     setPhone(shiftsData.employee.phone);
     setWorkAddress(shiftsData.employee.workAddress);
     setInShift(shiftsData.employee.shift.inShift);
-    setCurrentShift(shiftsData.employee.shift.currentShift)
+    setCurrentShift(shiftsData.employee.shift.currentShift);
     setShift(shiftsData.shifts);
-  }
+  };
 
   const getEmployeeShifts = async (id) => {
     setIsPageLoading(true);
@@ -71,7 +71,6 @@ function Shifts() {
       return () => clearTimeout(timeout);
     }
     setIsPageLoading(false);
-
   };
 
   const handleSearch = async () => {
@@ -124,21 +123,21 @@ function Shifts() {
     getEmployeeShifts(searchId);
   };
 
-
   const convertTo12HourFormat = (inputTime) => {
+    const [hours, minutes] = inputTime.split(":").map(Number);
 
-    const [hours, minutes] = inputTime.split(':').map(Number);
-
-    const ampm = hours >= 12 ? 'pm' : 'am';
+    const ampm = hours >= 12 ? "pm" : "am";
     const twelveHourFormat = hours % 12 || 12;
 
-    const formattedTime = `${twelveHourFormat}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    const formattedTime = `${twelveHourFormat}:${minutes
+      .toString()
+      .padStart(2, "0")} ${ampm}`;
 
     return formattedTime;
-  }
+  };
 
   const handleDeleteShift = async (id) => {
-    console.log(id)
+    console.log(id);
     const decision = window.confirm("هل متأكد أنك تريد حذف هذا الشيفت ؟");
 
     if (decision) {
@@ -147,8 +146,6 @@ function Shifts() {
       getEmployeeShifts(searchId);
     }
   };
-
-
 
   return (
     <Container>
@@ -189,7 +186,10 @@ function Shifts() {
           </Row>
           <Card className="text-end border-0 mb-5">
             <ListGroup variant="flush">
-              <div className="centered"> {isPageLoading && <CircularProgress />}</div>
+              <div className="centered">
+                {" "}
+                {isPageLoading && <CircularProgress />}
+              </div>
               {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
@@ -215,7 +215,7 @@ function Shifts() {
                       <input
                         autoComplete="off"
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white", width: "260px",  }}
+                        style={{ backgroundColor: "white", width: "260px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -230,7 +230,7 @@ function Shifts() {
                       <input
                         autoComplete="off"
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white", width: "260px", }}
+                        style={{ backgroundColor: "white", width: "260px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -300,12 +300,14 @@ function Shifts() {
                       <label htmlFor="empPhone">رقم الهاتف</label>
                     </div>
                   </ListGroup.Item>
-                  {!isAccountant && <button
-                    className={`btn btn-primary fs-6 p-1 mt-2 float-start`}
-                    onClick={openModal}
-                  >
-                    أضافة وردية
-                  </button>}
+                  {!isAccountant && (
+                    <button
+                      className={`btn btn-primary fs-6 p-1 mt-2 float-start`}
+                      onClick={openModal}
+                    >
+                      أضافة وردية
+                    </button>
+                  )}
                 </>
               )}
             </ListGroup>
@@ -318,19 +320,19 @@ function Shifts() {
             <Row className="centered my-5">
               <h4 className="text-center">ورديات سابقة </h4>
 
-              <Col >
+              <Col>
                 <hr className="m-0 mt-1" />
                 <table className="table text-center">
                   <thead>
-                    <tr>{isAdmin && <th scope="col"> </th>}
+                    <tr>
+                      {isAdmin && <th scope="col"> </th>}
                       {!isSecretary && <th scope="col">صافى نقد الوردية </th>}
-
 
                       <th scope="col">صافى أيام العمل </th>
                       <th scope="col"> أيام مخصومة </th>
                       <th scope="col"> أيام مكافئة </th>
                       <th scope="col"> أيام العمل </th>
-                      
+
                       <th scope="col">وقت النزول</th>
                       <th scope="col">تاريخ النزول</th>
                       <th scope="col"> مكان العمل </th>
@@ -341,38 +343,83 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
-                        {isAdmin && <td ><DeleteIcon className="delete-icon" onClick={()=>handleDeleteShift(item._id)} />
-                        </td>}
+                        <td>
+                          {isAdmin && item.endTime && (
+                            <DeleteIcon
+                              className="delete-icon"
+                              onClick={() => handleDeleteShift(item._id)}
+                            />
+                          )}
+                        </td>
 
-                        {!isSecretary ? <>
-                          <td>{item.totalSalary !== null ? item.totalSalary : '---'}</td>
-                          <td>
-                            {item.duration !== null && item.deduction.days !== null && item.bonus.days !== null
-                              ? item.duration + item.bonus.days - item.deduction.days
-                              : '---'}
-                          </td>
-                          <td>{item.deduction.days !== null ? item.deduction.days : '---'}</td>
-                          <td>{item.bonus.days !== null ? item.bonus.days : '---'}</td>
-                          <td>{item.duration !== null ? item.duration : '---'}</td>
-                        </> : <>
-                          <td>
-                            {item.duration !== null && item.deduction !== null && item.bonus !== null
-                              ? item.duration + item.bonus - item.deduction
-                              : '---'}
-                          </td>
-                          <td>{item.deduction !== null ? item.deduction : '---'}</td>
-                          <td>{item.bonus !== null ? item.bonus : '---'}</td>
-                          <td>{item.duration !== null ? item.duration : '---'}</td>
-                        </>}
-                        
-                        <td>{item.endTime ? convertTo12HourFormat(item.endTime.slice(11, 16)) : '---'}</td>
-                        <td>{item.endTime ? item.endTime.slice(0, 10) : '---'}</td>
+                        {!isSecretary ? (
+                          <>
+                            <td>
+                              {item.totalSalary !== null
+                                ? item.totalSalary
+                                : "---"}
+                            </td>
+                            <td>
+                              {item.duration !== null &&
+                              item.deduction.days !== null &&
+                              item.bonus.days !== null
+                                ? item.duration +
+                                  item.bonus.days -
+                                  item.deduction.days
+                                : "---"}
+                            </td>
+                            <td>
+                              {item.deduction.days !== null
+                                ? item.deduction.days
+                                : "---"}
+                            </td>
+                            <td>
+                              {item.bonus.days !== null
+                                ? item.bonus.days
+                                : "---"}
+                            </td>
+                            <td>
+                              {item.duration !== null ? item.duration : "---"}
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td>
+                              {item.duration !== null &&
+                              item.deduction !== null &&
+                              item.bonus !== null
+                                ? item.duration + item.bonus - item.deduction
+                                : "---"}
+                            </td>
+                            <td>
+                              {item.deduction !== null ? item.deduction : "---"}
+                            </td>
+                            <td>{item.bonus !== null ? item.bonus : "---"}</td>
+                            <td>
+                              {item.duration !== null ? item.duration : "---"}
+                            </td>
+                          </>
+                        )}
+
+                        <td>
+                          {item.endTime
+                            ? convertTo12HourFormat(item.endTime.slice(11, 16))
+                            : "---"}
+                        </td>
+                        <td>
+                          {item.endTime ? item.endTime.slice(0, 10) : "---"}
+                        </td>
                         <td>{item.location}</td>
-                        <td>{item.startTime ? convertTo12HourFormat(item.startTime.slice(11, 16)) : '---'}</td>
+                        <td>
+                          {item.startTime
+                            ? convertTo12HourFormat(
+                                item.startTime.slice(11, 16)
+                              )
+                            : "---"}
+                        </td>
                         <td>{item.startTime.slice(0, 10)}</td>
                       </tr>
                     ))}
-
                   </tbody>
                 </table>
               </Col>

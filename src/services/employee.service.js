@@ -26,34 +26,7 @@ export const getAllEmployees = async () => {
     console.error(error.response.data.error);
   }
 };
-export const getAllUnPaidEmployees = async (all) => {
-  try {
-    const token = localStorage.getItem("token");
 
-    const response = await axios.get(`${path}/financials/unpayed`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        all: all,
-      },
-    });
-    console.log(response.data.message);
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    if (error.response.status === 401) {
-      localStorage.setItem("isLoggedIn", false);
-      localStorage.setItem("token", "");
-    }
-    console.error(error);
-    console.log("req", error.response.status);
-    console.log("Status Code:", error.response.status);
-
-    console.error(error.response.data.error);
-  }
-};
 export const getAllEmployeeById = async (id) => {
   try {
     const token = localStorage.getItem("token");
@@ -160,6 +133,32 @@ export const updateEmployee = async (newEmployeeData) => {
     console.error(error.response.data.error);
   }
 };
+export const updateEmployeePaymentMethod = async (newEmployeeData) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.put(
+      `${path}/employees/update/paymentMethod/${newEmployeeData.id}`,
+      newEmployeeData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response.data.message);
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false);
+      localStorage.setItem("token", "");
+    }
+    console.error(error);
+    console.error(error.response.data.error);
+  }
+};
 
 export const deleteEmployee = async (id) => {
   try {
@@ -211,5 +210,81 @@ export const searchForAll = async (data) => {
     if (error.response) {
       console.error(error.response.data.error);
     }
+  }
+};
+export const getAllUnPaidEmployees = async (
+  all,
+  workAddress,
+  paymentMethod
+) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(`${path}/financials/unpayed`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        all: all,
+        workAddress: workAddress,
+        paymentMethod: paymentMethod,
+      },
+    });
+    console.log(response.data.message);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false);
+      localStorage.setItem("token", "");
+    }
+    console.error(error);
+    console.log("req", error.response.status);
+    console.log("Status Code:", error.response.status);
+
+    console.error(error.response.data.error);
+  }
+};
+
+export const printAllUnPaidEmployees = async (
+  all,
+  workAddress,
+  paymentMethod
+) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(
+      `${path}/financials/xlxs`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          all: all,
+          workAddress: workAddress,
+          paymentMethod: paymentMethod,
+        },
+      }
+    );
+
+    console.log(response);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      localStorage.setItem("isLoggedIn", false);
+      localStorage.setItem("token", "");
+    }
+    console.error(error);
+    console.log("req", error.response ? error.response.status : "No response");
+    console.log(
+      "Status Code:",
+      error.response ? error.response.status : "No response"
+    );
+    console.error(error.response ? error.response.data.error : "No response");
   }
 };

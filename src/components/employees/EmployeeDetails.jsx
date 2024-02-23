@@ -5,6 +5,7 @@ import {
   deleteEmployee,
   getEmployeeById,
   updateEmployee,
+  updateEmployeePaymentMethod,
 } from "../../services/employee.service";
 import { useCallback } from "react";
 
@@ -33,7 +34,6 @@ const EmployeeDetails = () => {
   const toggleUpdate = () => {
     setEnableEdit(!enableEdit);
     getEmployeeByID(id);
-    
   };
 
   const getEmployeeByID = useCallback(
@@ -50,7 +50,7 @@ const EmployeeDetails = () => {
 
         setPaymentMethod(data.employee.paymentMethod);
         if (data.employee.bankAccount) {
-          setBankNumber(data.employee.bankAccount);
+          setBankNumber(data.employee.accountNumber);
         }
       } catch (error) {
         navigate("/");
@@ -73,20 +73,28 @@ const EmployeeDetails = () => {
       workAddress: workAddress,
 
       paymentMethod: paymentMethod,
+      paymentMethodDetails: {
+        bankName: "",
+        accountNumber: "",
+        name: "",
+        ssn: "",
+        phoneNumber: "",
+        walletName: "Vodafone Cash",
+      },
     };
     if (paymentMethod === "bank") {
-      newData.bankName = bankName;
-      newData.bankAccount = bankNumber;
+      newData.paymentMethodDetails.bankName = bankName;
+      newData.paymentMethodDetails.accountNumber = bankNumber;
     }
     if (paymentMethod === "postal") {
-      newData.postalName = postalName;
-      newData.postalNumber = postalNumber;
+      newData.paymentMethodDetails.name = postalName;
+      newData.paymentMethodDetails.ssn = postalNumber;
     }
     if (paymentMethod === "wallet") {
-      newData.walletNumber = walletNumber;
+      newData.paymentMethodDetails.phoneNumber = walletNumber;
     }
     if (paymentMethod === "payroll") {
-      newData.payrollNumber = payrollNumber;
+      newData.paymentMethodDetails.accountNumber = payrollNumber;
     }
 
     if (
@@ -96,12 +104,22 @@ const EmployeeDetails = () => {
       phone !== "" &&
       phone.length === 11 &&
       workAddress !== "" &&
-      paymentMethod !== ""
+      paymentMethod !== "" &&
+      ((paymentMethod === "bank" &&
+        bankName !== "" &&
+        bankNumber.length >= 10) ||
+        (paymentMethod === "postal" &&
+          postalName !== "" &&
+          postalNumber.length === 14) ||
+        (paymentMethod === "wallet" && walletNumber.length === 11) ||
+        (paymentMethod === "payroll" && payrollNumber.length >= 10) ||
+        paymentMethod === "cash")
     ) {
       setIsLoading(true);
 
       try {
         await updateEmployee(newData);
+        await updateEmployeePaymentMethod(newData);
         toggleUpdate();
         setIsLoading(false);
       } catch (error) {
@@ -187,9 +205,9 @@ const EmployeeDetails = () => {
                       value={jobRole}
                       onChange={(e) => setJobRole(e.target.value)}
                     >
-                      <option value="">اختر وظيفة</option>
+                      <option value="">أختر وظيفة</option>
                       <option value="ضابط أول">ضابط أول</option>
-                      <option value="ضابط ثاني">ظابط تانى</option>
+                      <option value="ضابط ثانى">ضابط ثانى</option>
                       <option value="ريس بحرى">ريس بحرى</option>
                       <option value="بحرى">بحرى</option>
                       <option value="ميكانيكى">ميكانيكى</option>
@@ -287,7 +305,7 @@ const EmployeeDetails = () => {
                     onChange={(e) => setPhone(e.target.value)}
                   />
 
-                  <label htmlFor="empPhone">رقم الهاتف</label>
+                  <label htmlFor="empPhone">رقم الموظف</label>
                 </div>
               </ListGroup.Item>
               {paymentMethod === "bank" && (
@@ -440,9 +458,9 @@ const EmployeeDetails = () => {
                       }}
                     >
                       <option value="cash">كاش</option>
-                      <option value="bank">حساب بنكى</option>
+                      <option value="bank">تحويل بنكى</option>
                       <option value="payroll">payroll</option>
-                      <option value="wallet">فودافون كاش</option>
+                      <option value="wallet">محفظة إلكترونية</option>
                       <option value="postal">بريد</option>
                     </Form.Select>
                   ) : (
@@ -455,7 +473,13 @@ const EmployeeDetails = () => {
                       type="text"
                       disabled
                       id="paymentMethod"
-                      value={paymentMethod}
+                      value={
+                        (paymentMethod === "bank" && "تحويل بنكى") ||
+                        (paymentMethod === "payroll" && "payroll") ||
+                        (paymentMethod === "postal" && "بريد") ||
+                        (paymentMethod === "wallet" && "محفظة إلكترونية") ||
+                        (paymentMethod === "cash" && "كاش ")
+                      }
                     />
                   )}
                   <label htmlFor="paymentMethod"> طريقة القبض</label>

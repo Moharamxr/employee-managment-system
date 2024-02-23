@@ -1,25 +1,33 @@
-import React from 'react'
-import { useParams } from 'react-router-dom';
-import { getLoanById } from '../../services/loans.service';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useCallback } from 'react';
-import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { CircularProgress } from '@mui/material';
-import PayLoan from './PayLoan';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { getLoanById } from "../../services/loans.service";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useCallback } from "react";
+import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { CircularProgress } from "@mui/material";
+import PayLoan from "./PayLoan";
 
 const PaymentDetails = () => {
   const { id } = useParams();
-  const [debt, setDebt] = useState({});
-  const [employee, setEmployee] = useState({});
-
+  const [debt, setDebt] = useState({
+    date: "",
+    amount: "",
+    paidAmount: "",
+    remainingAmount: "",
+    reason: "",
+    status: "",
+  });
+  const [employee, setEmployee] = useState({
+    id: "",
+    name: "",
+    totalSalary: "",
+  });
 
   const [error, setError] = useState("");
   const [isPageLoading, setIsPageLoading] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
-
-
 
   const openModal = () => {
     setIsOpen(true);
@@ -37,13 +45,13 @@ const PaymentDetails = () => {
       setDebt(data.debt);
       setEmployee(data.employee);
 
-      setError('');
+      setError("");
       setIsPageLoading(false);
     } catch (error) {
-      setError('Error while loading');
+      setError("Error while loading");
       setIsPageLoading(false);
       const timeout = setTimeout(() => {
-        setError('');
+        setError("");
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -53,15 +61,19 @@ const PaymentDetails = () => {
     getData();
   }, [getData]);
 
-
   return (
     <Container>
-      <Row className='centered'>
+      <Row className="centered">
         <Col md={6}>
           <Card className="text-end border-0 ">
-          {error && <p className="text-danger text-center">{error}</p>}
+            {error && <p className="text-danger text-center">{error}</p>}
             <ListGroup variant="flush">
-              {isPageLoading && <div className="centered my-5"> <CircularProgress /></div>}
+              {isPageLoading && (
+                <div className="centered my-5">
+                  {" "}
+                  <CircularProgress />
+                </div>
+              )}
               {!isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
@@ -164,7 +176,7 @@ const PaymentDetails = () => {
                             backgroundColor: "white",
                             width: "280px",
                           }}
-                          type="text" 
+                          type="text"
                           id="totalSalary"
                           disabled
                           value={debt.reason}
@@ -182,34 +194,34 @@ const PaymentDetails = () => {
                             backgroundColor: "white",
                             width: "280px",
                           }}
-                          type="text" 
+                          type="text"
                           id="totalSalary"
                           disabled
-                          value={debt.status === 'paid' ? 'تم التسديد' : 'جارى'}
+                          value={debt.status === "paid" ? "تم التسديد" : "جارى"}
                         />
                       </div>
                       <label htmlFor="totalSalary">حالة الدين </label>
                     </div>
                   </ListGroup.Item>
 
-                  {debt.status !== 'paid' && <button
-                    className="btn btn-primary me-2 my-2"
-
-                    onClick={openModal}
-                  >
-                    تسديد الدين
-                  </button>}
-
+                  {debt.status !== "paid" && (
+                    <button
+                      className="btn btn-primary me-2 my-2"
+                      onClick={openModal}
+                    >
+                      تسديد الدين
+                    </button>
+                  )}
                 </>
               )}
             </ListGroup>
           </Card>
         </Col>
       </Row>
-      {!isPageLoading && debt.payments&&debt.payments.length > 0 ?
-        <Row className='centered'>
+      {!isPageLoading && debt.payments && debt.payments.length > 0 ? (
+        <Row className="centered">
           <Col md={6}>
-            <h4 className='text-center my-3'>تسديدات الدين السابقة</h4>
+            <h4 className="text-center my-3">تسديدات الدين السابقة</h4>
             <table className="table my-custom-table text-center mt-2">
               <thead>
                 <tr>
@@ -218,27 +230,31 @@ const PaymentDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                {!isPageLoading && debt.payments && debt.payments.length > 0 && debt.payments.map((item) => (
-                  <tr
-                    key={item._id}
-                  >
-                    <td>{item.amount}</td>
-                    <th scope="row">{item.date.slice(0, 10)}</th>
-                  </tr>
-                ))}
-
+                {!isPageLoading &&
+                  debt.payments &&
+                  debt.payments.length > 0 &&
+                  debt.payments.map((item) => (
+                    <tr key={item._id}>
+                      <td>{item.amount}</td>
+                      <th scope="row">{item.date.slice(0, 10)}</th>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </Col>
-        </Row> : !isPageLoading && <p className="text-center my-3">لا يوجد تسديدات سابقة لهذا الموظف</p>}
+        </Row>
+      ) : (
+        !isPageLoading && (
+          <p className="text-center my-3">لا يوجد تسديدات سابقة لهذا الموظف</p>
+        )
+      )}
       <PayLoan
         totalSalary={employee.totalSalary}
         isOpen={isOpen}
         onClose={closeModal}
-
       />
     </Container>
-  )
-}
+  );
+};
 
-export default PaymentDetails
+export default PaymentDetails;

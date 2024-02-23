@@ -2,54 +2,65 @@ import React, { useState } from "react";
 import { ListGroup } from "react-bootstrap";
 import { payroll } from "../../services/financials.service";
 
-const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalary, totalSalary, bonus, id, name, paymentMethod ,bankAccount}) => {
-
+const ResetSalary = ({
+  isOpen,
+  onClose,
+  loan,
+  deduction,
+  compensation,
+  baseSalary,
+  totalSalary,
+  bonus,
+  id,
+  name,
+  paymentMethod,
+  payrollNumber,
+  walletNumber,
+  walletName,
+  postalNumber,
+  postalName,
+  bankName,
+  bankNumber,
+}) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [payedAmount, setPayedAmount] = useState('');
+  const [payedAmount, setPayedAmount] = useState("");
 
   const handelPayedAmount = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const newData = {
       id: id,
       payedAmount: payedAmount,
-
     };
     if (payedAmount > 0 && payedAmount <= totalSalary) {
-
       try {
-        await payroll(newData)
-        console.log('true')
-        setIsLoading(false)
-        setError('')
+        await payroll(newData);
+        console.log("true");
+        setIsLoading(false);
+        setError("");
         onClose();
-        setPayedAmount("")
+        setPayedAmount("");
       } catch (error) {
-        setError(" يجب ان لا يكون النقد الخارج اكبر من صافى اجمالى الراتب ")
+        setError(" يجب ان لا يكون النقد الخارج اكبر من صافى اجمالى الراتب ");
         const timeout = setTimeout(() => {
           setError("");
         }, 3000);
-        setIsLoading(false)
+        setIsLoading(false);
         return () => clearTimeout(timeout);
       }
-
     } else {
-      setError(" يجب ان لا يكون النقد الخارج اكبر من صافى اجمالى الراتب ")
-      console.log('else')
-      setIsLoading(false)
+      setError(" يجب ان لا يكون النقد الخارج اكبر من صافى اجمالى الراتب ");
+      console.log("else");
+      setIsLoading(false);
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
 
       return () => clearTimeout(timeout);
-
     }
-    setIsLoading(false)
-
-  }
-
-
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -74,7 +85,6 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
               <h5 className="modal-title" id="exampleModalLabel">
                 تصفية حساب الشهر
               </h5>
-
             </div>
 
             <div className="modal-body">
@@ -180,6 +190,165 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
                     <label htmlFor="bonus">مكافئات</label>
                   </div>
                 </ListGroup.Item>
+                
+                <ListGroup.Item className="text-end">
+                  <div className="d-flex justify-content-between align-items-center me-5">
+                    <input
+                      className="form-control border-0 text-center"
+                      style={{
+                        backgroundColor: "white",
+                        width: "150px",
+                      }}
+                      type="text"
+                      disabled
+                      id="paymentMethod"
+                      value={
+                        (paymentMethod === "bank" && "تحويل بنكى") ||
+                        (paymentMethod === "payroll" && "payroll") ||
+                        (paymentMethod === "postal" && "بريد") ||
+                        (paymentMethod === "wallet" && "محفظة إلكترونية") ||
+                        (paymentMethod==='cash'&&'كاش ')
+                      }
+                    />
+
+                    <label htmlFor="paymentMethod">طريقة الدفع</label>
+                  </div>
+                </ListGroup.Item>
+                {paymentMethod === "bank" && (
+                  <>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="bankName"
+                          value={bankName}
+                        />
+
+                        <label htmlFor="bankName"> أسم البنك</label>
+                      </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="bankNumber"
+                          value={bankNumber}
+                        />
+
+                        <label htmlFor="bankNumber">رقم الحساب البنكى</label>
+                      </div>
+                    </ListGroup.Item>
+                  </>
+                )}
+                {paymentMethod === "postal" && (
+                  <>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="postalName"
+                          value={postalName}
+                        />
+
+                        <label htmlFor="postalName"> أسم صاحب رقم البريد</label>
+                      </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="postalNumber"
+                          value={postalNumber}
+                        />
+
+                        <label htmlFor="postalNumber">رقم البريد</label>
+                      </div>
+                    </ListGroup.Item>
+                  </>
+                )}
+                {paymentMethod === "wallet" && (
+                  <>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="walletName"
+                          value={walletName}
+                        />
+
+                        <label htmlFor="walletName">نوع المحفظة</label>
+                      </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="walletNumber"
+                          value={walletNumber}
+                        />
+
+                        <label htmlFor="walletNumber">رقم المحفظة</label>
+                      </div>
+                    </ListGroup.Item>
+                  </>
+                )}
+                {paymentMethod === "payroll" && (
+                  <>
+                    <ListGroup.Item className="text-end">
+                      <div className="d-flex justify-content-between align-items-center me-5">
+                        <input
+                          className="form-control border-0 text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "180px",
+                          }}
+                          type="text"
+                          disabled
+                          id="payrollNumber"
+                          value={payrollNumber}
+                        />
+
+                        <label htmlFor="payrollNumber">رقم الحساب البنكى</label>
+                      </div>
+                    </ListGroup.Item>
+                  </>
+                )}
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
@@ -196,54 +365,13 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
 
                     <label htmlFor="salary">صافى اجمالى الراتب</label>
                   </div>
-
-
                 </ListGroup.Item>
-                <ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5">
-                    <input
-                      className="form-control border-0 text-center"
-                      style={{
-                        backgroundColor: "white",
-                        width: "138px",
-                      }}
-                      type="text"
-                      disabled
-                      id="paymentMethod"
-                      value={paymentMethod}
-                    />
-
-                    <label htmlFor="paymentMethod">طريقة الدفع</label>
-                  </div>
-
-
-                </ListGroup.Item>
-                {paymentMethod==='حساب بنكى'&&<ListGroup.Item className="text-end">
-                  <div className="d-flex justify-content-between align-items-center me-5">
-                    <input
-                      className="form-control border-0 text-center"
-                      style={{
-                        backgroundColor: "white",
-                        width: "180px",
-                      }}
-                      type="text"
-                      disabled
-                      id="bankAccount"
-                      value={bankAccount}
-                    />
-
-                    <label htmlFor="bankAccount">رقم الحساب البنكى</label>
-                  </div>
-
-
-                </ListGroup.Item>}
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
                       className="form-control border-1 w-50   text-center "
                       style={{ backgroundColor: "gainsboro" }}
                       type="text"
-
                       id="payedAmount"
                       value={payedAmount}
                       onChange={(e) => setPayedAmount(e.target.value)}
@@ -252,8 +380,6 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
 
                     <label htmlFor="payedAmount">النقد الخارج</label>
                   </div>
-
-
                 </ListGroup.Item>
               </ListGroup>
             </div>
@@ -271,7 +397,6 @@ const ResetSalary = ({ isOpen, onClose, loan, deduction, compensation, baseSalar
                 data-bs-dismiss="modal"
                 onClick={() => {
                   onClose();
-
                 }}
               >
                 أغلاق

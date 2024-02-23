@@ -23,6 +23,7 @@ function App() {
             <Route path="details/:id" element={<EmployeeDetails />} />
           </Route>
           <Route path="/accounting" element={<Accounting />} />
+          <Route path="/accounting/:id" element={<Accounting />} />
           <Route path="/shifts" element={<Shifts />} />
           <Route path="/salaries" element={<Salaries />} />
           <Route path="/loans" exact >

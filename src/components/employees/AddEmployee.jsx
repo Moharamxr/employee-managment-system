@@ -16,6 +16,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
   const [bankNumber, setBankNumber] = useState("");
   const [payrollNumber, setPayrollNumber] = useState("");
   const [walletNumber, setWalletNumber] = useState("");
+  const [walletName, setWalletName] = useState("");
   const [postalName, setPostalName] = useState("");
   const [postalNumber, setPostalNumber] = useState("");
   const [error, setError] = useState("");
@@ -30,6 +31,12 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
     setPhone("");
     setWorkAddress("");
     setBaseSalary("");
+    setBankName("");
+    setBankNumber("");
+    setWalletNumber("");
+    setPostalName("");
+    setPostalNumber("");
+    setPayrollNumber("");
   };
 
   const handleAddEmp = async () => {
@@ -42,22 +49,32 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       workAddress: workAddress,
       baseSalary: baseSalary,
       paymentMethod: paymentMethod,
+      paymentMethodDetails: {
+        bankName: "",
+        accountNumber: "",
+        name: "",
+        ssn: "",
+        phoneNumber: "",
+        walletName: "Vodafone Cash"
+
+      },
     };
     if (paymentMethod === "bank") {
-      newData.bankName = bankName;
-      newData.bankAccount = bankNumber;
+      newData.paymentMethodDetails.bankName = bankName;
+      newData.paymentMethodDetails.accountNumber = bankNumber;
     }
     if (paymentMethod === "postal") {
-      newData.postalName = postalName;
-      newData.postalNumber = postalNumber;
+      newData.paymentMethodDetails.name = postalName;
+      newData.paymentMethodDetails.ssn = postalNumber;
     }
     if (paymentMethod === "wallet") {
-      newData.walletNumber = walletNumber;
+      newData.paymentMethodDetails.phoneNumber = walletNumber;
     }
     if (paymentMethod === "payroll") {
-      newData.payrollNumber = payrollNumber;
+      newData.paymentMethodDetails.accountNumber = payrollNumber;
     }
     console.log("isEmp", !empIDs.includes(parseInt(newID, 10)));
+    console.log(newData);
     if (
       !empIDs.includes(parseInt(newID, 10)) &&
       newID.length >= 3 &&
@@ -68,7 +85,17 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       phone !== "" &&
       phone.length === 11 &&
       workAddress !== "" &&
-      baseSalary !== ""
+      baseSalary !== "" &&
+      paymentMethod !== "" &&
+      ((paymentMethod === "bank" &&
+        bankName !== "" &&
+        bankNumber.length >= 10) ||
+        (paymentMethod === "postal" &&
+          postalName !== "" &&
+          postalNumber.length === 14) ||
+        (paymentMethod === "wallet" && walletNumber.length === 11) ||
+        (paymentMethod === "payroll" && payrollNumber.length >= 10) ||
+        paymentMethod === "cash")
     ) {
       setError("");
       setIsLoading(true);
@@ -88,7 +115,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       }
       setIsLoading(false);
     } else {
-      setError("تأكد من صحة البيانات الموظف مجداا");
+      setError("تأكد من صحة البيانات الموظف مجددا");
       console.log("else");
       const timeout = setTimeout(() => {
         setError("");
@@ -195,7 +222,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                         <option value="">اختر وظيفة</option>
 
                         <option value="ضابط أول">ضابط أول</option>
-                        <option value="ضابط ثاني">ظابط تانى</option>
+                        <option value="ضابط ثانى">ضابط ثانى</option>
                         <option value="ريس بحرى">ريس بحرى</option>
                         <option value="بحرى">بحرى</option>
                         <option value="ميكانيكى">ميكانيكى</option>
@@ -254,14 +281,13 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                         onChange={(e) => {
                           const selectedPaymentMethod = e.target.value;
                           setPaymentMethod(selectedPaymentMethod);
-                          
                         }}
                       >
-                        <option value="cash">كاش</option>
-                        <option value="bank">حساب بنكى</option>
-                        <option value="payroll">payroll</option>
-                        <option value="wallet">فودافون كاش</option>
-                        <option value="postal">بريد</option>
+                      <option value="cash">كاش</option>
+                      <option value="bank">تحويل بنكى</option>
+                      <option value="payroll">payroll</option>
+                      <option value="wallet">محفظة إلكترونية</option>
+                      <option value="postal">بريد</option>
                       </Form.Select>
                     </div>
                   </Col>
@@ -315,7 +341,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                 )}
                 {paymentMethod === "payroll" && (
                   <Row>
-                    <Col >
+                    <Col>
                       <div className="form-group text-end">
                         <label htmlFor="payrollNumber">رقم الحساب البنكى</label>
                         <input
@@ -365,7 +391,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                 )}
                 {paymentMethod === "wallet" && (
                   <Row>
-                    <Col >
+                    <Col>
                       <div className="form-group text-end">
                         <label htmlFor="walletNumber">رقم المحفظة </label>
                         <input
@@ -379,7 +405,6 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                         />
                       </div>
                     </Col>
-                    
                   </Row>
                 )}
               </div>

@@ -5,36 +5,47 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useContext, useState } from "react";
 import { getAllEmployeeById } from "../../services/employee.service";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import ResetSalary from "./ResetSalary";
 import UpdateFinancial from "./UpdateFinancial";
 import { gState } from "../../context/Context";
 import { CircularProgress } from "@mui/material";
+import { useEffect } from "react";
 
 function Accounting() {
+  const { id } = useParams();
   const [searchError, setSearchError] = useState(false);
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const {  setData } = useContext(gState);
-  
-
-  const [id, setId] = useState("");
+  const { setData } = useContext(gState);
+  const empIDs = localStorage.getItem("empIDs");
+  const [ID, setID] = useState("");
   const [name, setName] = useState("");
   const [jobRole, setJobRole] = useState("");
   const [ssn, setSsn] = useState("");
   const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [baseSalary, setBaseSalary] = useState("");
+  const [cost, setCost] = useState("");
+  const [daysWorked, setDaysWorked] = useState("");
   const [totalSalary, setTotalSalary] = useState("");
   const [delayedSalary, setDelayedSalary] = useState("");
   const [dailySalary, setDailySalary] = useState("");
-  const [payments, setPayments] = useState("");
+  const [payments, setPayments] = useState([]);
 
   const [bonuses, setBonuses] = useState([]);
   const [totalBonuses, setTotalBonuses] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [bankAccount, setBankAccount] = useState("");
+
+  const [bankName, setBankName] = useState("");
+  const [bankNumber, setBankNumber] = useState("");
+  const [payrollNumber, setPayrollNumber] = useState("");
+  const [walletNumber, setWalletNumber] = useState("");
+  const [walletName, setWalletName] = useState("");
+  const [postalName, setPostalName] = useState("");
+  const [postalNumber, setPostalNumber] = useState("");
+
   const [loans, setLoans] = useState([]);
   const [totalLoans, setTotalLoans] = useState("");
 
@@ -49,58 +60,86 @@ function Accounting() {
   const [show, setShow] = useState(false);
 
   const getEmployeeByID = async (id) => {
-    setIsPageLoading(true)
-    try {
-      const data = await getAllEmployeeById(id);
-      setShow(true);
-      setIsPageLoading(false)
-      setId(data.employee.id);
-      setName(data.employee.name);
-      setSsn(data.employee.ssn);
-      setJobRole(data.employee.jobRole);
-      setPhone(data.employee.phone);
-      setBaseSalary(data.employee.baseSalary);
-      setWorkAddress(data.employee.workAddress);
-      setTotalSalary(data.employee.totalSalary);
-      setDelayedSalary(data.employee.delayedSalary);
-      setDailySalary(data.employee.dailySalary);
-      setPayments(data.employee.payments);
-      setPaymentMethod(data.employee.paymentMethod);
-      setBankAccount(data.employee.bankAccount);
+    if (id && id > 0 && empIDs.includes(parseInt(id, 10))) {
+      setIsPageLoading(true);
+      try {
+        const data = await getAllEmployeeById(id);
+        setShow(true);
+        setIsPageLoading(false);
+        setID(data.employee.id);
+        setName(data.employee.name);
+        setSsn(data.employee.ssn);
+        setJobRole(data.employee.jobRole);
+        setPhone(data.employee.phone);
+        setBaseSalary(data.employee.baseSalary);
 
-      setBonuses(data.employee.bonuses.bonusesDetails);
-      setLoans(data.employee.loans.loansDetails);
-      setDeductions(data.employee.deductions.deductionsDetails);
-      setCompensations(data.employee.compensations.compensationsDetails);
+        setCost(data.employee.cost);
 
-      setTotalBonuses(data.employee.bonuses.totalBonuses);
-      setTotalLoans(data.employee.loans.totalLoans);
-      setTotalDeductions(data.employee.deductions.totalDeductions);
-      setTotalCompensations(data.employee.compensations.totalCompensations);
+        setPostalNumber(data.employee.paymentMethodDetails.postal.ssn);
+        setPostalName(data.employee.paymentMethodDetails.postal.name);
+        setBankName(data.employee.paymentMethodDetails.bank.bankName);
+        setBankNumber(data.employee.paymentMethodDetails.bank.accountNumber);
+        setPayrollNumber(
+          data.employee.paymentMethodDetails.payroll.accountNumber
+        );
+        setWalletNumber(data.employee.paymentMethodDetails.wallet.phoneNumber);
+        setWalletName(data.employee.paymentMethodDetails.wallet.walletName);
+        setDaysWorked(data.employee.daysWorked);
+        setWorkAddress(data.employee.workAddress);
+        setTotalSalary(data.employee.totalSalary);
+        setDelayedSalary(data.employee.delayedSalary);
+        setDailySalary(data.employee.dailySalary);
+        setPayments(data.employee.payments.reverse());
+        setPaymentMethod(data.employee.paymentMethod);
 
-      await setData((prevState) => {
-        return {
-          ...prevState,
-          baseSalary: data.employee.baseSalary,
-        };
-      });
-    } catch (error) {
-      console.log(error);
-      setIsPageLoading(false)
+        setBonuses(data.employee.bonuses.bonusesDetails.reverse());
+        setLoans(data.employee.loans.loansDetails.reverse());
+        setDeductions(data.employee.deductions.deductionsDetails.reverse());
+        setCompensations(
+          data.employee.compensations.compensationsDetails.reverse()
+        );
+
+        setTotalBonuses(data.employee.bonuses.totalBonuses);
+        setTotalLoans(data.employee.loans.totalLoans);
+        setTotalDeductions(data.employee.deductions.totalDeductions);
+        setTotalCompensations(data.employee.compensations.totalCompensations);
+
+        await setData((prevState) => {
+          return {
+            ...prevState,
+            baseSalary: data.employee.baseSalary,
+          };
+        });
+      } catch (error) {
+        setIsPageLoading(false);
+        setSearchError(true);
+        setSearchLoading(false);
+        setShow(false);
+        const timeout = setTimeout(() => {
+          setSearchError(false);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+      }
+      setIsPageLoading(false);
+    } else {
+      setIsPageLoading(false);
       setSearchError(true);
       setSearchLoading(false);
       setShow(false);
       const timeout = setTimeout(() => {
         setSearchError(false);
       }, 3000);
-
+      setIsPageLoading(false);
       return () => clearTimeout(timeout);
     }
-    setIsPageLoading(false)
-
+    setIsPageLoading(false);
   };
+  const navigate = useNavigate();
+
   const handleSearch = async () => {
-    if (searchId && searchId > 0) {
+    if (searchId && searchId > 0 && empIDs.includes(parseInt(searchId, 10))) {
+      navigate(`/accounting/${searchId}`);
       try {
         console.log("Search ID:", searchId);
         setSearchLoading(true);
@@ -144,7 +183,7 @@ function Accounting() {
 
   const closeModal = () => {
     setIsOpen(false);
-    getEmployeeByID(searchId);
+    getEmployeeByID(id);
   };
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -154,7 +193,7 @@ function Accounting() {
 
   const disableUpdate = () => {
     setIsUpdating(false);
-    getEmployeeByID(searchId);
+    getEmployeeByID(id);
   };
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -162,14 +201,18 @@ function Accounting() {
     }
   };
 
+  useEffect(() => {
+    if (id && id > 0 && empIDs.includes(parseInt(id, 10))) {
+      getEmployeeByID(id);
+    }
+  }, [id]);
+
   return !isSecretary ? (
     <Container>
       <Row className="centered">
         <Col sm={7} className="bg-">
           <Row>
-
-
-            <Col  >
+            <Col>
               {searchError && (
                 <p className="text-danger text-center">
                   كود غير صحيح حاول مجدداً
@@ -203,8 +246,10 @@ function Accounting() {
           </Row>
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
-
-              <div className="centered"> {isPageLoading && <CircularProgress />}</div>
+              <div className="centered">
+                {" "}
+                {isPageLoading && <CircularProgress />}
+              </div>
               {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
@@ -219,7 +264,7 @@ function Accounting() {
                         type="text"
                         disabled
                         id="empID"
-                        value={id}
+                        value={ID}
                       />
                       <label htmlFor="empId">كود الموظف</label>
                     </div>
@@ -302,7 +347,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                           width: "280px",
+                            width: "280px",
                           }}
                           type="number"
                           id="baseSalary"
@@ -321,7 +366,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                           width: "280px",
+                            width: "280px",
                           }}
                           type="number"
                           id="dailySalary"
@@ -341,7 +386,46 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                           width: "280px",
+                            width: "280px",
+                          }}
+                          type="number"
+                          id="cost"
+                          disabled
+                          value={cost}
+                        />
+                      </div>
+
+                      <label htmlFor="cost">التكلفة</label>
+                    </div>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <div className="d-flex me-5">
+                        <input
+                          className="form-control border-0   text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "280px",
+                          }}
+                          type="number"
+                          id="daysWorked"
+                          disabled
+                          value={daysWorked}
+                        />
+                      </div>
+
+                      <label htmlFor="daysWorked">ايام العمل</label>
+                    </div>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <div className="d-flex me-5">
+                        <input
+                          className="form-control border-0   text-center"
+                          style={{
+                            backgroundColor: "white",
+                            width: "280px",
                           }}
                           type="number"
                           id="loans"
@@ -360,7 +444,7 @@ function Accounting() {
                           className="form-control border-0   text-center  "
                           style={{
                             backgroundColor: "white",
-                           width: "280px",
+                            width: "280px",
                           }}
                           type="number"
                           id="deductions"
@@ -379,7 +463,7 @@ function Accounting() {
                           className="form-control border-0   text-center  "
                           style={{
                             backgroundColor: "white",
-                           width: "280px",
+                            width: "280px",
                           }}
                           type="number"
                           id="Compensation"
@@ -398,7 +482,7 @@ function Accounting() {
                           className="form-control border-0   text-center"
                           style={{
                             backgroundColor: "white",
-                           width: "280px",
+                            width: "280px",
                           }}
                           type="number"
                           id="bonus"
@@ -410,26 +494,11 @@ function Accounting() {
                       <label htmlFor="bonus">مكافئات</label>
                     </div>
                   </ListGroup.Item>
-
-                  <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <input
-                        className=" form-control border-0  text-center"
-                        style={{ backgroundColor: "white",width: "280px" }}
-                        type="text"
-                        disabled
-                        id="salary"
-                        value={totalSalary}
-                      />
-
-                      <label htmlFor="salary">صافى اجمالى الراتب</label>
-                    </div>
-                  </ListGroup.Item>
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input
                         className="border-0 me-5 text-center"
-                        style={{ backgroundColor: "white",width: "280px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
                         id="delayedSalary"
@@ -439,6 +508,21 @@ function Accounting() {
                       <label htmlFor="delayedSalary"> الراتب المرحل</label>
                     </div>
                   </ListGroup.Item>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        className=" form-control border-0  text-center"
+                        style={{ backgroundColor: "white", width: "280px" }}
+                        type="text"
+                        disabled
+                        id="salary"
+                        value={totalSalary}
+                      />
+
+                      <label htmlFor="salary">صافى اجمالى الراتب</label>
+                    </div>
+                  </ListGroup.Item>
+
                   <div className="d-flex justify-content-between mt-4">
                     <button
                       className="btn btn-primary me-2"
@@ -465,7 +549,7 @@ function Accounting() {
         <>
           <Row className="centered my-5">
             <h4 className="text-center">حسابات سابقة</h4>
-            <Col sm={8}>
+            <Col sm={9}>
               <Tabs
                 defaultActiveKey="Loans"
                 id="fill-tab-example"
@@ -482,7 +566,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {loans.reverse().map((item) => (
+                      {loans.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -502,7 +586,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {compensations.reverse().map((item) => (
+                      {compensations.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -522,7 +606,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {bonuses.reverse().map((item) => (
+                      {bonuses.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -542,7 +626,7 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {deductions.reverse().map((item) => (
+                      {deductions.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
                           <td>{item.amount.toFixed(2)}</td>
@@ -567,11 +651,15 @@ function Accounting() {
                       </tr>
                     </thead>
                     <tbody>
-                      {payments.reverse().map((item) => (
+                      {payments.map((item) => (
                         <tr key={item._id}>
                           <td>{item.payedAmount.toFixed(2)}</td>
                           <td>{item.paymentMethod}</td>
-                          <td>{item.daysWorked - item.deductionDays + item.bonusDays}</td>
+                          <td>
+                            {item.daysWorked -
+                              item.deductionDays +
+                              item.bonusDays}
+                          </td>
                           <td>{item.deductionDays}</td>
                           <td>{item.bonusDays}</td>
                           <td>{item.daysWorked}</td>
@@ -598,7 +686,13 @@ function Accounting() {
         baseSalary={baseSalary}
         totalSalary={totalSalary}
         paymentMethod={paymentMethod}
-        bankAccount={bankAccount}
+        bankNumber={bankNumber}
+        bankName={bankName}
+        postalName={postalName}
+        postalNumber={postalNumber}
+        walletName={walletName}
+        walletNumber={walletNumber}
+        payrollNumber={payrollNumber}
       />
       <UpdateFinancial
         isOpen={isUpdating}
