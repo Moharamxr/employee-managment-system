@@ -84,7 +84,7 @@ const Salaries = () => {
 
             <p className="text-end fs-5">
               <b>إجمالى السلف </b>:{" "}
-              {totalSalaries !== undefined && totalEmployeesLoans.toFixed(2)}
+              {totalSalaries !== undefined && totalEmployeesLoans.toFixed(0)}
             </p>
             <div className="d-flex justify-content-between align-content-center">
               <a href={`${path}/files/xlsx?all=${all}&workAddress=${workAddress}&paymentMethod=${paymentMethod}`}  className="btn bg-black text-light" onClick={handlePrint}>
@@ -204,12 +204,12 @@ const Salaries = () => {
                           "محفظة إلكترونية") ||
                         (item.paymentMethod === "cash" && "كاش ")}
                     </td>
-                    <td>{item.delayedSalary.toFixed(2)}</td>
-                    <td>{item.totalSalary.toFixed(2)}</td>
-                    <td>{item.totalLoans.toFixed(2)}</td>
-                    <td>{item.cost.toFixed(2)}</td>
-                    <td>{item.dailySalary.toFixed(2)}</td>
-                    <td>{item.baseSalary.toFixed(2)}</td>
+                    <td>{item.delayedSalary.toFixed(0)}</td>
+                    <td>{item.totalSalary.toFixed(0)}</td>
+                    <td>{item.totalLoans.toFixed(0)}</td>
+                    <td>{item.cost.toFixed(0)}</td>
+                    <td>{item.dailySalary.toFixed(0)}</td>
+                    <td>{item.baseSalary.toFixed(0)}</td>
                     <td>{item.daysWorked}</td>
                     <td>{item.workAddress}</td>
                     <td>{item.jobRole}</td>

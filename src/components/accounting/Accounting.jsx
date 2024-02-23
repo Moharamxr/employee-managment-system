@@ -73,7 +73,7 @@ function Accounting() {
         setPhone(data.employee.phone);
         setBaseSalary(data.employee.baseSalary);
 
-        setCost(data.employee.cost);
+        setCost(data.cost);
 
         setPostalNumber(data.employee.paymentMethodDetails.postal.ssn);
         setPostalName(data.employee.paymentMethodDetails.postal.name);
