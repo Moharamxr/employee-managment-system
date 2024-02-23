@@ -19,7 +19,7 @@ const EmployeeDetails = () => {
   const [ssn, setSsn] = useState("");
   const [phone, setPhone] = useState("");
   const [workAddress, setWorkAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [bankName, setBankName] = useState("");
   const [bankNumber, setBankNumber] = useState("");
   const [payrollNumber, setPayrollNumber] = useState("");
@@ -49,9 +49,16 @@ const EmployeeDetails = () => {
         setWorkAddress(data.employee.workAddress);
 
         setPaymentMethod(data.employee.paymentMethod);
-        if (data.employee.bankAccount) {
-          setBankNumber(data.employee.accountNumber);
-        }
+
+        setPostalNumber(data.employee.paymentMethodDetails.postal.ssn);
+        setPostalName(data.employee.paymentMethodDetails.postal.name);
+        setBankName(data.employee.paymentMethodDetails.bank.bankName);
+        setBankNumber(data.employee.paymentMethodDetails.bank.accountNumber);
+        setPayrollNumber(
+          data.employee.paymentMethodDetails.payroll.accountNumber
+        );
+        setWalletNumber(data.employee.paymentMethodDetails.wallet.phoneNumber);
+
       } catch (error) {
         navigate("/");
       }
@@ -248,11 +255,11 @@ const EmployeeDetails = () => {
                       onChange={(e) => setWorkAddress(e.target.value)}
                     >
                       <option value="SeaBreeze 1">SeaBreeze 1</option>
-                      <option value="SeaBreeze 7">SeaBreeze 7</option>
                       <option value="SeaBreeze 9">SeaBreeze 9</option>
                       <option value="SeaBreeze 18">SeaBreeze 18</option>
                       <option value="SeaBreeze 22">SeaBreeze 22</option>
                       <option value="SeaBreeze 39">SeaBreeze 39</option>
+                      <option value="SeaBreeze 44">SeaBreeze 44</option>
                       <option value="SeaBreeze 55">SeaBreeze 55</option>
                       <option value="NAPHT">NAPHT</option>
                       <option value="NAPHT 7">NAPHT 7</option>

@@ -84,6 +84,7 @@ function Accounting() {
         );
         setWalletNumber(data.employee.paymentMethodDetails.wallet.phoneNumber);
         setWalletName(data.employee.paymentMethodDetails.wallet.walletName);
+        
         setDaysWorked(data.employee.daysWorked);
         setWorkAddress(data.employee.workAddress);
         setTotalSalary(data.employee.totalSalary);

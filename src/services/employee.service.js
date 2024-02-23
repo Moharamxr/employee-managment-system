@@ -255,9 +255,9 @@ export const printAllUnPaidEmployees = async (
   try {
     const token = localStorage.getItem("token");
 
-    const response = await axios.post(
-      `${path}/financials/xlxs`,
-      {},
+    const response = await axios.get(
+      `${path}/financials/xlsx`,
+    
       {
         headers: {
           "Content-Type": "application/json",

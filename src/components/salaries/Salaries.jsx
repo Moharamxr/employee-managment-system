@@ -50,29 +50,13 @@ const Salaries = () => {
   const handleWorkAddressChange = (e) => {
     setWorkAddress(e.target.value);
   };
-  const handlePrint = async () => {
-    try {
-      const file = await printAllUnPaidEmployees(all, workAddress, paymentMethod);
-      // Create a URL for the file blob
-      const url = window.URL.createObjectURL(new Blob([file]));
-      // Create a link element
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'filename.xlsx'); 
-      
-      document.body.appendChild(link);
-      link.click();
-      
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      setError("Error while Printing");
-    }
+  const handlePrint = async (e) => {
+    navigate('/salaries');
   };
   useEffect(() => {
     getData(all, workAddress, paymentMethod);
   }, [all, workAddress, paymentMethod]);
-
+  const path = process.env.REACT_APP_BACKEND_URL;
   return (
     <Container>
       <Row>
@@ -84,37 +68,35 @@ const Salaries = () => {
               : "جميع الموظفين الذين لديهم مستحقات لم تحصل من رواتب او اخرى"}{" "}
           </h2>
           <button
-                    className="btn btn-primary float-start"
-                    onClick={() => setAll(!all)}
-                  >
-                    تبديل
-                  </button>
-         
-            <>
-              <div >
-              
-                <p className="text-end fs-5">
-                  <b>إجمالى الرواتب المستحقة</b>: {totalSalaries !== undefined &&totalSalaries.toFixed(2)}
-                </p>
-              </div>
+            className="btn btn-primary float-start"
+            onClick={() => setAll(!all)}
+          >
+            تبديل
+          </button>
+
+          <>
+            <div>
+              <p className="text-end fs-5">
+                <b>إجمالى الرواتب المستحقة</b>:{" "}
+                {totalSalaries !== undefined && totalSalaries.toFixed(2)}
+              </p>
+            </div>
+
+            <p className="text-end fs-5">
+              <b>إجمالى السلف </b>:{" "}
+              {totalSalaries !== undefined && totalEmployeesLoans.toFixed(2)}
+            </p>
+            <div className="d-flex justify-content-between align-content-center">
+              <a href={`${path}/files/xlsx?all=${all}&workAddress=${workAddress}&paymentMethod=${paymentMethod}`}  className="btn bg-black text-light" onClick={handlePrint}>
+                أطبع
+              </a>
 
               <p className="text-end fs-5">
-                <b>إجمالى السلف </b>: {totalSalaries !== undefined &&totalEmployeesLoans.toFixed(2)}
+                <b>عدد الموظفين الذين لم يأخذوا مستحقاتهم</b>:{" "}
+                {employees !== undefined && employees.length}
               </p>
-              <div className="d-flex justify-content-between align-content-center">
-               
-                  
-                  <button className="btn bg-black text-light" onClick={handlePrint}>
-                  أطبع
-                </button>
-                
-                <p className="text-end fs-5">
-                  <b>عدد الموظفين الذين لم يأخذوا مستحقاتهم</b>:{" "}
-                  {employees!== undefined && employees.length}
-                </p>
-              </div>
-            </>
-      
+            </div>
+          </>
 
           <table className="table my-custom-table text-center">
             <thead>
@@ -214,13 +196,14 @@ const Salaries = () => {
                         <td>---</td>
                       </>
                     )}
-                    <td>{
-                        (item.paymentMethod === "bank" && "تحويل بنكى") ||
+                    <td>
+                      {(item.paymentMethod === "bank" && "تحويل بنكى") ||
                         (item.paymentMethod === "payroll" && "payroll") ||
                         (item.paymentMethod === "postal" && "بريد") ||
-                        (item.paymentMethod === "wallet" && "محفظة إلكترونية") ||
-                        (item.paymentMethod === "cash" && "كاش ")
-                      }</td>
+                        (item.paymentMethod === "wallet" &&
+                          "محفظة إلكترونية") ||
+                        (item.paymentMethod === "cash" && "كاش ")}
+                    </td>
                     <td>{item.delayedSalary.toFixed(2)}</td>
                     <td>{item.totalSalary.toFixed(2)}</td>
                     <td>{item.totalLoans.toFixed(2)}</td>

@@ -48,7 +48,7 @@ const Employees = () => {
     setIsPageLoading(true);
     try {
       const data = await getAllEmployees();
-      setEmployees(data.employees);
+      setEmployees(data.employees.reverse());
       
       const employeeIds = data.employees.map((employee) => employee.id);
       setEmpIDs(employeeIds);
