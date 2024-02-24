@@ -123,7 +123,7 @@ const EmployeeDetails = () => {
       ((paymentMethod === "bank" &&
         bankName.trim() !== "" &&
         bankNumber.length >= 8 &&
-        bankNumber.length < 13) ||
+        bankNumber.length <= 25) ||
         (paymentMethod === "postal" &&
           postalName.trim() !== "" &&
           postalNumber.length === 14) ||

@@ -51,7 +51,7 @@ const Salaries = () => {
     setWorkAddress(e.target.value);
   };
   const handlePrint = async (e) => {
-    navigate('/salaries');
+    navigate("/salaries");
   };
   useEffect(() => {
     getData(all, workAddress, paymentMethod);
@@ -87,7 +87,11 @@ const Salaries = () => {
               {totalSalaries !== undefined && totalEmployeesLoans.toFixed(0)}
             </p>
             <div className="d-flex justify-content-between align-content-center">
-              <a href={`${path}/files/xlsx?all=${all}&workAddress=${workAddress}&paymentMethod=${paymentMethod}`}  className="btn bg-black text-light" onClick={handlePrint}>
+              <a
+                href={`${path}/files/xlsx?all=${all}&workAddress=${workAddress}&paymentMethod=${paymentMethod}`}
+                className="btn bg-black text-light"
+                onClick={handlePrint}
+              >
                 أطبع
               </a>
 
@@ -143,11 +147,11 @@ const Salaries = () => {
                   >
                     <option value="">المركب</option>
                     <option value="SeaBreeze 1">SeaBreeze 1</option>
-                    <option value="SeaBreeze 7">SeaBreeze 7</option>
                     <option value="SeaBreeze 9">SeaBreeze 9</option>
                     <option value="SeaBreeze 18">SeaBreeze 18</option>
                     <option value="SeaBreeze 22">SeaBreeze 22</option>
                     <option value="SeaBreeze 39">SeaBreeze 39</option>
+                    <option value="SeaBreeze 44">SeaBreeze 44</option>
                     <option value="SeaBreeze 55">SeaBreeze 55</option>
                     <option value="NAPHT">NAPHT</option>
                     <option value="NAPHT 7">NAPHT 7</option>

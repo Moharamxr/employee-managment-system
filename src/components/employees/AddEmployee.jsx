@@ -90,7 +90,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       ((paymentMethod === "bank" &&
         bankName.trim() !== "" &&
         bankNumber.length >= 8 &&
-        bankNumber.length < 13) ||
+        bankNumber.length <= 25) ||
         (paymentMethod === "postal" &&
           postalName.trim() !== "" &&
           postalNumber.length === 14) ||
@@ -196,16 +196,16 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                         className="form-control"
                         name="workAddress"
                         id="workAddress"
-                        value={workAddress} // Set the value from the state
-                        onChange={(e) => setWorkAddress(e.target.value)} // Handle the onChange event
+                        value={workAddress} 
+                        onChange={(e) => setWorkAddress(e.target.value)} 
                       >
                         <option value="">اختر مكان العمل</option>
                         <option value="SeaBreeze 1">SeaBreeze 1</option>
-                        <option value="SeaBreeze 7">SeaBreeze 7</option>
                         <option value="SeaBreeze 9">SeaBreeze 9</option>
                         <option value="SeaBreeze 18">SeaBreeze 18</option>
                         <option value="SeaBreeze 22">SeaBreeze 22</option>
                         <option value="SeaBreeze 39">SeaBreeze 39</option>
+                        <option value="SeaBreeze 44">SeaBreeze 44</option>
                         <option value="SeaBreeze 55">SeaBreeze 55</option>
                         <option value="NAPHT">NAPHT</option>
                         <option value="NAPHT 7">NAPHT 7</option>
