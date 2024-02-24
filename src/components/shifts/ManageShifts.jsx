@@ -168,7 +168,7 @@ const ManageShifts = ({
                       value={workAddress}
                       onChange={(e) => setWorkAddress(e.target.value)}
                     >
-                      <option value="">اختر مكان العمل</option>
+                      <option value="">اختر المركب </option>
                       <option value="SeaBreeze 1">SeaBreeze 1</option>
                       <option value="SeaBreeze 7">SeaBreeze 7</option>
                       <option value="SeaBreeze 9">SeaBreeze 9</option>
@@ -181,7 +181,7 @@ const ManageShifts = ({
                       <option value="Waiting">Waiting</option>
                     </Form.Select>
 
-                    <label htmlFor="workAddress">مكان العمل</label>
+                    <label htmlFor="workAddress">المركب</label>
                   </div>
                 </Col>
               </Row>}

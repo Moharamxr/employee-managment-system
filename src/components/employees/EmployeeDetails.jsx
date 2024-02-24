@@ -113,18 +113,19 @@ const EmployeeDetails = () => {
     }
 
     if (
-      id !== "" &&
-      name !== "" &&
-      jobRole !== "" &&
-      phone !== "" &&
+      id.trim() !== "" &&
+      name.trim() !== "" &&
+      jobRole.trim() !== "" &&
+      phone.trim() !== "" &&
       phone.length === 11 &&
-      workAddress !== "" &&
-      paymentMethod !== "" &&
+      workAddress.trim() !== "" &&
+      paymentMethod.trim() !== "" &&
       ((paymentMethod === "bank" &&
-        bankName !== "" &&
-        bankNumber.length >= 10) ||
+        bankName.trim() !== "" &&
+        bankNumber.length >= 8 &&
+        bankNumber.length < 13) ||
         (paymentMethod === "postal" &&
-          postalName !== "" &&
+          postalName.trim() !== "" &&
           postalNumber.length === 14) ||
         (paymentMethod === "wallet" && walletNumber.length === 11) ||
         (paymentMethod === "payroll" && payrollNumber.length >= 10) ||

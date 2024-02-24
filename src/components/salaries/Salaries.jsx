@@ -141,7 +141,7 @@ const Salaries = () => {
                     value={workAddress}
                     onChange={handleWorkAddressChange}
                   >
-                    <option value=""> مكان العمل</option>
+                    <option value="">المركب</option>
                     <option value="SeaBreeze 1">SeaBreeze 1</option>
                     <option value="SeaBreeze 7">SeaBreeze 7</option>
                     <option value="SeaBreeze 9">SeaBreeze 9</option>

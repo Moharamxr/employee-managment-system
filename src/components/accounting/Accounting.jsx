@@ -418,7 +418,26 @@ function Accounting() {
                       <label htmlFor="daysWorked">ايام العمل</label>
                     </div>
                   </ListGroup.Item>
+                  <ListGroup.Item className="text-end">
+                    <div className="d-flex justify-content-between align-items-center me-5">
+                      <input
+                        className="border-0 me-5 text-center"
+                        style={{ backgroundColor: "white", width: "280px" }}
+                        type="text"
+                        disabled
+                        id="paymentMethod"
+                        value={
+                          (paymentMethod === "bank" && "تحويل بنكى") ||
+                          (paymentMethod === "payroll" && "payroll") ||
+                          (paymentMethod === "postal" && "بريد") ||
+                          (paymentMethod === "wallet" && "محفظة إلكترونية") ||
+                          (paymentMethod === "cash" && "كاش ")
+                        }
+                      />
 
+                      <label htmlFor="paymentMethod"> طريقة الدفع </label>
+                    </div>
+                  </ListGroup.Item>
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <div className="d-flex me-5">
@@ -509,6 +528,7 @@ function Accounting() {
                       <label htmlFor="delayedSalary"> الراتب المرحل</label>
                     </div>
                   </ListGroup.Item>
+                  
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center me-5">
                       <input

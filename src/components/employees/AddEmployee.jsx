@@ -78,22 +78,25 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
     if (
       !empIDs.includes(parseInt(newID, 10)) &&
       newID.length >= 3 &&
-      name !== "" &&
-      jobRole !== "" &&
-      ssn !== "" &&
+      name.trim() !== "" &&
+      jobRole.trim() !== "" &&
+      ssn.trim() !== "" &&
       ssn.length === 14 &&
       phone !== "" &&
       phone.length === 11 &&
-      workAddress !== "" &&
-      baseSalary !== "" &&
-      paymentMethod !== "" &&
+      workAddress.trim() !== "" &&
+      baseSalary.trim() !== "" &&
+      paymentMethod.trim() !== "" &&
       ((paymentMethod === "bank" &&
-        bankName !== "" &&
-        bankNumber.length >= 10) ||
+        bankName.trim() !== "" &&
+        bankNumber.length >= 8 &&
+        bankNumber.length < 13) ||
         (paymentMethod === "postal" &&
-          postalName !== "" &&
+          postalName.trim() !== "" &&
           postalNumber.length === 14) ||
-        (paymentMethod === "wallet" && walletNumber.length === 11 && walletName !== '') ||
+        (paymentMethod === "wallet" &&
+          walletNumber.length === 11 &&
+          walletName.trim() !== "") ||
         (paymentMethod === "payroll" && payrollNumber.length >= 10) ||
         paymentMethod === "cash")
     ) {
