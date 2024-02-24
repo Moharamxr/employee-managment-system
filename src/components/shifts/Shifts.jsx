@@ -305,7 +305,7 @@ function Shifts() {
                       className={`btn btn-primary fs-6 p-1 mt-2 float-start`}
                       onClick={openModal}
                     >
-                      أضافة وردية
+                      {inShift?'نزول وردية':'صعود وردية'}
                     </button>
                   )}
                 </>

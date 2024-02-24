@@ -113,7 +113,7 @@ const ResetSalary = ({
                     <div className="d-flex me-5">
                       <input
                         className="form-control border-0   text-center"
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white", width: "150px" }}
                         type="number"
                         id="baseSalary"
                         disabled
@@ -130,7 +130,7 @@ const ResetSalary = ({
                     <div className="d-flex me-5">
                       <input
                         className="form-control border-0   text-center"
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white", width: "150px" }}
                         type="number"
                         id="loans"
                         disabled
@@ -147,7 +147,7 @@ const ResetSalary = ({
                     <div className="d-flex me-5">
                       <input
                         className="form-control border-0   text-center  "
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white", width: "150px" }}
                         type="number"
                         id="deductions"
                         disabled
@@ -163,7 +163,7 @@ const ResetSalary = ({
                     <div className="d-flex me-5">
                       <input
                         className="form-control border-0   text-center  "
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white", width: "150px" }}
                         type="number"
                         id="Compensation"
                         disabled
@@ -179,7 +179,7 @@ const ResetSalary = ({
                     <div className="d-flex me-5">
                       <input
                         className="form-control border-0   text-center"
-                        style={{ backgroundColor: "white", width: "138px" }}
+                        style={{ backgroundColor: "white", width: "150px" }}
                         type="number"
                         id="bonus"
                         value={bonus}
@@ -222,7 +222,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled
@@ -239,7 +239,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled
@@ -260,7 +260,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled
@@ -277,7 +277,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled
@@ -298,7 +298,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled
@@ -315,7 +315,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled
@@ -336,7 +336,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "180px",
+                            width: "150px",
                           }}
                           type="text"
                           disabled

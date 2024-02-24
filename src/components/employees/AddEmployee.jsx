@@ -55,8 +55,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         name: "",
         ssn: "",
         phoneNumber: "",
-        walletName: "Vodafone Cash"
-
+        walletName: "",
       },
     };
     if (paymentMethod === "bank") {
@@ -69,6 +68,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
     }
     if (paymentMethod === "wallet") {
       newData.paymentMethodDetails.phoneNumber = walletNumber;
+      newData.paymentMethodDetails.walletName = walletNumber;
     }
     if (paymentMethod === "payroll") {
       newData.paymentMethodDetails.accountNumber = payrollNumber;
@@ -93,7 +93,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         (paymentMethod === "postal" &&
           postalName !== "" &&
           postalNumber.length === 14) ||
-        (paymentMethod === "wallet" && walletNumber.length === 11) ||
+        (paymentMethod === "wallet" && walletNumber.length === 11 && walletName !== '') ||
         (paymentMethod === "payroll" && payrollNumber.length >= 10) ||
         paymentMethod === "cash")
     ) {
@@ -283,11 +283,11 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                           setPaymentMethod(selectedPaymentMethod);
                         }}
                       >
-                      <option value="cash">كاش</option>
-                      <option value="bank">تحويل بنكى</option>
-                      <option value="payroll">payroll</option>
-                      <option value="wallet">محفظة إلكترونية</option>
-                      <option value="postal">بريد</option>
+                        <option value="cash">كاش</option>
+                        <option value="bank">تحويل بنكى</option>
+                        <option value="payroll">payroll</option>
+                        <option value="wallet">محفظة إلكترونية</option>
+                        <option value="postal">بريد</option>
                       </Form.Select>
                     </div>
                   </Col>
@@ -391,7 +391,27 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                 )}
                 {paymentMethod === "wallet" && (
                   <Row>
-                    <Col>
+                    <Col sm={6}>
+                      <div className="form-group text-end">
+                        <label htmlFor="walletName">نوع المحفظة</label>
+                        <Form.Select
+                          className="form-control"
+                          name="walletName"
+                          id="walletName"
+                          value={walletName}
+                          onChange={(e) => {
+                            const selectedPaymentMethod = e.target.value;
+                            setWalletName(selectedPaymentMethod);
+                          }}
+                        >
+                          <option value="فودافون">فودافون</option>
+                          <option value="وي">وي</option>
+                          <option value="أورانج">أورانج</option>
+                          <option value="إتصالات">إتصالات</option>
+                        </Form.Select>
+                      </div>
+                    </Col>
+                    <Col sm={6}>
                       <div className="form-group text-end">
                         <label htmlFor="walletNumber">رقم المحفظة </label>
                         <input
