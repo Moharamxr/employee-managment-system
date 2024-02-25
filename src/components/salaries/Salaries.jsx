@@ -110,7 +110,7 @@ const Salaries = () => {
                 <th scope="col" className="bg-   ">
                   <select
                     size=""
-                    className="form-control text-end fw-bold"
+                    className="form-control fw-bold text-center"
                     style={{
                       width: "fit-content",
                     }}
@@ -136,7 +136,7 @@ const Salaries = () => {
                 <th scope="col">ايام العمل</th>
                 <th scope="col">
                   <select
-                    className="form-control fw-bold"
+                    className="form-control fw-bold text-center"
                     style={{
                       width: "fit-content",
                     }}
