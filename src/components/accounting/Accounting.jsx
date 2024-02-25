@@ -206,7 +206,7 @@ function Accounting() {
     if (id && id > 0 && empIDs.includes(parseInt(id, 10))) {
       getEmployeeByID(id);
     }
-  }, [id]);
+  }, [id,empIDs]);
 
   return !isSecretary ? (
     <Container>
