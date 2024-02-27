@@ -110,7 +110,7 @@ const ManageShifts = ({
       if (workAddress === "") {
         setError("ادخل المركب");
       } else if (isOverLapping()) {
-        setError("يجب ألا تتعارض معواعيد الورديات");
+        setError("يجب ألا تتعارض مواعيد الورديات");
       } else {
         setError("تاريخ خاطىء");
       }
