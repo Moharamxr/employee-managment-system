@@ -22,14 +22,13 @@ const UpdateFinancial = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const [lNotes, setLNotes] = useState('');
-  const [dNotes, setDNotes] = useState('');
-  const [cNotes, setCNotes] = useState('');
-  const [bNotes, setBNotes] = useState('');
+  const [lNotes, setLNotes] = useState("");
+  const [dNotes, setDNotes] = useState("");
+  const [cNotes, setCNotes] = useState("");
+  const [bNotes, setBNotes] = useState("");
 
   const { data, setData } = useContext(gState);
   const { baseSalary } = data;
-  
 
   const setBaseSalary = async (newData) => {
     await setData((prevState) => {
@@ -50,7 +49,7 @@ const UpdateFinancial = ({
       workAddress: workAddress,
       baseSalary: baseSalary,
     };
-    console.log(newData);
+    // console.log(newData);
     if (baseSalary !== "") {
       setError("");
       setIsLoading(true);
@@ -107,7 +106,7 @@ const UpdateFinancial = ({
     };
 
     if (value && value > 0) {
-      if (type === 'loan' || type === 'deduction') {
+      if (type === "loan" || type === "deduction") {
         if (value <= totalSalary) {
           setIsLLoading(true);
           try {
@@ -123,7 +122,7 @@ const UpdateFinancial = ({
 
             return () => clearTimeout(timeout);
           } catch (error) {
-            console.log("Error adding financial data:", error);
+            // console.log("Error adding financial data:", error);
             setIsSuccess(false);
             setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
             const timeout = setTimeout(() => {
@@ -135,7 +134,7 @@ const UpdateFinancial = ({
             setIsLLoading(false);
           }
         } else {
-          console.log("Invalid loan value");
+          // console.log("Invalid loan value");
           setError("يجب ان تكون قيمة الأستقطاع اقل من صافى الراتب");
 
           setIsSuccess(false);
@@ -146,7 +145,6 @@ const UpdateFinancial = ({
 
           return () => clearTimeout(timeout);
         }
-
       } else {
         setIsLLoading(true);
         try {
@@ -162,7 +160,7 @@ const UpdateFinancial = ({
 
           return () => clearTimeout(timeout);
         } catch (error) {
-          console.log("Error adding financial data:", error);
+          // console.log("Error adding financial data:", error);
           setIsSuccess(false);
           setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
           const timeout = setTimeout(() => {
@@ -204,7 +202,11 @@ const UpdateFinancial = ({
 
             <div className="modal-body">
               <ListGroup variant="flush">
-                {error ? <p className="text-center text-danger">{error}</p> : <p className="text-center text-white">{error}</p>}
+                {error ? (
+                  <p className="text-center text-danger">{error}</p>
+                ) : (
+                  <p className="text-center text-white">{error}</p>
+                )}
                 {isSuccess && (
                   <p className="text-end">
                     تم الإضافة بنجاح
@@ -229,7 +231,6 @@ const UpdateFinancial = ({
                   </div>
                 </ListGroup.Item>
 
-
                 <Tabs
                   defaultActiveKey="Loans"
                   id="fill-tab-example"
@@ -237,210 +238,227 @@ const UpdateFinancial = ({
                   justify
                 >
                   <Tab eventKey="Loans" title="سلف">
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center ">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="number"
+                            id="loan"
+                            onChange={(e) => setLoan(e.target.value)}
+                            value={loan}
+                          />
+                        </div>
 
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center ">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="number"
-                          id="loan"
-                          onChange={(e) => setLoan(e.target.value)}
-                          value={loan}
-                        />
-
+                        <label htmlFor="loans">سلف</label>
                       </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="text"
+                            id="lNotes"
+                            onChange={(e) => setLNotes(e.target.value)}
+                            value={lNotes}
+                          />
+                        </div>
 
-                      <label htmlFor="loans">سلف</label>
-                    </div></ListGroup.Item>
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="text"
-                          id="lNotes"
-                          onChange={(e) => setLNotes(e.target.value)}
-                          value={lNotes}
-                        />
-
+                        <label htmlFor="lNotes">ملاحظة</label>
                       </div>
+                    </ListGroup.Item>
 
-                      <label htmlFor="lNotes">ملاحظة</label>
-                    </div></ListGroup.Item>
-
-                    <div className="centered"><button
-                      type="button"
-                      className="btn btn-primary p-2 text-center mt-3"
-                      style={{ height: "38px" }}
-                      data-mdb-ripple-init
-                      onClick={() => handleAddFinancial("loan", loan, lNotes)}
-                      disabled={isLLoading}
-                    >
-                      إضافة سلف
-                    </button></div>
-
+                    <div className="centered">
+                      <button
+                        type="button"
+                        className="btn btn-primary p-2 text-center mt-3"
+                        style={{ height: "38px" }}
+                        data-mdb-ripple-init
+                        onClick={() => handleAddFinancial("loan", loan, lNotes)}
+                        disabled={isLLoading}
+                      >
+                        إضافة سلف
+                      </button>
+                    </div>
                   </Tab>
                   <Tab eventKey="Compensation" title="بدلات">
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center ">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="number"
+                            id="Compensation"
+                            onChange={(e) => setCompensation(e.target.value)}
+                            value={compensation}
+                          />
+                        </div>
 
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center ">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="number"
-                          id="Compensation"
-                          onChange={(e) => setCompensation(e.target.value)}
-                          value={compensation}
-                        />
-
+                        <label htmlFor="Compensation">بدلات</label>
                       </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="text"
+                            id="cNotes"
+                            onChange={(e) => setCNotes(e.target.value)}
+                            value={cNotes}
+                          />
+                        </div>
 
-                      <label htmlFor="Compensation">بدلات</label>
-                    </div></ListGroup.Item>
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="text"
-                          id="cNotes"
-                          onChange={(e) => setCNotes(e.target.value)}
-                          value={cNotes}
-                        />
-
+                        <label htmlFor="lNotes">ملاحظة</label>
                       </div>
+                    </ListGroup.Item>
 
-                      <label htmlFor="lNotes">ملاحظة</label>
-                    </div></ListGroup.Item>
-
-                    <div className="centered"><button
-                      type="button"
-                      className="btn btn-primary p-2 text-center mt-3"
-                      style={{ height: "38px" }}
-                      data-mdb-ripple-init
-                      onClick={() => handleAddFinancial("compensation", compensation, cNotes)}
-                      disabled={isLLoading}
-                    >
-                      إضافة بدل
-                    </button></div>
-
+                    <div className="centered">
+                      <button
+                        type="button"
+                        className="btn btn-primary p-2 text-center mt-3"
+                        style={{ height: "38px" }}
+                        data-mdb-ripple-init
+                        onClick={() =>
+                          handleAddFinancial(
+                            "compensation",
+                            compensation,
+                            cNotes
+                          )
+                        }
+                        disabled={isLLoading}
+                      >
+                        إضافة بدل
+                      </button>
+                    </div>
                   </Tab>
                   <Tab eventKey="bonus" title="مكافئات">
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center ">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="number"
+                            id="bonus"
+                            onChange={(e) => setBonus(e.target.value)}
+                            value={bonus}
+                          />
+                        </div>
 
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center ">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="number"
-                          id="bonus"
-                          onChange={(e) => setBonus(e.target.value)}
-                          value={bonus}
-                        />
-
+                        <label htmlFor="bonus">مكافئات</label>
                       </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="text"
+                            id="bNotes"
+                            onChange={(e) => setBNotes(e.target.value)}
+                            value={bNotes}
+                          />
+                        </div>
 
-                      <label htmlFor="bonus">مكافئات</label>
-                    </div></ListGroup.Item>
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="text"
-                          id="bNotes"
-                          onChange={(e) => setBNotes(e.target.value)}
-                          value={bNotes}
-                        />
-
+                        <label htmlFor="lNotes">ملاحظة</label>
                       </div>
+                    </ListGroup.Item>
 
-                      <label htmlFor="lNotes">ملاحظة</label>
-                    </div></ListGroup.Item>
-
-                    <div className="centered"><button
-                      type="button"
-                      className="btn btn-primary p-2 text-center mt-3"
-                      style={{ height: "38px" }}
-                      data-mdb-ripple-init
-                      onClick={() => handleAddFinancial("bonus", bonus, bNotes)}
-                      disabled={isLLoading}
-                    >
-                      إضافة مكافأة
-                    </button></div>
-
+                    <div className="centered">
+                      <button
+                        type="button"
+                        className="btn btn-primary p-2 text-center mt-3"
+                        style={{ height: "38px" }}
+                        data-mdb-ripple-init
+                        onClick={() =>
+                          handleAddFinancial("bonus", bonus, bNotes)
+                        }
+                        disabled={isLLoading}
+                      >
+                        إضافة مكافأة
+                      </button>
+                    </div>
                   </Tab>
 
-
                   <Tab eventKey="Deductions" title="استقطاعات">
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center ">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="number"
+                            id="deductions"
+                            onChange={(e) => setDeduction(e.target.value)}
+                            value={deduction}
+                          />
+                        </div>
 
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center ">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="number"
-                          id="deductions"
-                          onChange={(e) => setDeduction(e.target.value)}
-                          value={deduction}
-                        />
-
+                        <label htmlFor="deductions">استقطاعات</label>
                       </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex">
+                          <input
+                            className="form-control text-center  "
+                            style={{
+                              backgroundColor: "lightgrey",
+                              width: "138px",
+                            }}
+                            type="text"
+                            id="dNotes"
+                            onChange={(e) => setDNotes(e.target.value)}
+                            value={dNotes}
+                          />
+                        </div>
 
-                      <label htmlFor="deductions">استقطاعات</label>
-                    </div></ListGroup.Item>
-                    <ListGroup.Item ><div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex">
-                        <input
-                          className="form-control text-center  "
-                          style={{
-                            backgroundColor: "lightgrey",
-                            width: "138px",
-                          }}
-                          type="text"
-                          id="dNotes"
-                          onChange={(e) => setDNotes(e.target.value)}
-                          value={dNotes}
-                        />
-
+                        <label htmlFor="dNotes">ملاحظة</label>
                       </div>
+                    </ListGroup.Item>
 
-                      <label htmlFor="dNotes">ملاحظة</label>
-                    </div></ListGroup.Item>
-
-                    <div className="centered"><button
-                      type="button"
-                      className="btn btn-primary p-2 text-center mt-3"
-                      style={{ height: "38px" }}
-                      data-mdb-ripple-init
-                      onClick={() => handleAddFinancial("deduction", deduction, dNotes)}
-                      disabled={isLLoading}
-                    >
-                      إضافة إستقطاع
-                    </button></div>
-
+                    <div className="centered">
+                      <button
+                        type="button"
+                        className="btn btn-primary p-2 text-center mt-3"
+                        style={{ height: "38px" }}
+                        data-mdb-ripple-init
+                        onClick={() =>
+                          handleAddFinancial("deduction", deduction, dNotes)
+                        }
+                        disabled={isLLoading}
+                      >
+                        إضافة إستقطاع
+                      </button>
+                    </div>
                   </Tab>
                   <Tab eventKey="baseSalary" title="الراتب الاساسى">
                     <div className="d-flex justify-content-between align-items-center me-5  mb-5">

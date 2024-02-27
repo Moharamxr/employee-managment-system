@@ -149,7 +149,7 @@ const EmployeeDetails = () => {
       }
     } else {
       setError("تأكد من صحة البيانات, حاول مجدداً");
-      console.log("else");
+      // console.log("else");
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
@@ -172,7 +172,7 @@ const EmployeeDetails = () => {
     <Container>
       <Row className="centered">
         {!isPageLoading ? (
-          <Col sm={6}>
+          <Col sm={7}>
             <Card className="text-end border-0">
               <ListGroup variant="flush">
                 <ListGroup.Item className="text-end">
@@ -197,11 +197,13 @@ const EmployeeDetails = () => {
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
                       autoComplete="off"
-                      className="border-0 form-control w-50  text-center"
+                      className="border-0 form-control text-center"
                       style={{
                         backgroundColor: `${
                           enableEdit ? "gainsboro" : "white "
                         }`,
+                        width: "18rem",
+                        
                       }}
                       type="text"
                       disabled={!enableEdit}

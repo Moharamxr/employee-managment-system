@@ -13,13 +13,13 @@ const Layout = (props) => {
       logout();
       localStorage.setItem('token', '');
       localStorage.setItem("isLoggedIn", false);
-      console.log("logged out");
+      // console.log("logged out");
       navigate("/login");
     };
   
     if (!isLoggedIn && localStorage.getItem("token") === '') {
       navigate("/login");
-      console.log('goes to login');
+      // console.log('goes to login');
     }
   
     const timeoutId = setTimeout(function () {

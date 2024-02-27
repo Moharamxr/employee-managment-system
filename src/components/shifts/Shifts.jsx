@@ -76,7 +76,7 @@ function Shifts() {
   const handleSearch = async () => {
     if (searchId && searchId > 0) {
       try {
-        console.log("Search ID:", searchId);
+        // console.log("Search ID:", searchId);
         setSearchLoading(true);
         getEmployeeShifts(searchId);
 
@@ -137,7 +137,7 @@ function Shifts() {
   };
 
   const handleDeleteShift = async (id) => {
-    console.log(id);
+    // console.log(id);
     const decision = window.confirm("هل متأكد أنك تريد حذف هذا الشيفت ؟");
 
     if (decision) {
@@ -305,7 +305,7 @@ function Shifts() {
                       className={`btn btn-primary fs-6 p-1 mt-2 float-start`}
                       onClick={openModal}
                     >
-                      {inShift?'نزول وردية':'صعود وردية'}
+                      {inShift ? "نزول وردية" : "صعود وردية"}
                     </button>
                   )}
                 </>
@@ -343,14 +343,16 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
-                        <td>
-                          {isAdmin && item.endTime && (
-                            <DeleteIcon
-                              className="delete-icon"
-                              onClick={() => handleDeleteShift(item._id)}
-                            />
-                          )}
-                        </td>
+                        {isAdmin && (
+                          <td>
+                            {isAdmin && item.endTime && (
+                              <DeleteIcon
+                                className="delete-icon"
+                                onClick={() => handleDeleteShift(item._id)}
+                              />
+                            )}
+                          </td>
+                        )}
 
                         {!isSecretary ? (
                           <>
@@ -435,6 +437,7 @@ function Shifts() {
         inShift={inShift}
         id={id}
         currentShift={currentShift && currentShift}
+        shifts={shifts}
       />
     </Container>
   );

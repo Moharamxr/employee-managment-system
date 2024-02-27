@@ -15,18 +15,18 @@ export const getAllLoans = async (data) => {
                 pending: data,
             },
         });
-        console.log(response.data.message);
-        console.log(response.data);
+        // console.log(response.data.message);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error(error);
-        console.log("req", error.response.status);
+        // console.error(error);
+        // console.log("req", error.response.status);
         if (error.response.status === 401) {
             localStorage.setItem("isLoggedIn", false)
             localStorage.setItem("token", '');
         }
-        console.log('Status Code:', error.response.status);
-        console.error(error.response.data.error);
+        // console.log('Status Code:', error.response.status);
+        // console.error(error.response.data.error);
 
     }
 };
@@ -39,18 +39,18 @@ export const getLoanById = async (id) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data.message);
-        console.log(response.data);
+        // console.log(response.data.message);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error(error);
-        console.log("req", error.response.status);
+        // console.error(error);
+        // console.log("req", error.response.status);
         if (error.response.status === 401) {
             localStorage.setItem("isLoggedIn", false)
             localStorage.setItem("token", '');
         }
-        console.log('Status Code:', error.response.status);
-        console.error(error.response.data.error);
+        // console.log('Status Code:', error.response.status);
+        // console.error(error.response.data.error);
 
     }
 };
@@ -67,18 +67,18 @@ export const makePayment = async (newData) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data.message);
-        console.log(response.data);
+        // console.log(response.data.message);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error(error);
-        console.log("req", error.response.status);
+        // console.error(error);
+        // console.log("req", error.response.status);
         if (error.response.status === 401) {
             localStorage.setItem("isLoggedIn", false)
             localStorage.setItem("token", '');
         }
-        console.log('Status Code:', error.response.status);
-        console.error(error.response.data.error);
+        // console.log('Status Code:', error.response.status);
+        // console.error(error.response.data.error);
 
     }
 };
@@ -97,18 +97,18 @@ export const addDept = async (newData) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data.message);
-        console.log(response.data);
+        // console.log(response.data.message);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error(error);
-        console.log("req", error.response.status);
+        // console.error(error);
+        // console.log("req", error.response.status);
         if (error.response.status === 401) {
             localStorage.setItem("isLoggedIn", false)
             localStorage.setItem("token", '');
         }
-        console.log('Status Code:', error.response.status);
-        console.error(error.response.data.error);
+        // console.log('Status Code:', error.response.status);
+        // console.error(error.response.data.error);
 
     }
 };
@@ -124,18 +124,18 @@ export const getEmpLoans = async (id) => {
                 pending: false,
             },
         });
-        console.log(response.data.message);
-        console.log(response.data);
+        // console.log(response.data.message);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error(error);
-        console.log("req", error.response.status);
+        // console.error(error);
+        // console.log("req", error.response.status);
         if (error.response.status === 401) {
             localStorage.setItem("isLoggedIn", false)
             localStorage.setItem("token", '');
         }
-        console.log('Status Code:', error.response.status);
-        console.error(error.response.data.error);
+        // console.log('Status Code:', error.response.status);
+        // console.error(error.response.data.error);
 
     }
 };

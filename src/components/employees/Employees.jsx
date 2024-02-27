@@ -10,11 +10,10 @@ import {
   getEmployeeById,
   searchForAll,
 } from "../../services/employee.service";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { CircularProgress } from "@mui/material";
 import { useContext } from "react";
 import { gState } from "../../context/Context";
-
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -26,7 +25,7 @@ const Employees = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchLoading2, setSearchLoading2] = useState(false);
   const [searchData, setSearchData] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
   const [showSearchData, setShowSearchData] = useState(false);
   const [empIDs, setEmpIDs] = useState([]);
 
@@ -49,10 +48,10 @@ const Employees = () => {
     try {
       const data = await getAllEmployees();
       setEmployees(data.employees.reverse());
-      
+
       const employeeIds = data.employees.map((employee) => employee.id);
       setEmpIDs(employeeIds);
-      localStorage.setItem('empIDs', employeeIds);
+      localStorage.setItem("empIDs", employeeIds);
 
       await setData((prevState) => {
         return {
@@ -61,11 +60,11 @@ const Employees = () => {
         };
       });
 
-      setError('');
+      setError("");
       setIsPageLoading(false);
     } catch (error) {
       setIsPageLoading(false);
-      setError('Error while loading');
+      setError("Error while loading");
     }
     setIsPageLoading(false);
   }, [setData]);
@@ -74,22 +73,21 @@ const Employees = () => {
     getData();
   }, [getData]);
 
-console.log(empIDs)
+  // console.log(empIDs)
   const handleSearch = async () => {
     try {
       if (empIDs.includes(parseInt(searchId, 10))) {
-        console.log("Search ID:", searchId);
+        // console.log("Search ID:", searchId);
         setSearchLoading(true);
         await getEmployeeById(searchId);
-        console.log("Employee details fetched successfully");
+        // console.log("Employee details fetched successfully");
         navigate(`details/${searchId}`);
         setSearchError(false);
       } else {
-        console.log("Invalid search ID or not found in empIDs");
+        // console.log("Invalid search ID or not found in empIDs");
         setSearchError(true);
       }
     } catch (error) {
-      console.error("Error fetching employee details:", error);
       setSearchError(true);
     } finally {
       setSearchLoading(false);
@@ -101,13 +99,8 @@ console.log(empIDs)
       return () => clearTimeout(timeout);
     }
   };
- 
-  
-
 
   const handleBigSearch = async () => {
-    
-
     try {
       setSearchLoading2(true);
 
@@ -154,13 +147,19 @@ console.log(empIDs)
           <div className="input-group my-4 centered">
             <button
               type="button"
-              className={`btn btn-${showSearchData ? 'secondary' : 'primary'}`}
+              className={`btn btn-${showSearchData ? "secondary" : "primary"}`}
               style={{ height: "38px" }}
               data-mdb-ripple-init
               onClick={handleBigSearch}
               disabled={searchLoading2}
             >
-              {searchLoading2 ? "جارى البحث" : showSearchData ? <CloseIcon /> : <SearchIcon />}
+              {searchLoading2 ? (
+                "جارى البحث"
+              ) : showSearchData ? (
+                <CloseIcon />
+              ) : (
+                <SearchIcon />
+              )}
             </button>
             <div className="form-outline">
               <input
@@ -171,12 +170,11 @@ console.log(empIDs)
                 placeholder="ابحث بأسم, وظيفة, مكان عمل, رقم هاتف, رقم قومى "
                 style={{ width: "190%" }}
                 onChange={(e) => setSearchInput(e.target.value)}
-             
               />
             </div>
           </div>
         </Col>
-        <Col lg={5} xs={10} className=" offset-md-1" >
+        <Col lg={5} xs={10} className=" offset-md-1">
           {searchError && (
             <p className="text-danger text-center">كود غير صحيح حاول مجدداً</p>
           )}
@@ -220,23 +218,26 @@ console.log(empIDs)
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(DATA) && DATA.map((item) => (
-                <tr
-                  key={item.id}
-                  onClick={() => navigate(`details/${item.id}`)}
-                >
-                  <td>{item.phone}</td>
-                  <td>{item.ssn}</td>
-                  <td>{item.workAddress}</td>
-                  <td>{item.jobRole}</td>
-                  <td>{item.name}</td>
-                  <th scope="row">{item.id}</th>
-                </tr>
-              ))}
+              {Array.isArray(DATA) &&
+                DATA.map((item) => (
+                  <tr
+                    key={item.id}
+                    onClick={() => navigate(`details/${item.id}`)}
+                  >
+                    <td>{item.phone}</td>
+                    <td>{item.ssn}</td>
+                    <td>{item.workAddress}</td>
+                    <td>{item.jobRole}</td>
+                    <td>{item.name}</td>
+                    <th scope="row">{item.id}</th>
+                  </tr>
+                ))}
             </tbody>
-
           </table>
-          <div className="centered"> {isPageLoading && <CircularProgress />}</div>
+          <div className="centered">
+            {" "}
+            {isPageLoading && <CircularProgress />}
+          </div>
         </Col>
       </Row>
 
@@ -248,11 +249,7 @@ console.log(empIDs)
       >
         <AddIcon />
       </Fab>
-      <AddEmployee
-        isOpen={isOpen}
-        onClose={closeModal}
-        empIDs={empIDs}
-      />
+      <AddEmployee isOpen={isOpen} onClose={closeModal} empIDs={empIDs} />
     </Container>
   );
 };

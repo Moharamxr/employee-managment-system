@@ -142,7 +142,7 @@ function Accounting() {
     if (searchId && searchId > 0 && empIDs.includes(parseInt(searchId, 10))) {
       navigate(`/accounting/${searchId}`);
       try {
-        console.log("Search ID:", searchId);
+        // console.log("Search ID:", searchId);
         setSearchLoading(true);
         getEmployeeByID(searchId);
 

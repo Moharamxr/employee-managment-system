@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField, TimeField } from "@mui/x-date-pickers";
 import { addShift, getShiftById } from "../../services/shifts.service";
 import { useCallback } from "react";
@@ -13,6 +13,7 @@ const ManageShifts = ({
   inShift,
   id,
   currentShift,
+  shifts,
 }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +21,7 @@ const ManageShifts = ({
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
 
-  const [workAddress, setWorkAddress] = useState('');
+  const [workAddress, setWorkAddress] = useState("");
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -36,38 +37,83 @@ const ManageShifts = ({
         const data = await getShiftById(currentShift);
         setStartTime(dayjs(data.shift.startTime));
       } catch (error) {
-        console.error("Error fetching shift data:", error);
+        // console.error("Error fetching shift data:", error);
       }
     }
-  }, [ currentShift]);
+  }, [currentShift]);
 
   useEffect(() => {
     getShiftData();
   }, [getShiftData]);
 
-
   const reset = () => {
-    setTime(dayjs()); // Reset time to the current time
-    setDate(dayjs()); // Reset date to the current date
+    setTime(dayjs());
+    setDate(dayjs());
   };
+
+  const isOverLapping = () => {
+    let isOverlap = false;
+    shifts.forEach((shift) => {
+      if (!inShift) {
+        if (date.isBefore(shift.startTime) || date.isAfter(shift.endTime)) {
+          isOverlap = true;
+        }
+      } else {
+        if (date.isAfter(shift.endTime)) {
+          isOverlap = true;
+        }
+      }
+    });
+    return isOverlap;
+  };
+  const now = dayjs();
+
+  // console.log("isOverLapping", isOverLapping());
 
   const handleAddShift = async (newData) => {
     setIsLoading(true);
     try {
-      const data = await addShift(newData);
-      if (data) {
-        reset();
-        onClose();
+      if (date.isBefore(now)) {
+        if (inShift && date.isAfter(startTime)|| !inShift && date.isBefore(now)) {
+          const data = await addShift(newData);
+          if (data) {
+            reset();
+            onClose();
+          } else {
+            if (workAddress === "") {
+              setError("ادخل المركب");
+            } else if (isOverLapping()) {
+              setError("يجب ألا تتعارض مواعيد الورديات");
+            } else {
+              setError("تاريخ خاطىء");
+            }
+            const timeout = setTimeout(() => {
+              setError("");
+            }, 3000);
+            return () => clearTimeout(timeout);
+          }
+        } else  {
+          setError("يجب ان يكون وقت النزول بعد وقت الصعود");
+          const timeout = setTimeout(() => {
+            setError("");
+          }, 3000);
+          return () => clearTimeout(timeout);
+        }
       } else {
-        setError("حدث خطأ أثناء إضافة الوردية.");
+        setError("يجب الا يكون التاريخ فى المستقبل");
         const timeout = setTimeout(() => {
           setError("");
         }, 3000);
         return () => clearTimeout(timeout);
       }
-
     } catch (error) {
-      setError("حدث خطأ أثناء إضافة الوردية.");
+      if (workAddress === "") {
+        setError("ادخل المركب");
+      } else if (isOverLapping()) {
+        setError("يجب ألا تتعارض معواعيد الورديات");
+      } else {
+        setError("تاريخ خاطىء");
+      }
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
@@ -76,8 +122,6 @@ const ManageShifts = ({
       setIsLoading(false);
     }
   };
-  const now = dayjs();
-
 
   const handleFormSubmit = () => {
     const formattedDate = date.format("YYYY-MM-DD");
@@ -89,22 +133,7 @@ const ManageShifts = ({
       date: formattedDate,
       location: workAddress,
     };
-
-    if (inShift) {
-      if (formattedDate !== '' && formattedTime !== '' && date.isAfter(startTime) && date.isBefore(now) && workAddress !== '') {
-        handleAddShift(newData);
-      } else {
-        setError("يجب ان يكون تاريخ النزول بعد تاريخ الصعود");
-        const timeout = setTimeout(() => {
-          setError("");
-        }, 3000);
-        return () => clearTimeout(timeout);
-      }
-    } else {
-      if (formattedDate !== '' && formattedTime !== '') {
-        handleAddShift(newData);
-      }
-    }
+    handleAddShift(newData);
   };
 
   return (
@@ -156,35 +185,36 @@ const ManageShifts = ({
                   </LocalizationProvider>
                 </Col>
               </Row>
-              {!inShift && <Row>
-                <Col>
-                  <div className="d-flex justify-content-between align-items-center me-5 my-3">
+              {!inShift && (
+                <Row>
+                  <Col>
+                    <div className="d-flex justify-content-between align-items-center me-5 my-3">
+                      <Form.Select
+                        size="sm"
+                        className="form-control w-50 float-start me-5 text-end "
+                        name="workAddress"
+                        id="workAddress"
+                        value={workAddress}
+                        onChange={(e) => setWorkAddress(e.target.value)}
+                      >
+                        <option value="">اختر المركب </option>
+                        <option value="SeaBreeze 1">SeaBreeze 1</option>
+                        <option value="SeaBreeze 9">SeaBreeze 9</option>
+                        <option value="SeaBreeze 18">SeaBreeze 18</option>
+                        <option value="SeaBreeze 22">SeaBreeze 22</option>
+                        <option value="SeaBreeze 39">SeaBreeze 39</option>
+                        <option value="SeaBreeze 44">SeaBreeze 44</option>
+                        <option value="SeaBreeze 55">SeaBreeze 55</option>
+                        <option value="NAPHT">NAPHT</option>
+                        <option value="NAPHT 7">NAPHT 7</option>
+                        <option value="Waiting">Waiting</option>
+                      </Form.Select>
 
-                    <Form.Select
-                      size="sm"
-                      className="form-control w-50 float-start me-5 text-end "
-                      name="workAddress"
-                      id="workAddress"
-                      value={workAddress}
-                      onChange={(e) => setWorkAddress(e.target.value)}
-                    >
-                      <option value="">اختر المركب </option>
-                      <option value="SeaBreeze 1">SeaBreeze 1</option>
-                      <option value="SeaBreeze 9">SeaBreeze 9</option>
-                      <option value="SeaBreeze 18">SeaBreeze 18</option>
-                      <option value="SeaBreeze 22">SeaBreeze 22</option>
-                      <option value="SeaBreeze 39">SeaBreeze 39</option>
-                      <option value="SeaBreeze 44">SeaBreeze 44</option>
-                      <option value="SeaBreeze 55">SeaBreeze 55</option>
-                      <option value="NAPHT">NAPHT</option>
-                      <option value="NAPHT 7">NAPHT 7</option>
-                      <option value="Waiting">Waiting</option>
-                    </Form.Select>
-
-                    <label htmlFor="workAddress">المركب</label>
-                  </div>
-                </Col>
-              </Row>}
+                      <label htmlFor="workAddress">المركب</label>
+                    </div>
+                  </Col>
+                </Row>
+              )}
             </div>
             <div className="modal-footer">
               <button
@@ -193,14 +223,17 @@ const ManageShifts = ({
                 onClick={handleFormSubmit}
                 disabled={isLoading}
               >
-                {!isLoading ? "أضافة الوردية" : "...جارى أضافة الوردية"}
+                {!isLoading
+                  ? inShift
+                    ? "نزول الوردية"
+                    : "صعود الوردية"
+                  : "...جارى أضافة الوردية"}
               </button>
               <button
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
                 onClick={onClose}
-                disabled={isLoading}
               >
                 أغلاق
               </button>

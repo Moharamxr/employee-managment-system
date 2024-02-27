@@ -36,7 +36,7 @@ const ResetSalary = ({
     if (payedAmount > 0 && payedAmount <= totalSalary) {
       try {
         await payroll(newData);
-        console.log("true");
+        // console.log("true");
         setIsLoading(false);
         setError("");
         onClose();
@@ -51,7 +51,7 @@ const ResetSalary = ({
       }
     } else {
       setError(" يجب ان لا يكون النقد الخارج اكبر من صافى اجمالى الراتب ");
-      console.log("else");
+      // console.log("else");
       setIsLoading(false);
       const timeout = setTimeout(() => {
         setError("");
@@ -190,7 +190,7 @@ const ResetSalary = ({
                     <label htmlFor="bonus">مكافئات</label>
                   </div>
                 </ListGroup.Item>
-                
+
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
@@ -207,7 +207,7 @@ const ResetSalary = ({
                         (paymentMethod === "payroll" && "payroll") ||
                         (paymentMethod === "postal" && "بريد") ||
                         (paymentMethod === "wallet" && "محفظة إلكترونية") ||
-                        (paymentMethod==='cash'&&'كاش ')
+                        (paymentMethod === "cash" && "كاش ")
                       }
                     />
 
@@ -260,7 +260,7 @@ const ResetSalary = ({
                           className="form-control border-0 text-center"
                           style={{
                             backgroundColor: "white",
-                            width: "150px",
+                            width: "180px",
                           }}
                           type="text"
                           disabled
@@ -268,7 +268,7 @@ const ResetSalary = ({
                           value={postalName}
                         />
 
-                        <label htmlFor="postalName"> أسم صاحب رقم البريد</label>
+                        <label htmlFor="postalName"> أسم المحول إليه  </label>
                       </div>
                     </ListGroup.Item>
                     <ListGroup.Item className="text-end">

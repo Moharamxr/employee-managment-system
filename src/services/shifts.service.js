@@ -16,12 +16,12 @@ export const getShiftById = async (id) => {
         },
       }
     );
-    console.log("Shift by ID fetched successfully");
-    console.log(response.data);
+    // console.log("Shift by ID fetched successfully");
+    // console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
+    // console.error(error);
+    // console.error(error.response.data.error);
   }
 };
 export const getShiftByEmployeeId = async (id) => {
@@ -38,12 +38,12 @@ export const getShiftByEmployeeId = async (id) => {
         },
       }
     );
-    console.log("Shifts by Employee ID fetched successfully");
-    console.log(response.data);
+    // console.log("Shifts by Employee ID fetched successfully");
+    // console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
+    // console.error(error);
+    // console.error(error.response.data.error);
     if (error.response.status === 401) {
       localStorage.setItem("token", '');
       localStorage.setItem('isLoggedIn', false);
@@ -64,12 +64,12 @@ export const getShiftsFinancial = async (id) => {
         },
       }
     );
-    console.log("Financial of Shifts by Employee ID fetched successfully");
-    console.log(response.data);
+    // console.log("Financial of Shifts by Employee ID fetched successfully");
+    // console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
+    // console.error(error);
+    // console.error(error.response.data.error);
     if (error.response.status === 401) {
       localStorage.setItem("token", '');
       localStorage.setItem('isLoggedIn', false);
@@ -98,11 +98,11 @@ export const addShift = async (newData) => {
       }
     );
 
-    console.log(response.data.message);
+    // console.log(response.data.message);
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
+    // console.error(error);
+    // console.error(error.response.data.error);
     if (error.response.status === 401) {
       localStorage.setItem("token", '');
       localStorage.setItem('isLoggedIn', false);
@@ -123,11 +123,11 @@ export const deleteShift = async (id) => {
       }
     );
 
-    console.log(response.data.message);
+    // console.log(response.data.message);
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
+    // console.error(error);
+    // console.error(error.response.data.error);
     if (error.response.status === 401) {
       localStorage.setItem("token", "");
       localStorage.setItem("isLoggedIn", false);

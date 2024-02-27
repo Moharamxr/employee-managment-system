@@ -50,7 +50,7 @@ const Loans = () => {
   const handleSearch = async () => {
     if (searchId && searchId > 0) {
       try {
-        console.log("Search ID:", searchId);
+        // console.log("Search ID:", searchId);
         setSearchLoading(true);
         const data = await getEmployeeById(searchId);
         if (data && data.message === "Employee fetched successfully") {

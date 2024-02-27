@@ -18,16 +18,16 @@ export const login = async (email, password) => {
       }
     );
 
-    console.log("Login successful");
+    // console.log("Login successful");
 
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("isLoggedIn", true);
     localStorage.setItem('role',response.data.user.role)
     localStorage.setItem('username',response.data.user.username)
-    console.log(response.data)
+    // console.log(response.data)
     return response.data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };
@@ -47,10 +47,10 @@ export const logout = async () => {
       }
     );
 
-    console.log(response.data.message);
+    // console.log(response.data.message);
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.error(error.response.data.error);
+    // console.error(error);
+    // console.error(error.response.data.error);
   }
 };

@@ -17,11 +17,11 @@ export default function SignIn() {
   const [showError, setShowError] = useState(false);
   const [email, setEmail] = useState("realadmin@seabreeze.com");
   const [password, setPassword] = useState("a1234567");
-  const isLoggedIn = localStorage.getItem("isLoggedIn")=== "true";
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     setIsLoading(true);
     try {
       await login(email, password);
@@ -30,7 +30,6 @@ export default function SignIn() {
     } catch (error) {
       setIsLoading(false);
       setShowError(true);
-      console.error(error);
       const timeout = setTimeout(() => {
         setShowError(false);
       }, 3000);
@@ -40,10 +39,10 @@ export default function SignIn() {
     setIsLoading(false);
   };
   useEffect(() => {
-    if(isLoggedIn){
+    if (isLoggedIn) {
       navigate("/");
     }
-  }, [isLoggedIn,navigate]);
+  }, [isLoggedIn, navigate]);
 
   return (
     <>
@@ -63,7 +62,6 @@ export default function SignIn() {
                 component="h1"
                 variant="h4"
                 style={{ textAlign: "right" }}
-                
               >
                 تسجيل الدخول
               </Typography>
@@ -73,7 +71,7 @@ export default function SignIn() {
                 style={{ textAlign: "right" }}
                 color={"red"}
               >
-                 {showError&&"خطأ فى البريد الالكترونى او كلمه المرور"}
+                {showError && "خطأ فى البريد الالكترونى او كلمه المرور"}
               </Typography>
               <Box
                 component="form"
@@ -94,7 +92,6 @@ export default function SignIn() {
                   style={{ textAlign: "right" }}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  
                 />
                 <TextField
                   margin="normal"
@@ -108,7 +105,6 @@ export default function SignIn() {
                   autoComplete="current-password"
                   style={{ textAlign: "right" }}
                   onChange={(e) => setPassword(e.target.value)}
-                  
                 />
 
                 <Button
@@ -124,7 +120,7 @@ export default function SignIn() {
             </Box>
           </Container>
         </ThemeProvider>
-      ) }
+      )}
     </>
   );
 }

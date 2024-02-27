@@ -16,7 +16,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
   const [bankNumber, setBankNumber] = useState("");
   const [payrollNumber, setPayrollNumber] = useState("");
   const [walletNumber, setWalletNumber] = useState("");
-  const [walletName, setWalletName] = useState("");
+  const [walletName, setWalletName] = useState("فودافون");
   const [postalName, setPostalName] = useState("");
   const [postalNumber, setPostalNumber] = useState("");
   const [error, setError] = useState("");
@@ -38,7 +38,6 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
     setPostalNumber("");
     setPayrollNumber("");
   };
-
   const handleAddEmp = async () => {
     const newData = {
       id: newID,
@@ -58,6 +57,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         walletName: "",
       },
     };
+  
     if (paymentMethod === "bank") {
       newData.paymentMethodDetails.bankName = bankName;
       newData.paymentMethodDetails.accountNumber = bankNumber;
@@ -68,13 +68,15 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
     }
     if (paymentMethod === "wallet") {
       newData.paymentMethodDetails.phoneNumber = walletNumber;
-      newData.paymentMethodDetails.walletName = walletNumber;
+      newData.paymentMethodDetails.walletName = walletName;
     }
     if (paymentMethod === "payroll") {
       newData.paymentMethodDetails.accountNumber = payrollNumber;
     }
-    console.log("isEmp", !empIDs.includes(parseInt(newID, 10)));
-    console.log(newData);
+  
+    // console.log("isEmp", !empIDs.includes(parseInt(newID, 10)));
+    // console.log(newData);
+  
     if (
       !empIDs.includes(parseInt(newID, 10)) &&
       newID.length >= 3 &&
@@ -82,22 +84,27 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       jobRole.trim() !== "" &&
       ssn.trim() !== "" &&
       ssn.length === 14 &&
-      phone !== "" &&
+      phone.trim() !== "" &&
       phone.length === 11 &&
       workAddress.trim() !== "" &&
       baseSalary.trim() !== "" &&
       paymentMethod.trim() !== "" &&
       ((paymentMethod === "bank" &&
         bankName.trim() !== "" &&
+        bankNumber.trim() !== "" &&
         bankNumber.length >= 8 &&
         bankNumber.length <= 25) ||
         (paymentMethod === "postal" &&
           postalName.trim() !== "" &&
+          postalNumber.trim() !== "" &&
           postalNumber.length === 14) ||
         (paymentMethod === "wallet" &&
+          walletNumber.trim() !== "" &&
           walletNumber.length === 11 &&
           walletName.trim() !== "") ||
-        (paymentMethod === "payroll" && payrollNumber.length >= 10) ||
+        (paymentMethod === "payroll" &&
+          payrollNumber.trim() !== "" &&
+          payrollNumber.length >= 10) ||
         paymentMethod === "cash")
     ) {
       setError("");
@@ -106,28 +113,62 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         await addEmployee(newData);
         reset();
         onClose();
-        setIsLoading(false);
       } catch (error) {
         setError("حدث خطأ أثناء إضافة الموظف.");
-        setIsLoading(false);
-        const timeout = setTimeout(() => {
-          setError("");
-        }, 3000);
-
-        return () => clearTimeout(timeout);
       }
       setIsLoading(false);
     } else {
-      setError("تأكد من صحة البيانات الموظف مجددا");
-      console.log("else");
-      const timeout = setTimeout(() => {
-        setError("");
-      }, 3000);
-
-      return () => clearTimeout(timeout);
+      if (empIDs.includes(parseInt(newID, 10))) {
+        setError("كود موظف موجود بالفعل");
+      } else if (newID.length < 3) {
+        setError("كود الموظف يجب ان يكون اكبر من 3 ارقام");
+      } else if (name.trim() === "") {
+        setError("ادخل الأسم");
+      } else if (jobRole.trim() === "") {
+        setError("ادخل الوظيفة");
+      } else if (ssn.trim() === "" || ssn.length !== 14) {
+        setError("أدخل الرقم القومى (14 رقم)");
+      } else if (phone.trim() === "" || phone.length !== 11) {
+        setError("رقم الهاتف (11 رقم)");
+      } else if (workAddress.trim() === "") {
+        setError("أدخل مكان العمل");
+      } else if (baseSalary.trim() === "") {
+        setError("أدخل الراتب الأساسي");
+      } else if (paymentMethod.trim() === "") {
+        setError("أدخل طريقة القبض");
+      } else if (paymentMethod === "bank") {
+        if (bankName.trim() === "") {
+          setError("أدخل اسم البنك");
+        }
+        if (bankNumber.trim() === "" || bankNumber.length < 8 || bankNumber.length > 25) {
+          setError("رقم الحساب البنكي (8-25 رقم)");
+        }
+      } else if (paymentMethod === "payroll") {
+        if (payrollNumber.trim() === "" || payrollNumber.length < 10) {
+          setError("رقم الحساب البنكي (10 رقم على الأقل)");
+        }
+      } else if (paymentMethod === "postal") {
+        if (postalName.trim() === "") {
+          setError("أدخل اسم المرسل له");
+        }
+        if (postalNumber.trim() === "" || postalNumber.length !== 14) {
+          setError("رقم البطاقة البريدية (14 رقم)");
+        }
+      } else if (paymentMethod === "wallet") {
+        
+        if (walletNumber.trim() === "" || walletNumber.length !== 11) {
+          setError("رقم المحفظة (11 رقم)");
+        }
+      }
     }
-    reset();
+  
+    const timeout = setTimeout(() => {
+      setError("");
+    }, 3000);
+  
+    return () => clearTimeout(timeout);
   };
+  
 
   return (
     <>
@@ -196,8 +237,8 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                         className="form-control"
                         name="workAddress"
                         id="workAddress"
-                        value={workAddress} 
-                        onChange={(e) => setWorkAddress(e.target.value)} 
+                        value={workAddress}
+                        onChange={(e) => setWorkAddress(e.target.value)}
                       >
                         <option value="">اختر مكان العمل</option>
                         <option value="SeaBreeze 1">SeaBreeze 1</option>
@@ -219,8 +260,8 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
                         className="form-control"
                         name="job"
                         id="job"
-                        value={jobRole} // Set the value from the state
-                        onChange={(e) => setJobRole(e.target.value)} // Handle the onChange event
+                        value={jobRole}
+                        onChange={(e) => setJobRole(e.target.value)}
                       >
                         <option value="">اختر وظيفة</option>
 
