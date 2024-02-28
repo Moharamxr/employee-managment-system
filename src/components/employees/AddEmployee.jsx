@@ -77,72 +77,12 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
     // console.log("isEmp", !empIDs.includes(parseInt(newID, 10)));
     // console.log(newData);
 
-    try {
-      setIsLoading(true);
-      const data = await addEmployee(newData);
-      if (data) {
-        reset();
-        onClose();
-      }else {
-        if (empIDs.includes(parseInt(newID, 10))) {
-          setError("كود موظف موجود بالفعل");
-        } else if (newID.length < 3) {
-          setError("كود الموظف يجب ان يكون اكبر من 3 ارقام");
-        } else if (name.trim() === "") {
-          setError("ادخل الأسم");
-        } else if (jobRole.trim() === "") {
-          setError("ادخل الوظيفة");
-        } else if (ssn.trim() === "" || ssn.length !== 14) {
-          setError("أدخل الرقم القومى (14 رقم)");
-        } else if (phone.trim() === "" || phone.length !== 11) {
-          setError("رقم الهاتف (11 رقم)");
-        } else if (workAddress.trim() === "") {
-          setError("أدخل مكان العمل");
-        } else if (baseSalary.trim() === "") {
-          setError("أدخل الراتب الأساسي");
-        } else if (paymentMethod.trim() === "") {
-          setError("أدخل طريقة القبض");
-        } else if (paymentMethod === "bank") {
-          if (bankName.trim() === "") {
-            setError("أدخل اسم البنك");
-          }
-          if (
-            bankNumber.trim() === "" ||
-            bankNumber.length < 8 ||
-            bankNumber.length > 25
-          ) {
-            setError("رقم الحساب البنكي (8-25 رقم)");
-          }
-        } else if (paymentMethod === "payroll") {
-          if (payrollNumber.trim() === "" || payrollNumber.length < 10) {
-            setError("رقم الحساب البنكي (10 رقم على الأقل)");
-          }
-        } else if (paymentMethod === "postal") {
-          if (postalName.trim() === "") {
-            setError("أدخل اسم المرسل له");
-          }
-          if (postalNumber.trim() === "" || postalNumber.length !== 14) {
-            setError("رقم البطاقة البريدية (14 رقم)");
-          }
-        } else if (paymentMethod === "wallet") {
-          if (walletNumber.trim() === "" || walletNumber.length !== 11) {
-            setError("رقم المحفظة (11 رقم)");
-          }
-        } else {
-          setError("حدث خطأ أثناء إضافة الموظف.");
-        }
-        console.log(error)
-  
-        const timeout = setTimeout(() => {
-          setError("");
-        }, 3000);
-        setIsLoading(false);
-        return () => clearTimeout(timeout);
-      }
-    } catch (error) {
-      console.log('catch')
-      setIsLoading(false);
-
+    setIsLoading(true);
+    const data = await addEmployee(newData);
+    if (data) {
+      reset();
+      onClose();
+    } else {
       if (empIDs.includes(parseInt(newID, 10))) {
         setError("كود موظف موجود بالفعل");
       } else if (newID.length < 3) {
@@ -190,21 +130,14 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       } else {
         setError("حدث خطأ أثناء إضافة الموظف.");
       }
-      console.log(error)
+      console.log(error);
 
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
-
+      setIsLoading(false);
       return () => clearTimeout(timeout);
     }
-    setIsLoading(false);
-
-    const timeout = setTimeout(() => {
-      setError("");
-    }, 3000);
-
-    return () => clearTimeout(timeout);
   };
 
   return (
