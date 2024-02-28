@@ -91,10 +91,18 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         setError("ادخل الأسم");
       } else if (jobRole.trim() === "") {
         setError("ادخل الوظيفة");
-      } else if (ssn.trim() === "" || ssn.length !== 14) {
-        setError("أدخل الرقم القومى (14 رقم)");
-      } else if (phone.trim() === "" || phone.length !== 11) {
-        setError("رقم الهاتف (11 رقم)");
+      } else if (
+        ssn.trim() === "" ||
+        ssn.length !== 14 ||
+        !(ssn.startsWith("3") || ssn.startsWith("2"))
+      ) {
+        setError("أدخل الرقم القومى بشكل صحيح (14 رقم)");
+      } else if (
+        phone.trim() === "" ||
+        phone.length !== 11 ||
+        !phone.startsWith("01")
+      ) {
+        setError("رقم الهاتف بشكل صحيح (11 رقم)");
       } else if (workAddress.trim() === "") {
         setError("أدخل مكان العمل");
       } else if (baseSalary.trim() === "") {
