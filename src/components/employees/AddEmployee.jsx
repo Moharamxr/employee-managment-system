@@ -130,7 +130,7 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
       } else {
         setError("حدث خطأ أثناء إضافة الموظف.");
       }
-      console.log(error);
+      // console.log(error);
 
       const timeout = setTimeout(() => {
         setError("");
