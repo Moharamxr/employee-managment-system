@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import {
-  getAllUnPaidEmployees,
-  
-} from "../../services/employee.service";
+import { getAllUnPaidEmployees } from "../../services/employee.service";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +25,7 @@ const Salaries = () => {
         workAddress,
         paymentMethod
       );
-      setEmployees(data.employees);
+      setEmployees(data.employees.sort((a, b) => a.id - b.id));
       setTotalSalaries(data.totalSalaries);
       setTotalEmployeesLoans(data.totalEmployeesLoans);
 

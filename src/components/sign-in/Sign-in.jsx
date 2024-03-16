@@ -14,7 +14,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -23,19 +23,33 @@ export default function SignIn() {
     event.preventDefault();
 
     setIsLoading(true);
-    try {
-      await login(email, password);
+    if (email === "" || password === "") {
+      setError("برجاء ادخال البريد الالكترونى وكلمة المرور");
       setIsLoading(false);
-      navigate("/");
-    } catch (error) {
-      setIsLoading(false);
-      setShowError(true);
       const timeout = setTimeout(() => {
-        setShowError(false);
+        setError("");
       }, 3000);
 
       return () => clearTimeout(timeout);
+    } else {
+      try {
+        await login(email, password);
+        setIsLoading(false);
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+        setError(
+          error.response.status === 401 ? "كلمة مرور خطأ" : "بريد الكترونى خطأ"
+        );
+        const timeout = setTimeout(() => {
+          setError("");
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+      }
     }
+
     setIsLoading(false);
   };
   useEffect(() => {
@@ -71,7 +85,7 @@ export default function SignIn() {
                 style={{ textAlign: "right" }}
                 color={"red"}
               >
-                {showError && "خطأ فى البريد الالكترونى او كلمه المرور"}
+                {error && error}
               </Typography>
               <Box
                 component="form"

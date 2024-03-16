@@ -197,12 +197,12 @@ const EmployeeDetails = () => {
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <input
                       autoComplete="off"
-                      className="border-0 form-control text-center"
+                      className="border-0 form-control text-center w-50"
                       style={{
                         backgroundColor: `${
                           enableEdit ? "gainsboro" : "white "
                         }`,
-                        width: "18rem",
+                       
                         
                       }}
                       type="text"
@@ -328,7 +328,7 @@ const EmployeeDetails = () => {
                       onChange={(e) => setPhone(e.target.value)}
                     />
 
-                    <label htmlFor="empPhone">رقم الموظف</label>
+                    <label htmlFor="empPhone">رقم الهاتف</label>
                   </div>
                 </ListGroup.Item>
                 {paymentMethod === "bank" && (

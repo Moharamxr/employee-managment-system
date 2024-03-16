@@ -115,14 +115,14 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         }
         if (
           bankNumber.trim() === "" ||
-          bankNumber.length < 8 ||
+          bankNumber.length < 6 ||
           bankNumber.length > 25
         ) {
-          setError("رقم الحساب البنكي (8-25 رقم)");
+          setError("رقم الحساب البنكي (6-25 رقم)");
         }
       } else if (paymentMethod === "payroll") {
-        if (payrollNumber.trim() === "" || payrollNumber.length < 10) {
-          setError("رقم الحساب البنكي (10 رقم على الأقل)");
+        if (payrollNumber.trim() === "" || payrollNumber.length < 6) {
+          setError("رقم الحساب البنكي (6 رقم على الأقل)");
         }
       } else if (paymentMethod === "postal") {
         if (postalName.trim() === "") {

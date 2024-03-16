@@ -1,35 +1,29 @@
 import axios from "axios";
 
-
 const path = process.env.REACT_APP_BACKEND_URL;
 
 export const login = async (email, password) => {
-  try {
-    const response = await axios.post(
-      `${path}/auth/login`,
-      {
-        "email": email,
-        "password":password,
+  const response = await axios.post(
+    `${path}/auth/login`,
+    {
+      email: email,
+      password: password,
     },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-    // console.log("Login successful");
+  // console.log("Login successful");
 
-    localStorage.setItem("token", response.data.token);
-    localStorage.setItem("isLoggedIn", true);
-    localStorage.setItem('role',response.data.user.role)
-    localStorage.setItem('username',response.data.user.username)
-    // console.log(response.data)
-    return response.data;
-  } catch (error) {
-    // console.log(error);
-    throw error;
-  }
+  localStorage.setItem("token", response.data.token);
+  localStorage.setItem("isLoggedIn", true);
+  localStorage.setItem("role", response.data.user.role);
+  localStorage.setItem("username", response.data.user.username);
+  // console.log(response.data)
+  return response.data;
 };
 
 export const logout = async () => {
