@@ -26,7 +26,7 @@ function App() {
           <Route path="/accounting/:id" element={<Accounting />} />
           <Route path="/shifts" element={<Shifts />} />
           <Route path="/salaries" element={<Salaries />} />
-          <Route path="/loans" exact >
+          <Route path="/loans" exact>
             <Route index element={<Loans />} />
             <Route path="pay/:id" element={<PaymentDetails />} />
             <Route path="details/:id" element={<LoanDetails />} />

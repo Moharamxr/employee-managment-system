@@ -2,7 +2,6 @@ import { Card, Container, ListGroup, Tab, Tabs } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SearchIcon from "@mui/icons-material/Search";
-
 import { useContext, useState } from "react";
 import { getAllEmployeeById } from "../../services/employee.service";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -73,7 +72,7 @@ function Accounting() {
         setPhone(data.employee.phone);
         setBaseSalary(data.employee.baseSalary);
 
-        setCost(data.cost);
+        setCost(data.cost.toFixed(0));
 
         setPostalNumber(data.employee.paymentMethodDetails.postal.ssn);
         setPostalName(data.employee.paymentMethodDetails.postal.name);
@@ -248,7 +247,6 @@ function Accounting() {
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
               <div className="centered">
-                {" "}
                 {isPageLoading && <CircularProgress />}
               </div>
               {show && !isPageLoading && (
@@ -258,7 +256,7 @@ function Accounting() {
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className="form-control  border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
@@ -271,10 +269,10 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className="form-control  border-0  text-center"
-                        style={{ backgroundColor: "white", width: "270px" }}
+                        style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
                         id="empID"
@@ -285,7 +283,7 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className="form-control  border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
@@ -299,7 +297,7 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className="form-control  border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
@@ -313,7 +311,7 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className="form-control  border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
@@ -328,7 +326,7 @@ function Accounting() {
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className="form-control  border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
@@ -342,8 +340,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center"
                           style={{
@@ -361,8 +359,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center"
                           style={{
@@ -381,8 +379,8 @@ function Accounting() {
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center"
                           style={{
@@ -400,8 +398,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center"
                           style={{
@@ -419,9 +417,9 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
-                        className="border-0 me-5 text-center"
+                        className="border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
                         type="text"
                         disabled
@@ -439,8 +437,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center"
                           style={{
@@ -458,8 +456,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center  "
                           style={{
@@ -477,8 +475,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center  "
                           style={{
@@ -496,8 +494,8 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
-                      <div className="d-flex me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="d-flex ">
                         <input
                           className="form-control border-0   text-center"
                           style={{
@@ -515,9 +513,9 @@ function Accounting() {
                     </div>
                   </ListGroup.Item>
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
-                        className="border-0 me-5 text-center"
+                        className="border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
                         type="number"
                         disabled
@@ -530,7 +528,7 @@ function Accounting() {
                   </ListGroup.Item>
                   
                   <ListGroup.Item className="text-end">
-                    <div className="d-flex justify-content-between align-items-center me-5">
+                    <div className="d-flex justify-content-between align-items-center ">
                       <input
                         className=" form-control border-0  text-center"
                         style={{ backgroundColor: "white", width: "280px" }}
@@ -590,7 +588,7 @@ function Accounting() {
                       {loans.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
-                          <td>{item.amount.toFixed(2)}</td>
+                          <td>{item.amount.toFixed(1)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -610,7 +608,7 @@ function Accounting() {
                       {compensations.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
-                          <td>{item.amount.toFixed(2)}</td>
+                          <td>{item.amount.toFixed(1)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -630,7 +628,7 @@ function Accounting() {
                       {bonuses.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
-                          <td>{item.amount.toFixed(2)}</td>
+                          <td>{item.amount.toFixed(1)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -650,7 +648,7 @@ function Accounting() {
                       {deductions.map((item) => (
                         <tr key={item._id}>
                           <td>{item.description}</td>
-                          <td>{item.amount.toFixed(2)}</td>
+                          <td>{item.amount.toFixed(1)}</td>
                           <td>{item.date.slice(0, 10)}</td>
                         </tr>
                       ))}
@@ -674,7 +672,7 @@ function Accounting() {
                     <tbody>
                       {payments.map((item) => (
                         <tr key={item._id}>
-                          <td>{item.payedAmount.toFixed(2)}</td>
+                          <td>{item.payedAmount.toFixed(1)}</td>
                           <td>{item.paymentMethod}</td>
                           <td>
                             {item.daysWorked -

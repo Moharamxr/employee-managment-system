@@ -102,7 +102,7 @@ export const addEmployee = async (newEmployeeData) => {
       localStorage.setItem("isLoggedIn", false);
       localStorage.setItem("token", "");
     }
-    // console.error(error);
+    console.error(error);
     // console.error(error.response.data.error);
   }
 };

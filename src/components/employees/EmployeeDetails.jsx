@@ -128,7 +128,7 @@ const EmployeeDetails = () => {
           postalName.trim() !== "" &&
           postalNumber.length === 14) ||
         (paymentMethod === "wallet" && walletNumber.length === 11) ||
-        (paymentMethod === "payroll" && payrollNumber.length >= 10) ||
+        (paymentMethod === "payroll" && payrollNumber.length >= 8) ||
         paymentMethod === "cash")
     ) {
       setIsLoading(true);
@@ -167,7 +167,7 @@ const EmployeeDetails = () => {
       navigate("/");
     }
   };
-
+  const isAdmin = localStorage.getItem("role") === "admin";
   return (
     <Container>
       <Row className="centered">
@@ -202,8 +202,6 @@ const EmployeeDetails = () => {
                         backgroundColor: `${
                           enableEdit ? "gainsboro" : "white "
                         }`,
-                       
-                        
                       }}
                       type="text"
                       disabled={!enableEdit}
@@ -545,12 +543,14 @@ const EmployeeDetails = () => {
                 </ListGroup.Item>
               </ListGroup>
             </Card>
-            <button
-              className={`btn btn-${"danger"} float-end ms-1`}
-              onClick={handleDeleteEmp}
-            >
-              حذف الموظف
-            </button>
+            {isAdmin && (
+              <button
+                className={`btn btn-${"danger"} float-end ms-1`}
+                onClick={handleDeleteEmp}
+              >
+                حذف الموظف
+              </button>
+            )}
             <button
               className={`btn btn-${
                 enableEdit ? "secondary" : "primary"

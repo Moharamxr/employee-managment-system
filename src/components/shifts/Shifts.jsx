@@ -44,8 +44,9 @@ function Shifts() {
     setInShift(shiftsData.employee.shift.inShift);
     setCurrentShift(shiftsData.employee.shift.currentShift);
     setShift(shiftsData.shifts);
+    
   };
-
+  // console.log(shifts);
   const getEmployeeShifts = async (id) => {
     setIsPageLoading(true);
     try {
@@ -405,21 +406,50 @@ function Shifts() {
 
                         <td>
                           {item.endTime
-                            ? convertTo12HourFormat(item.endTime.slice(11, 16))
+                            ? convertTo12HourFormat(
+                                new Date(
+                                  new Date(item.endTime).getTime() +
+                                    2 * 60 * 60 * 1000
+                                )
+                                  .toISOString()
+                                  .slice(11, 16)
+                              )
                             : "---"}
                         </td>
+
                         <td>
-                          {item.endTime ? item.endTime.slice(0, 10) : "---"}
+                          {item.endTime
+                            ? new Date(
+                                new Date(item.endTime).getTime() +
+                                  2 * 60 * 60 * 1000
+                              )
+                                .toISOString()
+                                .slice(0, 10)
+                            : "---"}
                         </td>
                         <td>{item.location}</td>
                         <td>
                           {item.startTime
                             ? convertTo12HourFormat(
-                                item.startTime.slice(11, 16)
+                                new Date(
+                                  new Date(item.startTime).getTime() +
+                                    2 * 60 * 60 * 1000
+                                )
+                                  .toISOString()
+                                  .slice(11, 16)
                               )
                             : "---"}
                         </td>
-                        <td>{item.startTime.slice(0, 10)}</td>
+                        <td>
+                          {item.startTime
+                            ? new Date(
+                                new Date(item.startTime).getTime() +
+                                  2 * 60 * 60 * 1000
+                              )
+                                .toISOString()
+                                .slice(0, 10)
+                            : "---"}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -45,8 +45,8 @@ export const getShiftByEmployeeId = async (id) => {
     // console.error(error);
     // console.error(error.response.data.error);
     if (error.response.status === 401) {
-      localStorage.setItem("token", '');
-      localStorage.setItem('isLoggedIn', false);
+      localStorage.setItem("token", "");
+      localStorage.setItem("isLoggedIn", false);
     }
   }
 };
@@ -71,43 +71,34 @@ export const getShiftsFinancial = async (id) => {
     // console.error(error);
     // console.error(error.response.data.error);
     if (error.response.status === 401) {
-      localStorage.setItem("token", '');
-      localStorage.setItem('isLoggedIn', false);
+      localStorage.setItem("token", "");
+      localStorage.setItem("isLoggedIn", false);
     }
   }
 };
 
 export const addShift = async (newData) => {
-  try {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    const requestBody = {
-      date: newData.date,
-      time: newData.time,
-      location: newData.location,
-    };
-
-    const response = await axios.post(
-      `${path}/shifts/${newData.id}`,
-      requestBody,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    // console.log(response.data.message);
-    return response.data;
-  } catch (error) {
-    // console.error(error);
-    // console.error(error.response.data.error);
-    if (error.response.status === 401) {
-      localStorage.setItem("token", '');
-      localStorage.setItem('isLoggedIn', false);
+  const requestBody = {
+    date: newData.date,
+    time: newData.time,
+    location: newData.location,
+  };
+// console.log(requestBody);
+  const response = await axios.post(
+    `${path}/shifts/${newData.id}`,
+    requestBody,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }
-  }
+  );
+
+  // console.log(response.data.message);
+  return response.data;
 };
 export const deleteShift = async (id) => {
   try {
@@ -134,4 +125,3 @@ export const deleteShift = async (id) => {
     }
   }
 };
-

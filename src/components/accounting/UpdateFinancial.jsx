@@ -50,7 +50,7 @@ const UpdateFinancial = ({
       baseSalary: baseSalary,
     };
     // console.log(newData);
-    if (baseSalary !== "") {
+    if (baseSalary !== "" && baseSalary > 0) {
       setError("");
       setIsLoading(true);
       try {

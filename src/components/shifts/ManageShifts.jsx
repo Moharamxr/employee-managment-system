@@ -107,6 +107,7 @@ const ManageShifts = ({
         return () => clearTimeout(timeout);
       }
     } catch (error) {
+      // console.error("Error adding shift:", error);
       if (workAddress === "") {
         setError("ادخل المركب");
       } else if (isOverLapping()) {

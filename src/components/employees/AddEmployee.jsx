@@ -105,8 +105,8 @@ const AddEmployee = ({ isOpen, onClose, empIDs }) => {
         setError("رقم الهاتف بشكل صحيح (11 رقم)");
       } else if (workAddress.trim() === "") {
         setError("أدخل مكان العمل");
-      } else if (baseSalary.trim() === "") {
-        setError("أدخل الراتب الأساسي");
+      } else if (baseSalary.trim() === ""&& baseSalary < 0) {
+        setError("أدخل الراتب الأساسى");
       } else if (paymentMethod.trim() === "") {
         setError("أدخل طريقة القبض");
       } else if (paymentMethod === "bank") {
