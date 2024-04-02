@@ -27,6 +27,7 @@ function Shifts() {
   const [currentShift, setCurrentShift] = useState("");
   const [shifts, setShift] = useState([]);
 
+
   const [isPageLoading, setIsPageLoading] = useState(false);
 
   const [show, setShow] = useState(false);
@@ -326,7 +327,10 @@ function Shifts() {
                 <table className="table text-center">
                   <thead>
                     <tr>
+
                       {isAdmin && <th scope="col"> </th>}
+                      <th scope="col"> ملاحظة </th>
+
                       {!isSecretary && <th scope="col">صافى نقد الوردية </th>}
 
                       <th scope="col">صافى أيام العمل </th>
@@ -344,6 +348,7 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
+
                         {isAdmin && (
                           <td>
                             {isAdmin && item.endTime && (
@@ -354,6 +359,8 @@ function Shifts() {
                             )}
                           </td>
                         )}
+                        <td>{item.description}</td>
+
 
                         {!isSecretary ? (
                           <>

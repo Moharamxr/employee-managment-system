@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { getAllUnPaidEmployees } from "../../services/employee.service";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -50,10 +50,10 @@ const Salaries = () => {
   };
   useEffect(() => {
     getData(all, workAddress, paymentMethod);
-  }, [all, workAddress, paymentMethod]);
+  }, [all, workAddress, paymentMethod,getData]);
   const path = process.env.REACT_APP_BACKEND_URL;
   return (
-    <Container>
+    <div className="px-2">
       <Row>
         <Col>
           {error && <p className="text-danger text-center">{error}</p>}
@@ -223,7 +223,7 @@ const Salaries = () => {
           </div>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

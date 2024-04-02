@@ -20,7 +20,7 @@ const ManageShifts = ({
   const [time, setTime] = useState(dayjs());
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
-
+  const [description, setDescription] = useState('')
   const [workAddress, setWorkAddress] = useState("");
 
   const handleDateChange = (newDate) => {
@@ -74,13 +74,13 @@ const ManageShifts = ({
     setIsLoading(true);
     try {
       if (date.isBefore(now)) {
-        if (inShift && date.isAfter(startTime)|| !inShift && date.isBefore(now)) {
+        if (inShift && date.isAfter(startTime) || !inShift && date.isBefore(now)) {
           const data = await addShift(newData);
           if (data) {
             reset();
             onClose();
           } else {
-            if (workAddress === "") {
+            if (!inShift && workAddress === "") {
               setError("ادخل المركب");
             } else if (isOverLapping()) {
               setError("يجب ألا تتعارض مواعيد الورديات");
@@ -92,7 +92,7 @@ const ManageShifts = ({
             }, 3000);
             return () => clearTimeout(timeout);
           }
-        } else  {
+        } else {
           setError("يجب ان يكون وقت النزول بعد وقت الصعود");
           const timeout = setTimeout(() => {
             setError("");
@@ -108,7 +108,7 @@ const ManageShifts = ({
       }
     } catch (error) {
       // console.error("Error adding shift:", error);
-      if (workAddress === "") {
+      if (!inShift && workAddress === "") {
         setError("ادخل المركب");
       } else if (isOverLapping()) {
         setError("يجب ألا تتعارض مواعيد الورديات");
@@ -133,6 +133,7 @@ const ManageShifts = ({
       time: formattedTime,
       date: formattedDate,
       location: workAddress,
+      description: description,
     };
     handleAddShift(newData);
   };
@@ -187,34 +188,53 @@ const ManageShifts = ({
                 </Col>
               </Row>
               {!inShift && (
-                <Row>
-                  <Col>
-                    <div className="d-flex justify-content-between align-items-center me-5 my-3">
-                      <Form.Select
-                        size="sm"
-                        className="form-control w-50 float-start me-5 text-end "
-                        name="workAddress"
-                        id="workAddress"
-                        value={workAddress}
-                        onChange={(e) => setWorkAddress(e.target.value)}
-                      >
-                        <option value="">اختر المركب </option>
-                        <option value="SeaBreeze 1">SeaBreeze 1</option>
-                        <option value="SeaBreeze 9">SeaBreeze 9</option>
-                        <option value="SeaBreeze 18">SeaBreeze 18</option>
-                        <option value="SeaBreeze 22">SeaBreeze 22</option>
-                        <option value="SeaBreeze 39">SeaBreeze 39</option>
-                        <option value="SeaBreeze 44">SeaBreeze 44</option>
-                        <option value="SeaBreeze 55">SeaBreeze 55</option>
-                        <option value="NAPHT">NAPHT</option>
-                        <option value="NAPHT 7">NAPHT 7</option>
-                        <option value="Waiting">Waiting</option>
-                      </Form.Select>
+                <>
+                  <Row>
+                    <Col>
+                      <div className="d-flex justify-content-between align-items-center me-5 my-3">
+                        <Form.Select
+                          size="sm"
+                          className="form-control w-50 float-start me-5 text-end "
+                          name="workAddress"
+                          id="workAddress"
+                          value={workAddress}
+                          onChange={(e) => setWorkAddress(e.target.value)}
+                        >
+                          <option value="">اختر المركب </option>
+                          <option value="SeaBreeze 1">SeaBreeze 1</option>
+                          <option value="SeaBreeze 9">SeaBreeze 9</option>
+                          <option value="SeaBreeze 18">SeaBreeze 18</option>
+                          <option value="SeaBreeze 22">SeaBreeze 22</option>
+                          <option value="SeaBreeze 39">SeaBreeze 39</option>
+                          <option value="SeaBreeze 44">SeaBreeze 44</option>
+                          <option value="SeaBreeze 55">SeaBreeze 55</option>
+                          <option value="NAPHT">NAPHT</option>
+                          <option value="NAPHT 7">NAPHT 7</option>
+                          <option value="Waiting">Waiting</option>
+                        </Form.Select>
 
-                      <label htmlFor="workAddress">المركب</label>
-                    </div>
-                  </Col>
-                </Row>
+                        <label htmlFor="workAddress">المركب</label>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <div className="form-group text-end">
+                        <label htmlFor="setDescription">ملاحظة</label>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          name="setDescription"
+                          id="setDescription"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </>
               )}
             </div>
             <div className="modal-footer">

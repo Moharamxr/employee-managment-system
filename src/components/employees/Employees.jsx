@@ -205,6 +205,11 @@ const Employees = () => {
       </Row>
       <Row>
         <Col>
+        <h5 className="text-end fs-4 pe-2">عدد الموظفين : {employees.length}</h5>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
           {error && <p className="text-danger text-center">{error}</p>}
           <table className="table my-custom-table text-center">
             <thead>
