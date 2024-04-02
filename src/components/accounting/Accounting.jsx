@@ -205,45 +205,46 @@ function Accounting() {
     if (id && id > 0 && empIDs.includes(parseInt(id, 10))) {
       getEmployeeByID(id);
     }
-  }, [id,empIDs]);
+  }, [id, empIDs]);
 
   return !isSecretary ? (
     <Container>
       <Row className="centered">
-        <Col sm={7} className="bg-">
-          <Row>
-            <Col>
-              {searchError && (
-                <p className="text-danger text-center">
-                  كود غير صحيح حاول مجدداً
-                </p>
-              )}
-              <div className="input-group my-4 centered">
-                <button
-                  type="button"
-                  className="btn btn-primary "
-                  style={{ height: "38px" }}
-                  data-mdb-ripple-init
-                  onClick={handleSearch}
-                  disabled={searchLoading}
-                >
-                  {searchLoading ? "جارى البحث" : <SearchIcon />}
-                </button>
-                <div className="form-outline">
-                  <input
-                    type="number"
-                    id="form1"
-                    className="form-control text-center"
-                    placeholder="ابحث بكود الموظف"
-                    style={{ width: "auto" }}
-                    onChange={(e) => setSearchId(e.target.value)}
-                    autoComplete="off"
-                    onKeyDown={handleKeyPress}
-                  />
-                </div>
-              </div>
-            </Col>
-          </Row>
+        <Col md={7}>
+          {<h4 className="text-end my-3">حسابات الموظف</h4>}
+        </Col>
+        <Col lg={5} xs={10}>
+          {searchError && (
+            <p className="text-danger text-center">كود غير صحيح حاول مجدداً</p>
+          )}
+          <div className="input-group my-4 centered">
+            <button
+              type="button"
+              className="btn btn-primary "
+              style={{ height: "38px" }}
+              data-mdb-ripple-init
+              onClick={handleSearch}
+              disabled={searchLoading}
+            >
+              {searchLoading ? "جارى البحث" : <SearchIcon />}
+            </button>
+            <div className="form-outline">
+              <input
+                type="number"
+                id="form1"
+                className="form-control text-center"
+                placeholder="ابحث بكود الموظف"
+                style={{ width: "auto" }}
+                onChange={(e) => setSearchId(e.target.value)}
+                autoComplete="off"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row className="centered">
+        <Col sm={7}>
           <Card className="text-end border-0 ">
             <ListGroup variant="flush">
               <div className="centered">
@@ -252,7 +253,7 @@ function Accounting() {
               {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
-                    <h4 className="text-center">حسابات الموظف </h4>
+                    {/* <h4 className="text-center">حسابات الموظف </h4> */}
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-end">
@@ -526,7 +527,7 @@ function Accounting() {
                       <label htmlFor="delayedSalary"> الراتب المرحل</label>
                     </div>
                   </ListGroup.Item>
-                  
+
                   <ListGroup.Item className="text-end">
                     <div className="d-flex justify-content-between align-items-center ">
                       <input

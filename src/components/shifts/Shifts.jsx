@@ -27,7 +27,6 @@ function Shifts() {
   const [currentShift, setCurrentShift] = useState("");
   const [shifts, setShift] = useState([]);
 
-
   const [isPageLoading, setIsPageLoading] = useState(false);
 
   const [show, setShow] = useState(false);
@@ -45,7 +44,6 @@ function Shifts() {
     setInShift(shiftsData.employee.shift.inShift);
     setCurrentShift(shiftsData.employee.shift.currentShift);
     setShift(shiftsData.shifts);
-    
   };
   // console.log(shifts);
   const getEmployeeShifts = async (id) => {
@@ -152,40 +150,41 @@ function Shifts() {
   return (
     <Container>
       <Row className="centered">
+        <Col md={7}>
+          <h4 className="text-end my-3">ورديات الموظف</h4>
+        </Col>
+        <Col lg={5} xs={10}>
+          {searchError && (
+            <p className="text-danger text-center">كود غير صحيح حاول مجدداً</p>
+          )}
+          <div className="input-group my-4 centered">
+            <button
+              type="button"
+              className="btn btn-primary "
+              style={{ height: "38px" }}
+              data-mdb-ripple-init
+              onClick={handleSearch}
+              disabled={searchLoading}
+            >
+              {searchLoading ? "جارى البحث" : <SearchIcon />}
+            </button>
+            <div className="form-outline">
+              <input
+                type="number"
+                id="form1"
+                className="form-control text-center"
+                placeholder="ابحث بكود الموظف"
+                style={{ width: "auto" }}
+                onChange={(e) => setSearchId(e.target.value)}
+                autoComplete="off"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row className="centered">
         <Col sm={6}>
-          <Row>
-            <Col>
-              {searchError && (
-                <p className="text-danger text-center">
-                  كود غير صحيح حاول مجدداً
-                </p>
-              )}
-              <div className="input-group my-4 centered">
-                <button
-                  type="button"
-                  className="btn btn-primary "
-                  style={{ height: "38px" }}
-                  data-mdb-ripple-init
-                  onClick={handleSearch}
-                  disabled={searchLoading}
-                >
-                  {searchLoading ? "جارى البحث" : <SearchIcon />}
-                </button>
-                <div className="form-outline">
-                  <input
-                    type="number"
-                    id="form1"
-                    className="form-control text-center"
-                    placeholder="ابحث بكود الموظف"
-                    style={{ width: "auto" }}
-                    onChange={(e) => setSearchId(e.target.value)}
-                    autoComplete="off"
-                    onKeyDown={handleKeyPress}
-                  />
-                </div>
-              </div>
-            </Col>
-          </Row>
           <Card className="text-end border-0 mb-5">
             <ListGroup variant="flush">
               <div className="centered">
@@ -195,7 +194,7 @@ function Shifts() {
               {show && !isPageLoading && (
                 <>
                   <ListGroup.Item className="text-end">
-                    <h4 className="text-center">ورديات الموظف</h4>
+                    {/* <h4 className="text-center">ورديات الموظف</h4> */}
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-end">
@@ -327,7 +326,6 @@ function Shifts() {
                 <table className="table text-center">
                   <thead>
                     <tr>
-
                       {isAdmin && <th scope="col"> </th>}
                       <th scope="col"> ملاحظة </th>
 
@@ -348,7 +346,6 @@ function Shifts() {
                   <tbody>
                     {shifts.map((item) => (
                       <tr key={item._id}>
-
                         {isAdmin && (
                           <td>
                             {isAdmin && item.endTime && (
@@ -360,7 +357,6 @@ function Shifts() {
                           </td>
                         )}
                         <td>{item.description}</td>
-
 
                         {!isSecretary ? (
                           <>
