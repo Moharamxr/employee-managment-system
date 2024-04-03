@@ -49,7 +49,7 @@ const Users = () => {
                 <th scope="col">البريد الاكترونى</th>
                 <th scope="col">الوظيفة</th>
                 <th scope="col">أسم المستخدم</th>
-                <th scope="col">كود الموظف#</th>
+                <th scope="col">كود المستخدم#</th>
               </tr>
             </thead>
             <tbody>

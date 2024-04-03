@@ -26,8 +26,9 @@ const UserDetails = () => {
   const [password, setPassword] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const isAdmin = localStorage.getItem("role") === "admin";
-  const isAdminUpdatingHimself = localStorage.getItem("id") === id;
 
+  const isAdminUpdatingHimself = localStorage.getItem("id") === id;
+console.log(isAdminUpdatingHimself)
   const navigate = useNavigate();
 
   const getUserInfo = useCallback(async () => {
