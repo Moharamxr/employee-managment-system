@@ -109,6 +109,7 @@ const UserDetails = () => {
       setEnableEdit(false);
       setPassword("");
       setIsSuccess(true);
+      localStorage.setItem("role", role);
       const timeout = setTimeout(() => {
         setIsSuccess(false);
       }, 3000);
