@@ -471,6 +471,8 @@ const Shifts = () => {
         id={id}
         currentShift={currentShift && currentShift}
         shifts={shifts}
+        workAddress={workAddress}
+        setWorkAddress={setWorkAddress}
       />
     </Container>
   );

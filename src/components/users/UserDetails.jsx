@@ -27,8 +27,17 @@ const UserDetails = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const isAdmin = localStorage.getItem("role") === "admin";
 
-  const isAdminUpdatingHimself = localStorage.getItem("id") === id;
-console.log(isAdminUpdatingHimself)
+  const isAdminUpdatingHimself = () => {
+    if (localStorage.getItem("id") === id) {
+    localStorage.setItem("token", "");
+    localStorage.setItem("isLoggedIn", false);
+    navigate("/login");
+    }else {
+      return ;
+    }
+    
+  };
+
   const navigate = useNavigate();
 
   const getUserInfo = useCallback(async () => {
@@ -49,7 +58,6 @@ console.log(isAdminUpdatingHimself)
       }, 3000);
 
       return () => clearTimeout(timeout);
-      
     }
   }, [id]);
 
@@ -77,18 +85,13 @@ console.log(isAdminUpdatingHimself)
       }, 3000);
 
       return () => clearTimeout(timeout);
-    
     } else {
       try {
         await updateUserInfo(newData);
         setIsLoading(false);
         setEnableEdit(false);
         setIsSuccess(true);
-        if (isAdminUpdatingHimself) {
-          localStorage.setItem("token", "");
-          localStorage.setItem("isLoggedIn", false);
-            navigate("/login");
-        }
+        isAdminUpdatingHimself();
         const timeout = setTimeout(() => {
           setIsSuccess(false);
         }, 3000);
@@ -118,6 +121,7 @@ console.log(isAdminUpdatingHimself)
       setPassword("");
       setIsSuccess(true);
       localStorage.setItem("role", role);
+      isAdminUpdatingHimself();
       const timeout = setTimeout(() => {
         setIsSuccess(false);
       }, 3000);
@@ -125,7 +129,9 @@ console.log(isAdminUpdatingHimself)
       return () => clearTimeout(timeout);
     } catch (error) {
       console.log(error);
-      setError("(تحتوى على حرف و رقم على الاقل)كلمة المرور يجب ان تكون اكثر من 8 حروف");
+      setError(
+        "(تحتوى على حرف و رقم على الاقل)كلمة المرور يجب ان تكون اكثر من 8 حروف"
+      );
       setIsSuccess(false);
       const timeout = setTimeout(() => {
         setError("");
@@ -135,13 +141,14 @@ console.log(isAdminUpdatingHimself)
     }
   };
 
-  const handleDeleteUser = async () => {  
+  const handleDeleteUser = async () => {
     const decision = window.confirm("هل متأكد أنك تريد حذف هذا الموظف؟");
     if (decision) {
+      isAdminUpdatingHimself();
       alert("لقد تم حذف الموظف");
       await deleteUser(id);
       navigate("/users");
-    }else{
+    } else {
       alert("لم يتم حذف الموظف");
     }
   };
@@ -156,7 +163,11 @@ console.log(isAdminUpdatingHimself)
                 <ListGroup.Item className="text-end">
                   <h5 className="text-center">بيانات المستخدم</h5>
                   {error && <p className="text-center text-danger">{error}</p>}
-                  {isSuccess && <p className="text-center text-success">{"تم التحديث بنجاح"}</p>}
+                  {isSuccess && (
+                    <p className="text-center text-success">
+                      {"تم التحديث بنجاح"}
+                    </p>
+                  )}
                 </ListGroup.Item>
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
@@ -269,13 +280,18 @@ console.log(isAdminUpdatingHimself)
                 <ListGroup.Item className="text-end">
                   <div className="d-flex justify-content-between align-items-center me-5">
                     <div className="d-flex justify-content-between align-items-center">
-                      <button className="btn btn-primary" onClick={handleUpdatePassword}>تحديث</button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleUpdatePassword}
+                      >
+                        تحديث
+                      </button>
                       <input
                         autoComplete="off"
                         className="border-0 form-control   text-center"
                         style={{
                           backgroundColor: "gainsboro",
-                          width: "17.5rem",
+                          width: "17rem",
                         }}
                         type="text"
                         id="empPhone"
@@ -290,7 +306,10 @@ console.log(isAdminUpdatingHimself)
               </ListGroup>
             </Card>
             {isAdmin && (
-              <button className={`btn btn-${"danger"} float-end ms-1`}onClick={handleDeleteUser}>
+              <button
+                className={`btn btn-${"danger"} float-end ms-1`}
+                onClick={handleDeleteUser}
+              >
                 حذف المستخدم
               </button>
             )}

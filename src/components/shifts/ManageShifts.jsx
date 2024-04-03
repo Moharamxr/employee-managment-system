@@ -14,15 +14,17 @@ const ManageShifts = ({
   id,
   currentShift,
   shifts,
+  workAddress,
+  setWorkAddress,
 }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [time, setTime] = useState(dayjs());
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(dayjs());
-  const [description, setDescription] = useState('')
-  const [workAddress, setWorkAddress] = useState("");
-
+  const [description, setDescription] = useState("");
+  //   const [workAddress, setWorkAddress] = useState(wd);
+  // console.log(workAddress,wd)
   const handleDateChange = (newDate) => {
     setDate(newDate);
   };
@@ -72,55 +74,51 @@ const ManageShifts = ({
 
   const handleAddShift = async (newData) => {
     setIsLoading(true);
-    try {
-      if (date.isBefore(now)) {
-        if (inShift && date.isAfter(startTime) || !inShift && date.isBefore(now)) {
-          const data = await addShift(newData);
-          if (data) {
-            reset();
-            onClose();
+
+    if (date.isBefore(now)) {
+      if (
+        (inShift && date.isAfter(startTime)) ||
+        (!inShift && date.isBefore(now))
+      ) {
+        try {
+          await addShift(newData);
+          setIsLoading(false);
+          onClose();
+          reset();
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+          if (
+            error.response.data.error === "Employee worked less than a day!"
+          ) {
+            setError("الموظف لم يعمل يوم كامل");
+          } else if (!inShift && workAddress === "") {
+            setError("ادخل المركب");
+          } else if (isOverLapping()) {
+            setError("يجب ألا تتعارض مواعيد الورديات");
           } else {
-            if (!inShift && workAddress === "") {
-              setError("ادخل المركب");
-            } else if (isOverLapping()) {
-              setError("يجب ألا تتعارض مواعيد الورديات");
-            } else {
-              setError("تاريخ خاطىء");
-            }
-            const timeout = setTimeout(() => {
-              setError("");
-            }, 3000);
-            return () => clearTimeout(timeout);
+            setError("تاريخ خاطىء");
           }
-        } else {
-          setError("يجب ان يكون وقت النزول بعد وقت الصعود");
           const timeout = setTimeout(() => {
             setError("");
           }, 3000);
           return () => clearTimeout(timeout);
         }
       } else {
-        setError("يجب الا يكون التاريخ فى المستقبل");
+        setIsLoading(false);
+        setError("يجب ان يكون وقت النزول بعد وقت الصعود");
         const timeout = setTimeout(() => {
           setError("");
         }, 3000);
         return () => clearTimeout(timeout);
       }
-    } catch (error) {
-      // console.error("Error adding shift:", error);
-      if (!inShift && workAddress === "") {
-        setError("ادخل المركب");
-      } else if (isOverLapping()) {
-        setError("يجب ألا تتعارض مواعيد الورديات");
-      } else {
-        setError("تاريخ خاطىء");
-      }
+    } else {
+      setIsLoading(false);
+      setError("يجب الا يكون التاريخ فى المستقبل");
       const timeout = setTimeout(() => {
         setError("");
       }, 3000);
       return () => clearTimeout(timeout);
-    } finally {
-      setIsLoading(false);
     }
   };
 

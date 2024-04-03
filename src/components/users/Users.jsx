@@ -38,7 +38,7 @@ const Users = () => {
     getUsers();
   };
   return (
-    <Container>
+    <Container className=" mx-0 pe-4 ">
       <Row>
         <Col>
           <table className="table my-custom-table text-center">
@@ -77,7 +77,7 @@ const Users = () => {
         aria-label="Add"
         color="primary"
         onClick={openModal}
-        style={{ position: "absolute", top: 90, right: 16 }}
+        style={{ position: "absolute", top: 90, right: 17 }}
       >
         <AddIcon />
       </Fab>
