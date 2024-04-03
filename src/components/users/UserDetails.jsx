@@ -116,7 +116,7 @@ const UserDetails = () => {
       return () => clearTimeout(timeout);
     } catch (error) {
       console.log(error);
-      setError("(تحتوى على حرف او رقم على الاقل)كلمة المرور يجب ان تكون اكثر من 8 حروف");
+      setError("(تحتوى على حرف و رقم على الاقل)كلمة المرور يجب ان تكون اكثر من 8 حروف");
       setIsSuccess(false);
       const timeout = setTimeout(() => {
         setError("");
@@ -274,7 +274,7 @@ const UserDetails = () => {
                       />
                     </div>
 
-                    <label htmlFor="empPhone">الرقم السرى</label>
+                    <label htmlFor="empPhone">كلمة المرور</label>
                   </div>
                 </ListGroup.Item>
               </ListGroup>
