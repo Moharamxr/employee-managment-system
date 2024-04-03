@@ -11,7 +11,7 @@ import { gState } from "../../context/Context";
 import { CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 
-function Accounting() {
+const Accounting= () => {
   const { id } = useParams();
   const [searchError, setSearchError] = useState(false);
   const [searchId, setSearchId] = useState("");

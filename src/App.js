@@ -12,6 +12,8 @@ import Loans from "./components/loans/Loans.jsx";
 import LoanDetails from "./components/loans/LoanDetails.jsx";
 import PaymentDetails from "./components/loans/PaymentsDetails.jsx";
 import Salaries from "./components/salaries/Salaries.jsx";
+import Users from "./components/users/Users.jsx";
+import UserDetails from "./components/users/UserDetails.jsx";
 
 function App() {
   return (
@@ -21,6 +23,10 @@ function App() {
           <Route path="/" exact>
             <Route index element={<Employees />} />
             <Route path="details/:id" element={<EmployeeDetails />} />
+          </Route>
+          <Route path="/users" exact>
+            <Route index element={<Users />} />
+            <Route path="details/:id" element={<UserDetails />} />
           </Route>
           <Route path="/accounting" element={<Accounting />} />
           <Route path="/accounting/:id" element={<Accounting />} />

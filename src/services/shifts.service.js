@@ -85,7 +85,7 @@ export const addShift = async (newData) => {
     time: newData.time,
     location: newData.location,
   };
-// console.log(requestBody);
+  // console.log(requestBody);
   const response = await axios.post(
     `${path}/shifts/${newData.id}`,
     requestBody,

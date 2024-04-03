@@ -12,7 +12,7 @@ import ManageShifts from "./ManageShifts";
 import { CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function Shifts() {
+const Shifts = () => {
   const [searchError, setSearchError] = useState(false);
   const [searchId, setSearchId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
