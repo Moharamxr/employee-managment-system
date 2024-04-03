@@ -26,6 +26,8 @@ const UserDetails = () => {
   const [password, setPassword] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const isAdmin = localStorage.getItem("role") === "admin";
+  const isAdminUpdatingHimself = localStorage.getItem("id") === id;
+
   const navigate = useNavigate();
 
   const getUserInfo = useCallback(async () => {
@@ -81,6 +83,11 @@ const UserDetails = () => {
         setIsLoading(false);
         setEnableEdit(false);
         setIsSuccess(true);
+        if (isAdminUpdatingHimself) {
+          localStorage.setItem("token", "");
+          localStorage.setItem("isLoggedIn", false);
+            navigate("/login");
+        }
         const timeout = setTimeout(() => {
           setIsSuccess(false);
         }, 3000);
@@ -137,6 +144,7 @@ const UserDetails = () => {
       alert("لم يتم حذف الموظف");
     }
   };
+
   return (
     <Container>
       <Row className="centered">
@@ -175,8 +183,8 @@ const UserDetails = () => {
                       <Form.Select
                         size="sm"
                         className="w-50 float-start me-5 text-end bg-body-secondary"
-                        name="empJob"
-                        id="empJob"
+                        name="role"
+                        id="role"
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                       >
@@ -193,11 +201,11 @@ const UserDetails = () => {
                         }}
                         type="text"
                         disabled
-                        id="empJob"
+                        id="role"
                         value={role}
                       />
                     )}
-                    <label htmlFor="empJob"> الوظيفة</label>
+                    <label htmlFor="role"> الوظيفة</label>
                   </div>
                 </ListGroup.Item>
                 <ListGroup.Item className="text-end">

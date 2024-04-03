@@ -37,6 +37,19 @@ export const deleteUser = async (id) => {
   return response.data;
 };
 
+export const addUser = async (newData) => {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.post(`${path}/users`, newData, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  console.log(response);
+  return response.data;
+};
 export const updateUserInfo = async (newData) => {
   const token = localStorage.getItem("token");
 

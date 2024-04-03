@@ -1,23 +1,42 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Fab } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { getAllUsers } from "../../services/users.service";
 import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import AddUser from "./AddUser";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
   const getUsers = async () => {
     setIsPageLoading(true);
-    const data = await getAllUsers();
+    try {
+      const data = await getAllUsers();
     setIsPageLoading(false);
     setUsers(data.users);
+    } catch (error) {
+      setIsPageLoading(false);
+      localStorage.setItem("isLoggedIn", false);
+      localStorage.setItem("token", "");
+      navigate("/login");
+    }
+    
   };
   useEffect(() => {
     getUsers();
   }, []);
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsOpen(false);
+    getUsers();
+  };
   return (
     <Container>
       <Row>
@@ -54,6 +73,15 @@ const Users = () => {
           </div>
         </Col>
       </Row>
+      <Fab
+        aria-label="Add"
+        color="primary"
+        onClick={openModal}
+        style={{ position: "absolute", top: 90, right: 16 }}
+      >
+        <AddIcon />
+      </Fab>
+      <AddUser isOpen={isOpen} onClose={closeModal} />
     </Container>
   );
 };
