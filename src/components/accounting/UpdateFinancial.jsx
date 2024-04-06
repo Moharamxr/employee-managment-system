@@ -106,71 +106,29 @@ const UpdateFinancial = ({
     };
 
     if (value && value > 0) {
-      if (type === "loan" || type === "deduction") {
-        if (value <= totalSalary) {
-          setIsLLoading(true);
-          try {
-            await addFinancial(newData);
+      setIsLLoading(true);
+      try {
+        await addFinancial(newData);
 
-            reset();
-            getData(id);
-            setIsSuccess(true);
+        reset();
+        getData(id);
+        setIsSuccess(true);
 
-            const timeout = setTimeout(() => {
-              setIsSuccess(false);
-            }, 3000);
-
-            return () => clearTimeout(timeout);
-          } catch (error) {
-            // console.log("Error adding financial data:", error);
-            setIsSuccess(false);
-            setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
-            const timeout = setTimeout(() => {
-              setError("");
-            }, 3000);
-
-            return () => clearTimeout(timeout);
-          } finally {
-            setIsLLoading(false);
-          }
-        } else {
-          // console.log("Invalid loan value");
-          setError("يجب ان تكون قيمة الأستقطاع اقل من صافى الراتب");
-
+        const timeout = setTimeout(() => {
           setIsSuccess(false);
-          setIsLLoading(false);
-          const timeout = setTimeout(() => {
-            setError("");
-          }, 3000);
+        }, 3000);
+        return () => clearTimeout(timeout);
+      } catch (error) {
+        // console.log("Error adding financial data:", error);
+        setIsSuccess(false);
+        setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
+        const timeout = setTimeout(() => {
+          setError("");
+        }, 3000);
 
-          return () => clearTimeout(timeout);
-        }
-      } else {
-        setIsLLoading(true);
-        try {
-          await addFinancial(newData);
-
-          reset();
-          getData(id);
-          setIsSuccess(true);
-
-          const timeout = setTimeout(() => {
-            setIsSuccess(false);
-          }, 3000);
-
-          return () => clearTimeout(timeout);
-        } catch (error) {
-          // console.log("Error adding financial data:", error);
-          setIsSuccess(false);
-          setError("حدث خطأ أثناء تحديث الحسابات حاول مجددا");
-          const timeout = setTimeout(() => {
-            setError("");
-          }, 3000);
-
-          return () => clearTimeout(timeout);
-        } finally {
-          setIsLLoading(false);
-        }
+        return () => clearTimeout(timeout);
+      } finally {
+        setIsLLoading(false);
       }
     }
   };

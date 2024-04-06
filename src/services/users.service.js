@@ -10,7 +10,7 @@ export const getAllUsers = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 };
 
@@ -22,7 +22,7 @@ export const getUserById = async (id) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 };
 export const deleteUser = async (id) => {
@@ -47,7 +47,7 @@ export const addUser = async (newData) => {
     },
   });
 
-  console.log(response);
+  // console.log(response);
   return response.data;
 };
 export const updateUserInfo = async (newData) => {
@@ -60,7 +60,7 @@ export const updateUserInfo = async (newData) => {
     },
   });
 
-  console.log(response);
+  // console.log(response);
   return response.data;
 };
 export const updateUserPassword = async (newData) => {
@@ -77,6 +77,6 @@ export const updateUserPassword = async (newData) => {
     }
   );
 
-  console.log(response);
+  // console.log(response);
   return response.data;
 };

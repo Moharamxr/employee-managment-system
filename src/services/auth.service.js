@@ -19,12 +19,12 @@ export const login = async (email, password) => {
   // console.log("Login successful");
 
   localStorage.setItem("id", response.data.user._id);
-  console.log(response.data.user._id);
+  // console.log(response.data.user._id);
   localStorage.setItem("token", response.data.token);
   localStorage.setItem("isLoggedIn", true);
   localStorage.setItem("role", response.data.user.role);
   localStorage.setItem("username", response.data.user.username);
-  console.log(response.data)
+  // console.log(response.data)
   return response.data;
 };
 

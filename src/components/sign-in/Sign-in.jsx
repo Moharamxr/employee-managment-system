@@ -25,6 +25,7 @@ export default function SignIn() {
     setIsLoading(true);
     if (email === "" || password === "") {
       setError("برجاء ادخال البريد الالكترونى وكلمة المرور");
+      
       setIsLoading(false);
       const timeout = setTimeout(() => {
         setError("");
