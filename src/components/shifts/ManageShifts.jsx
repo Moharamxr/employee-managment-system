@@ -97,7 +97,7 @@ const ManageShifts = ({
           } else if (isOverLapping()) {
             setError("يجب ألا تتعارض مواعيد الورديات");
           } else {
-            setError("تاريخ خاطىء");
+            setError(error.response.data.error);
           }
           const timeout = setTimeout(() => {
             setError("");

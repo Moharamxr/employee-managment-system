@@ -410,10 +410,7 @@ const Shifts = () => {
                         <td>
                           {item.endTime
                             ? convertTo12HourFormat(
-                                new Date(
-                                  new Date(item.endTime).getTime() +
-                                    2 * 60 * 60 * 1000
-                                )
+                                new Date(new Date(item.endTime).getTime())
                                   .toISOString()
                                   .slice(11, 16)
                               )
@@ -422,10 +419,7 @@ const Shifts = () => {
 
                         <td>
                           {item.endTime
-                            ? new Date(
-                                new Date(item.endTime).getTime() +
-                                  2 * 60 * 60 * 1000
-                              )
+                            ? new Date(new Date(item.endTime).getTime())
                                 .toISOString()
                                 .slice(0, 10)
                             : "---"}
@@ -434,10 +428,7 @@ const Shifts = () => {
                         <td>
                           {item.startTime
                             ? convertTo12HourFormat(
-                                new Date(
-                                  new Date(item.startTime).getTime() +
-                                    2 * 60 * 60 * 1000
-                                )
+                                new Date(new Date(item.startTime).getTime())
                                   .toISOString()
                                   .slice(11, 16)
                               )
@@ -445,10 +436,7 @@ const Shifts = () => {
                         </td>
                         <td>
                           {item.startTime
-                            ? new Date(
-                                new Date(item.startTime).getTime() +
-                                  2 * 60 * 60 * 1000
-                              )
+                            ? new Date(new Date(item.startTime).getTime())
                                 .toISOString()
                                 .slice(0, 10)
                             : "---"}
@@ -476,6 +464,6 @@ const Shifts = () => {
       />
     </Container>
   );
-}
+};
 
 export default Shifts;
