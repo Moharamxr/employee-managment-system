@@ -128,7 +128,7 @@ const EmployeeDetails = () => {
           postalName.trim() !== "" &&
           postalNumber.length === 14) ||
         (paymentMethod === "wallet" && walletNumber.length === 11) ||
-        (paymentMethod === "payroll" && payrollNumber.length >= 8) ||
+        (paymentMethod === "payroll" && payrollNumber.length >= 6) ||
         paymentMethod === "cash")
     ) {
       setIsLoading(true);
